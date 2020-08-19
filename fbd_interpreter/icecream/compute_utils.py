@@ -4,10 +4,11 @@ This module contains useful functions to compute and aggregate predictions and
 target values.
 """
 
+from typing import Any, Callable, List, Tuple, Union
+
 import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
-from typing import Any, Callable, List, Tuple, Union
 
 from .config import options
 from .discretizer import FeatureDiscretizer

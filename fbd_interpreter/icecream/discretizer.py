@@ -3,10 +3,11 @@ FBDTools library - icecream package
 This module helps discretize features for icecream.
 """
 
+import warnings
+from typing import Sized, Tuple, Union
+
 import numpy as np
 import pandas as pd
-from typing import Sized, Tuple, Union
-import warnings
 
 from .check_utils import check_clip_quantile
 from .config import options

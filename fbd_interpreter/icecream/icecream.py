@@ -4,31 +4,32 @@ This module contains the main class that prepares data and draws PD/ICE/ALE plot
 """
 
 import os
+import warnings
+from typing import Any, Dict, List, Optional, Sized, Union
+
 import numpy as np
 import pandas as pd
 import plotly.graph_objs as go
 from plotly import offline
-from typing import Any, Dict, List, Optional, Sized, Union
-import warnings
 
 from .check_utils import check_input_in_list, conduct_full_check
 from .compute_utils import (
     aggregate_series,
+    compute_ale_agg_results,
+    compute_ice_model_predictions,
+    compute_ice_model_results_2D,
+    compute_model_ale_results_2D,
     guess_model_predict_function,
     pivot_dataframe,
-    compute_ice_model_results_2D,
     sample_kmeans,
     sample_quantiles,
-    compute_ice_model_predictions,
-    compute_ale_agg_results,
-    compute_model_ale_results_2D,
 )
 from .config import options
 from .discretizer import FeatureDiscretizer
 from .plot_utils import (
-    plotly_partial_dependency,
     plotly_ice_box,
     plotly_ice_lines,
+    plotly_partial_dependency,
     plotly_partial_dependency_2d_hist,
     plotly_partial_dependency_2d_scatter,
 )

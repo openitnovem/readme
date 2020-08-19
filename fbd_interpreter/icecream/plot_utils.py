@@ -5,10 +5,11 @@ drawing PD/ICE/ALE plots using data objects containing features,
 targets and predictions
 """
 
+from typing import Any, Dict, List, Optional, Union
+
 import numpy as np
 import pandas as pd
 import plotly.graph_objs as go
-from typing import Any, Dict, List, Optional, Union
 
 from .config import options
 from .discretizer import FeatureDiscretizer

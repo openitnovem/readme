@@ -4,10 +4,11 @@ This module contains useful functions for checking user input and
 data consistency
 """
 
+import warnings
+from typing import Any, Dict, List, Optional, Sized, Union
+
 import numpy as np
 import pandas as pd
-from typing import Any, Dict, List, Optional, Sized, Union
-import warnings
 
 
 def check_clip_quantile(clip_quantile: float) -> None:
