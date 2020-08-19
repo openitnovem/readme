@@ -14,5 +14,5 @@ build/
 meta_build.json
 .idea/
 fbd_interpreter/data_factory/inputs
-outputs/global_interpretation
-outputs/local_interpretation
+outputs/global_interpretation/
+outputs/local_interpretation/
