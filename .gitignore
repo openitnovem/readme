@@ -1,0 +1,15 @@
+*.pyc
+*__pycache__*
+*.swp
+doc/_build/
+*~
+Notes
+tmp/
+dist/
+fbd_tools.egg-info/
+build/
+.ipynb_checkpoints/
+*.ipynb
+.DS_Store
+meta_build.json
+.idea/
