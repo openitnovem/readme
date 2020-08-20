@@ -1,6 +1,8 @@
 # fbd-interpreter Package
-The interpreter package of the Fab Big Data (SNCF)
+The interpreter package of the Fab Big Data (SNCF).
+Its purpose is to make state-of-the-art machine learning and deep learning interpretability techniques easy to use. 
 
+## Live Demo
 
 ## Requirements 
 **fbd_interpreter** 1.0 requires : 
@@ -24,7 +26,7 @@ Update required  configuration variables located in `fbd_interpreter/config/conf
 
 ## Features
 This package incorporates state-of-the-art machine learning **interpretability techniques** under one roof. 
-With this package, you can understand and explain your model's global behavior **[global interpretability]**, understand the reasons behind individual predictions **[local interpretability]** or both (mix).
+With this package, you can understand and explain your model's global behavior **global interpretability**, understand the reasons behind individual predictions **local interpretability** or both (mix).
 The techniques available in this package are:
 ### Global interpretability
 - Partial Dependecy Plots (from icecream)
@@ -35,7 +37,7 @@ The techniques available in this package are:
 - SHAP plots for local explanation with TreeBased model (from SHAP)
 - SHAP plots for local explanation with non TreeBased model (from SHAP)
 
-Details information are given here (https://wiki-big-data-ia.intranet.itnovem.com/index.php/REaDME_:_Extraire_la_logique_m%C3%A9tier)
+Details information are given [here](https://wiki-big-data-ia.intranet.itnovem.com/index.php/REaDME_:_Extraire_la_logique_m%C3%A9tier)
 
 ### Supported techniques 
 
@@ -149,4 +151,6 @@ Please for future development , use black for code formatting
 ## Copyright 
 DSE Team - Big Data Fab
 
-Author: Soumaya IHIHI, Data scientist
+## Author
+* **Soumaya IHIHI** - *Data scientist*
+
