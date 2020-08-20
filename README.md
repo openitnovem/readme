@@ -1,5 +1,6 @@
 # fbd-interpreter Package
 The interpreter package of the Fab Big Data (SNCF).
+
 Its purpose is to make state-of-the-art machine learning and deep learning interpretability techniques easy to use. 
 
 ## Live Demo
@@ -25,9 +26,13 @@ Install project modules with `pip install --editable .`, this command runs the `
 Update required  configuration variables located in `fbd_interpreter/config/config_local.cfg` 
 
 ## Features
+
 This package incorporates state-of-the-art machine learning **interpretability techniques** under one roof. 
+
 With this package, you can understand and explain your model's global behavior **global interpretability**, understand the reasons behind individual predictions **local interpretability** or both (mix).
+
 The techniques available in this package are:
+
 ### Global interpretability
 - Partial Dependecy Plots (from icecream)
 - Individual Conditional Expectation Plots (from icecream)
