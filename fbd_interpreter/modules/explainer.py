@@ -5,7 +5,7 @@ import shap
 from fbd_interpreter.icecream import icecream
 
 
-def apply_ale_plot(model, data, feature_names, target_col, out_path, classif=False):
+def apply_ale_plot(model, data, feature_names, target_col, classif=False):
     ale_plots = icecream.IceCream(
         data=data[feature_names],
         feature_names=feature_names,
@@ -33,7 +33,7 @@ def compute_pdp(model, data, feature_names, target_col, classif=False):
     return pdp_plots
 
 
-def apply_pdp_ice_plot(model, data, feature_names, target_col, out_path, classif=False):
+def apply_pdp_ice_plot(model, data, feature_names, target_col, classif=False):
     pdp_plots = compute_pdp(
         model=model,
         data=data,
@@ -47,14 +47,14 @@ def apply_pdp_ice_plot(model, data, feature_names, target_col, out_path, classif
 
 
 def apply_shap_plot(model, data, feature_names):
-    shap_values = shap.TreeExplainer(model).shap_values(data[feature_names])
+    shap_values = shap.KernelExplainer(model).shap_values(data[feature_names])
     fig_1 = shap.summary_plot(shap_values, data[feature_names], plot_type="bar")
     fig_2 = shap.summary_plot(shap_values, data[feature_names])
     return fig_1, fig_2
 
 
 def shap_plot(obs_num, model, X_test):
-    explainerModel = shap.TreeExplainer(model)
+    explainerModel = shap.KernelExplainer(model)
     shap_values_Model = explainerModel.shap_values(X_test)
     shap_local_fig = shap.force_plot(
         explainerModel.expected_value,

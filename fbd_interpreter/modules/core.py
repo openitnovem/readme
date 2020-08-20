@@ -33,6 +33,8 @@ task_name = configuration["DEV"]["task_name"]
 target_col = configuration["DEV"]["target_col"]
 # Get output path as str
 out_path = configuration["DEV"]["output_path"]
+# Get html sections path
+html_sections = configuration["DEV"]["html_sections"]
 
 
 class Interpreter:
@@ -56,54 +58,73 @@ class Interpreter:
         self.target_col = target_col
         self.task_name = task_name
         self.out_path = out_path
+        self.out_path_global = os.path.join(out_path, "global_interpretation")
+        self.out_path_local = os.path.join(out_path, "local_interpretation")
 
-    def intepreter_globaly(
-        self, use_pdp=True, use_ice=True, use_ale=True, use_shap=True
-    ):
+    def global_pdp_ice(self):
         classif = False
-        # TODO: externaliser
-        out_path_global = os.path.join(out_path, "global_interpretation")
         if self.task_name == "classification":
             classif = True
 
-        list_figures = []
-        if use_pdp or use_ice:
-            # apply pdp plots
-            fig_pdp, fig_ice = apply_pdp_ice_plot(
-                data=self.data,
-                model=self.model,
-                feature_names=self.features_name,
-                target_col=self.target_col,
-                classif=classif,
-                out_path=out_path_global,
-            )
-            plotly_figures_to_html(
-                dic_figs=fig_pdp,
-                path=out_path_global + "/partial_dependency_plots.html",
-                title="Partial dependency plots ",
-            )
+        fig_pdp, fig_ice = apply_pdp_ice_plot(
+            data=self.data,
+            model=self.model,
+            feature_names=self.features_name,
+            target_col=self.target_col,
+            classif=classif,
+        )
+        plotly_figures_to_html(
+            dic_figs=fig_pdp,
+            path=self.out_path_global + "/partial_dependency_plots.html",
+            title="Partial dependency plots ",
+            plot_type="PDP",
+            html_sections=html_sections,
+        )
+        plotly_figures_to_html(
+            dic_figs=fig_ice,
+            path=self.out_path_global + "/ice_plots.html",
+            title="Individual Conditional Expectation (ICE) plots ",
+            plot_type="ICE",
+            html_sections=html_sections,
+        )
 
-        # apply ALE
-        if use_ale:
-            fig_list = apply_ale_plot(
-                data=self.data,
-                model=self.model,
-                feature_names=self.features_name,
-                target_col=self.target_col,
-                classif=classif,
-                out_path=out_path_global,
-            )
+        return None
 
+    def global_ale(self):
+        classif = False
+        if self.task_name == "classification":
+            classif = True
+
+        fig_ale = apply_ale_plot(
+            data=self.data,
+            model=self.model,
+            feature_names=self.features_name,
+            target_col=self.target_col,
+            classif=classif,
+        )
+        plotly_figures_to_html(
+            dic_figs=fig_ale,
+            path=self.out_path_global + "/accumulated_local_effects_plots.html",
+            title="Accumulated Local Effects (ALE) plots ",
+            plot_type="ALE",
+            html_sections=html_sections,
+        )
+
+        return None
+
+    def global_shap(self):
+        raise NotImplementedError
+        classif = False
+        if self.task_name == "classification":
+            classif = True
         # apply SHAP
-        if use_shap:
-            fig_list = apply_shap_plot(
-                data=self.data, model=self.model, feature_names=self.features_name,
-            )
-        return fig_pdp
+        fig_list = apply_shap_plot(
+            data=self.data, model=self.model, feature_names=self.features_name,
+        )
+        return None
 
     def intepreter_locally(self, X_test):
 
-        out_path_global = os.path.join(out_path, "local_interpretation")
         shap_figs = []
         for obs_num in len(X_test):
             fig = shap_plot(obs_num, self.model, X_test)
