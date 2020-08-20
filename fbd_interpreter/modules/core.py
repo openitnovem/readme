@@ -1,8 +1,4 @@
 import os
-from pprint import pprint
-
-import plotly.graph_objects as go
-from plotly.offline import init_notebook_mode, iplot
 
 from fbd_interpreter.config.load import configuration
 from fbd_interpreter.data_factory.resource.data_loader import (
@@ -16,23 +12,8 @@ from fbd_interpreter.modules.explainer import (
     apply_shap_plot,
     shap_plot,
 )
-
-# Get data path as csv / parquet
 from fbd_interpreter.visualization.plots import plotly_figures_to_html
 
-data_path = configuration["DEV"]["data_path"]
-# Get model path as pickle
-model_path = configuration["DEV"]["model_path"]
-# Get features name as list
-features_name = configuration["DEV"]["features_name"]
-# Get target_col as string
-target_col = configuration["DEV"]["target_col"]
-# Get task name as str
-task_name = configuration["DEV"]["task_name"]
-# Get task name as str
-target_col = configuration["DEV"]["target_col"]
-# Get output path as str
-out_path = configuration["DEV"]["output_path"]
 # Get html sections path
 html_sections = configuration["DEV"]["html_sections"]
 
@@ -42,7 +23,6 @@ class Interpreter:
         self,
         model_path,
         data_path,
-        interpretation_type="default",
         task_name="classification",
         features_name=None,
         target_col=None,
