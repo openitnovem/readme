@@ -1,9 +1,18 @@
+from pprint import pprint
+
 from fbd_interpreter.config.load import configuration
 
 
 def _parse_config():
     """
     Parse config from cfg file and return dictionnary with keys as config_params
+    :return: configuration as dictionnary
+    :rtype:
+    Example
+    -------
+    >>> conf = _parse_config()
+    >>> len(list(conf.keys())) > 0
+    True
     """
     dico_params = {}
     # Get data path as csv / parquet
@@ -23,23 +32,34 @@ def _parse_config():
     return dico_params
 
 
-def update_plotly_menus():
-    list_updatemenus = [
-        {
-            "label": "Option 1",
-            "method": "update",
-            "args": [{"visible": [True, False, False]}, {"title": "Title is Option 1"}],
-        },
-        {
-            "label": "Option 2",
-            "method": "update",
-            "args": [{"visible": [False, True, False]}, {"title": "Title is Option 2"}],
-        },
-        {
-            "label": "Option 3",
-            "method": "update",
-            "args": [{"visible": [False, False, True]}, {"title": "Title is Option 3"}],
-        },
-    ]
-
-    return list_updatemenus
+def read_sections_from_txt(file_path):
+    """
+    Read html sections from txt file
+    :param file_path: path to txt file
+    :type file_path: str
+    :return: Dictionnary of sections with lines as values
+    :rtype: dict
+     Example
+    -------
+    >>> dico_sections = read_sections_from_txt("config/sections_html.txt")
+    >>> "COMMUN" in (list(dico_sections.keys()))
+    True
+    """
+    with open(file_path, mode="r") as f:
+        text = f.readlines()
+    dico_sections = {}
+    current_section = None
+    for line in text:
+        if line.startswith("#"):
+            dico_sections[line.split("#")[1].strip()] = ""
+            current_section = line.split("#")[1].strip()
+        else:
+            dico_sections[current_section] = (
+                dico_sections[current_section] + "||" + line
+            )
+    # Get sentences as list for each section
+    dico_sections = {
+        k: [el for el in v.split("||")[1:] if el != "\n"]
+        for k, v in dico_sections.items()
+    }
+    return dico_sections

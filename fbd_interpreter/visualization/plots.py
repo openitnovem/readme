@@ -1,6 +1,5 @@
 from typing import List
 
-import plotly.graph_objs as go
 import plotly.offline as pyo
 
 from fbd_interpreter.utils import read_sections_from_txt

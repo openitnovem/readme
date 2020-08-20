@@ -13,7 +13,7 @@ logging.getLogger().setLevel(logging.INFO)
     "--interpret-type",
     default="global",
     metavar="",
-    help="Type d'interprétabilité: globale, locale ou les deux",
+    help="Type d'interprétabilité: choisir global, local ou mix",
 )
 @click.option(
     "--use-ale",
@@ -29,9 +29,9 @@ logging.getLogger().setLevel(logging.INFO)
 )
 @click.option(
     "--use-shap",
-    default=True,
+    default=False,
     metavar="",
-    help="Calculer et afficher les plots SHAP, par défaut calculés",
+    help="Calculer et afficher les plots de feature importance SHAP, par défaut calculés",
 )
 def interept(interpret_type, use_ale, use_pdp_ice, use_shap):
     config_values = _parse_config()
@@ -44,22 +44,20 @@ def interept(interpret_type, use_ale, use_pdp_ice, use_shap):
         target_col=config_values["target_col"],
         out_path=config_values["out_path"],
     )
-    if interpret_type == "global":
-        logging.info(f"Type d'interprétabilité est : {interpret_type}")
-        # TODO: split interpret_globally to 4 class/methodes
-        fig_ = exp.intepreter_globaly(
-            use_ale=use_ale, use_pdp=use_pdp_ice, use_ice=use_pdp_ice, use_shap=use_shap
-        )
-        # figures = [fig.data[0]._data_objs for k, fig in fig_.items()]
-        # exp.stack_figures(figures)
+    if interpret_type == "global" or interpret_type == "mix":
+        logging.info(f"Type d'interprétabilité est : {interpret_type}e")
+        if use_pdp_ice:
+            exp.global_pdp_ice()
+        if use_ale:
+            exp.global_ale()
+        if use_shap:
+            raise NotImplemented
+            # exp.global_shap()
 
-    elif interpret_type == "local":
-        if interpret_type == "local":
-            logging.info(f"Type d'interprétabilité est : {interpret_type}")
-            # fig_ = exp.intepreter_locally()
+    elif interpret_type == "local" or interpret_type == "mix":
+        logging.info(f"Type d'interprétabilité est : {interpret_type}e")
         raise NotImplemented
-    elif interpret_type == "mix":
-        raise NotImplemented
+
     else:
         raise Exception  # Not supported
 
