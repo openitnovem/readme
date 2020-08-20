@@ -30,15 +30,24 @@ The techniques available in this package are:
 - Partial Dependecy Plots (from icecream)
 - Individual Conditional Expectation Plots (from icecream)
 - Accumulated Local Effects Plots (from icecream)
+- SHAP plots for feature importance and impact (from SHAP)
 ### Local interpretability
+- SHAP plots for local explanation with TreeBased model (from SHAP)
+- SHAP plots for local explanation with non TreeBased model (from SHAP)
+
+Details information are given here (https://wiki-big-data-ia.intranet.itnovem.com/index.php/REaDME_:_Extraire_la_logique_m%C3%A9tier)
 
 ### Supported techniques 
 
-| Interpretability Technique | Type |
-| --- | ---|
-|Shap|local|
-|Explainable Boosting|local|
-|Explainable Boosting|glassbox model|
+| Interpretability Technique | Interpretability Type | Model Type |
+| --- | --- | ---|
+|ShapTreeExplainer - Feature Importance|Global|Tree Based models|
+|ShapKernelExplainer - Feature Importance|Global|Non Tree Based models|
+|Partial Dependecy Plots|Global|Model Agnostic|
+|Individual Conditional Expectation Plots|Global|Model Agnostic|
+|Accumulated Local Effects Plots|Global|Model Agnostic|
+|ShapTreeExplainer - force plot|Local|Tree Based models|
+|ShapKernelExplainer - force plot|Local|Non Tree Based models|
 
 
 
@@ -62,13 +71,13 @@ python fbd_interpreter/main.py --help
 Usage: main.py [OPTIONS]
 
 Options:
-  --interpret-type   Type d'interprétabilité: choisir global, local ou mix
-  --use-ale          Calculer et afficher les plots ALE, par défaut calculés
-  --use-pdp-ice      Calculer et afficher les plots PDP & ICE, par défaut
-                     calculés
+  --interpret-type   Type d'interprétabilité: Choisir global, local ou mix
+                     [default: global]
 
-  --use-shap         Calculer et afficher les plots de feature importance
-                     SHAP, par défaut calculés
+  --use-ale          Calculer et afficher les plots ALE  [default: True]
+  --use-pdp-ice      Calculer et afficher les plots PDP & ICE  [default: True]
+  --use-shap         Calculer et afficher les plots de feature importance SHAP
+                     [default: False]
 
   --help             Show this message and exit.
 
@@ -84,7 +93,11 @@ from fbd_interpreter.main import interept
 interept(interpret_type="global",use_pdp_ice=True,use_ale=False,use_shap=False)
 ```
 
-## Deployement 
+## Test
+
+
+
+## Deployment 
 
 In order to configure deployment environment , one may create environment variable `INTERPRET_ENV`
 to specify deployment env , two  modes are supported :
@@ -116,13 +129,12 @@ Upgrade Python dependencies with `pip install -r config/requirements-to-freeze.t
 
 Then freeze dependencies with the command `pip freeze | grep -v "pkg-resources" > config/requirements.txt` (the `grep` part deals with a bug specific to Ubuntu 16.04, see https://github.com/pypa/pip/issues/4022)
 
-## 
 
 ## Support 
 
 Road map for future developements : 
-- [ ] xx
-- [ ] xx
+- [ ] Deep Learning Interpreter
+- [ ] Saliency Maps
 - [ ] xx
 
 
@@ -135,4 +147,6 @@ Please for future development , use black for code formatting
 
 
 ## Copyright 
+DSE Team - Big Data Fab
 
+Author: Soumaya IHIHI, Data scientist
