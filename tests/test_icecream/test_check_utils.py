@@ -1,15 +1,15 @@
-import pytest
 import numpy as np
 import pandas as pd
 
+import pytest
 from fbd_interpreter.icecream.check_utils import (
+    check_ale,
     check_bins,
     check_clip_quantile,
     check_data_features,
     check_input_in_list,
     check_model_predict,
     check_sized_lengths,
-    check_ale,
 )
 
 

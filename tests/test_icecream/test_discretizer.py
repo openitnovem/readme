@@ -1,9 +1,9 @@
-import pytest
 import numpy as np
 import pandas as pd
 
-from fbd_interpreter.icecream.discretizer import FeatureDiscretizer
+import pytest
 from fbd_interpreter.icecream import options
+from fbd_interpreter.icecream.discretizer import FeatureDiscretizer
 
 
 def test_categorical_feature() -> None:

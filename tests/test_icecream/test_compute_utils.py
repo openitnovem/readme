@@ -3,18 +3,17 @@ import pandas as pd
 
 from fbd_interpreter.icecream.compute_utils import (
     aggregate_series,
+    compute_ale_agg_results,
+    compute_ice_model_predictions,
+    compute_ice_model_results_2D,
+    compute_model_ale_results_2D,
     generate_fake_data,
     guess_model_predict_function,
     pivot_dataframe,
-    compute_ice_model_results_2D,
     sample_kmeans,
     sample_quantiles,
-    compute_ice_model_predictions,
-    compute_ale_agg_results,
-    compute_model_ale_results_2D,
 )
 from fbd_interpreter.icecream.discretizer import FeatureDiscretizer
-
 
 DUMMY_PREDICT = np.array([2, 3, 4])
 DUMMY_PREDICT_PROBA = np.array([[1, 0.5, 0], [0, 0.5, 1]])

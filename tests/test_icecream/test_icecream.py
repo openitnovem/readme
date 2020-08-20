@@ -2,7 +2,6 @@ import pandas as pd
 
 from fbd_interpreter.icecream.icecream import IceCream
 
-
 DATA = pd.DataFrame({"a": [0, 1, 2, 3, 4, 5, 6, 7], "b": [1, 1, 1, 1, 2, 2, 2, 2]})
 FEATURES = ["a", "b"]
 PREDICTIONS = [0, 0, 0, 0, 1, 1, 1, 1]
@@ -31,7 +30,7 @@ def test_icecream_run() -> None:
         targets=TARGETS,
         aggfunc="mean",
         use_classif_proba=False,
-        clip_quantile=0.0
+        clip_quantile=0.0,
     )
 
     for i, name in enumerate(FEATURES):
@@ -39,7 +38,10 @@ def test_icecream_run() -> None:
             (
                 pdp.predictions[name]
                 == pd.DataFrame(
-                    {key: PREDICTIONS for key in pdp.features[i].categorical_feature.categories}
+                    {
+                        key: PREDICTIONS
+                        for key in pdp.features[i].categorical_feature.categories
+                    }
                 )
             )
             .all()
@@ -47,9 +49,13 @@ def test_icecream_run() -> None:
         )
         assert (
             pdp.agg_predictions[name]
-            == pd.Series([0.5, 0.5], index=pdp.features[i].categorical_feature.categories)
+            == pd.Series(
+                [0.5, 0.5], index=pdp.features[i].categorical_feature.categories
+            )
         ).all()
         assert (
             pdp.agg_targets[name]
-            == pd.Series([0.0, 1.0], index=pdp.features[i].categorical_feature.categories)
+            == pd.Series(
+                [0.0, 1.0], index=pdp.features[i].categorical_feature.categories
+            )
         ).all()
