@@ -3,8 +3,12 @@ from typing import List
 import plotly.graph_objs as go
 import plotly.offline as pyo
 
+from fbd_interpreter.utils import read_sections_from_txt
 
-def plotly_figures_to_html(dic_figs, path: str, title: str = "") -> None:
+
+def plotly_figures_to_html(
+    dic_figs, html_sections, plot_type, path: str, title: str = ""
+) -> None:
     """Convert a dict of plotly figures to html format.
 
     Args:
@@ -14,23 +18,34 @@ def plotly_figures_to_html(dic_figs, path: str, title: str = "") -> None:
     Returns:
         string in HTML format
     """
-    html = "<html><head></head><body>\n"
-    html += (
-        f'<h1 style="color:SlateBlue;text-align:center;font-size:300%">{title}</h1>\n\n'
-    )
     figs = list(dic_figs.values())
     titles = list(dic_figs.keys())
-
+    dico_sections = read_sections_from_txt(html_sections)
     add_js = True
-    # html += f'<h1 style="text-align:center;font-size:160%">STOP </h1>'
+
+    html = """<html><head><meta charset="utf-8"/></head><body>\n"""
+    html += f'<h1 style="color:MediumBlue;text-align:center;font-size:300%">{title}</h1>\n\n'
+    html += f'<h1 style="color:Navy;font-size:160%">Description générale : </h1>\n\n'
+    commun_section = dico_sections["COMMUN"]
+    for el in commun_section:
+        html += f'<p style="font-size:120%"> {el} </p>'
+    html += f"<hr>\n\n"
+
+    type_plot_section = dico_sections[plot_type]
+
     html += (
-        f'<p style="font-size:160%">Rappel\n l\'interpretation \n points '
-        f"attention </p>"
+        f'<h1 style="color:Navy;font-size:160%">Description de {plot_type} : </h1>\n\n'
     )
-    html += f'<p style="font-size:160%"> <strong>Features list </strong> : </p>'
+    for el in type_plot_section:
+        html += f'<p style="font-size:120%"> {el} </p>'
+    html += f"<hr>\n\n"
+
+    html += (
+        f'<p style="color:Navy;font-size:160%"> <strong>Features list </strong> : </p>'
+    )
     html += "<ul>"
     for feat in titles:
-        html += f"<li style=color:blue><strong><a href=#{feat}> <strong>{feat}</strong></a></li>"
+        html += f"<li style=color:Blue><strong><a href=#{feat}> <strong>{feat}</strong></a></li>"
     html += "</ul>"
     html += f"<hr>\n\n"
 
