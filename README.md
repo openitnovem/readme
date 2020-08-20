@@ -42,7 +42,7 @@ The techniques available in this package are:
 - SHAP plots for local explanation with TreeBased model (from SHAP)
 - SHAP plots for local explanation with non TreeBased model (from SHAP)
 
-Details information are given [here](https://wiki-big-data-ia.intranet.itnovem.com/index.php/REaDME_:_Extraire_la_logique_m%C3%A9tier)
+Detailed infos are available [here](https://wiki-big-data-ia.intranet.itnovem.com/index.php/REaDME_:_Extraire_la_logique_m%C3%A9tier)
 
 ### Supported techniques 
 
@@ -158,4 +158,3 @@ DSE Team - Big Data Fab
 
 ## Author
 * **Soumaya IHIHI** - *Data scientist*
-
