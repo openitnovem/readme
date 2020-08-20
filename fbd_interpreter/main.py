@@ -12,26 +12,30 @@ logging.getLogger().setLevel(logging.INFO)
 @click.option(
     "--interpret-type",
     default="global",
+    show_default=True,
     metavar="",
-    help="Type d'interprétabilité: choisir global, local ou mix",
+    help="Type d'interprétabilité: Choisir global, local ou mix",
 )
 @click.option(
     "--use-ale",
     default=True,
+    show_default=True,
     metavar="",
-    help="Calculer et afficher les plots ALE, par défaut calculés",
+    help="Calculer et afficher les plots ALE",
 )
 @click.option(
     "--use-pdp-ice",
     default=True,
+    show_default=True,
     metavar="",
-    help="Calculer et afficher les plots PDP & ICE, par défaut calculés",
+    help="Calculer et afficher les plots PDP & ICE",
 )
 @click.option(
     "--use-shap",
     default=False,
+    show_default=True,
     metavar="",
-    help="Calculer et afficher les plots de feature importance SHAP, par défaut calculés",
+    help="Calculer et afficher les plots de feature importance SHAP",
 )
 def interept(interpret_type, use_ale, use_pdp_ice, use_shap):
     config_values = _parse_config()
