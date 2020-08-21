@@ -1,2 +1,13 @@
 pandas
+click
+importlib-resources
+ipywidgets
+numpy
+pandas
+pickle5
+plotly
+pyarrow
+scikit-learn
+shap
+
 
