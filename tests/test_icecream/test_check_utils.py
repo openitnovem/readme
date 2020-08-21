@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
-
 import pytest
+
 from fbd_interpreter.icecream.check_utils import (
     check_ale,
     check_bins,
