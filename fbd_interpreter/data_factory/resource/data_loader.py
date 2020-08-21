@@ -4,9 +4,9 @@ from configparser import ConfigParser
 from types import ModuleType
 from typing import Dict, List, Union
 
+import importlib_resources as pkg_resources
 import pandas as pd
 
-import importlib_resources as pkg_resources
 from fbd_interpreter.config.load import load_cfg_resource
 from fbd_interpreter.data_factory import resource
 
