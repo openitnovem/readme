@@ -6,12 +6,13 @@ from fbd_interpreter.data_factory.resource.data_loader import (
     load_parquet_resource,
     load_pickle_resource,
 )
-from fbd_interpreter.modules.explainer import (
+from fbd_interpreter.explainers.explainer import (
     apply_ale_plot,
     apply_pdp_ice_plot,
     apply_shap_plot,
     shap_plot,
 )
+from fbd_interpreter.icecream import icecream
 from fbd_interpreter.visualization.plots import plotly_figures_to_html
 
 # Get html sections path

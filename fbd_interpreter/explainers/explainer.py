@@ -1,5 +1,3 @@
-import os
-
 import shap
 
 from fbd_interpreter.icecream import icecream

@@ -2,7 +2,7 @@ import logging
 
 import click
 
-from fbd_interpreter.modules.core import Interpreter
+from fbd_interpreter.explainers.core import Interpreter
 from fbd_interpreter.utils import _parse_config
 
 logging.getLogger().setLevel(logging.INFO)

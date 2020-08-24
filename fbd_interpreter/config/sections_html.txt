@@ -15,3 +15,14 @@ En pratique, il est conseillé d'utiliser les PDP et les ICE plots ensemble pour
 #ALE
 Les ALE (Accumulated Local Effects) décrivent en moyenne l’influence des features sur la prédiction d’un modèle de Machine Learning.
 Ils sont une alternative plus rapide et moins biaisée des plots PDP.
+
+#SHAP_GLOBAL
+The SHAP values can show how much each predictor contributes, either positively or negatively, to the target variable.
+This is like the variable importance plot but it is able to show the positive or negative relationship for each variable with the target
+
+#SHAP_LOCAL
+Local interpretability — each observation gets its own set of SHAP values.
+This greatly increases its transparency.
+We can explain why a case receives its prediction and the contributions of the predictors.
+Traditional variable importance algorithms only show the results across the entire population but not on each individual case.
+The local interpretability enables us to pinpoint and contrast the impacts of the factors.

@@ -1,7 +1,7 @@
 import shap
 
 
-class ShapExplainer(object):
+class ShapTreeExplainer(object):
     def __init__(self, model):
         self.model = model
 

@@ -30,7 +30,6 @@ def load_parquet_resource(resource_file_name: str,) -> pd.DataFrame:
 
 def load_pickle_resource(resource_file_name: str):
     pickle_resource = pickle.load(open(resource_file_name, "rb"))
-    print("Pickle loaded")
     return pickle_resource
 
 
