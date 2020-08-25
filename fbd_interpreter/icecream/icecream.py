@@ -275,7 +275,7 @@ class IceCream(object):
                 Dictionary of generated plots,
                 keys are feature names, values are Plotly objects
         """
-        if not self.predictions and self.agg_predictions:
+        if not self.predictions and self.agg_predictions and not self.use_ale:
             warnings.warn(
                 "No model was provided, shown predictions were aggregated"
                 " and thus do not explain the model that produced them"

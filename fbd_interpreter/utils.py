@@ -1,6 +1,6 @@
-from pprint import pprint
-
+import logging
 from fbd_interpreter.config.load import configuration
+import colorlog
 
 
 def _parse_config():
@@ -65,3 +65,5 @@ def read_sections_from_txt(file_path):
         for k, v in dico_sections.items()
     }
     return dico_sections
+
+

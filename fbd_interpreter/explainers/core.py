@@ -6,18 +6,13 @@ from fbd_interpreter.data_factory.resource.data_loader import (
     load_parquet_resource,
     load_pickle_resource,
 )
-from fbd_interpreter.explainers.explainer import (
-    apply_ale_plot,
-    apply_pdp_ice_plot,
-    apply_shap_plot,
-    shap_plot,
-)
+
 from fbd_interpreter.icecream import icecream
+from fbd_interpreter.loger import logger
 from fbd_interpreter.visualization.plots import plotly_figures_to_html
 
 # Get html sections path
 html_sections = configuration["DEV"]["html_sections"]
-
 
 class Interpreter:
     def __init__(
@@ -46,23 +41,29 @@ class Interpreter:
         classif = False
         if self.task_name == "classification":
             classif = True
-
-        fig_pdp, fig_ice = apply_pdp_ice_plot(
-            data=self.data,
-            model=self.model,
+        logger.info("Computing PDP & ice")
+        pdp_plots = icecream.IceCream(
+            data=self.data.drop([self.target_col], axis=1),
             feature_names=self.features_name,
-            target_col=self.target_col,
-            classif=classif,
+            bins=10,
+            model=self.model,
+            targets=self.data[self.target_col],
+            aggfunc="mean",
+            use_classif_proba=classif,
         )
+        figs_pdp = pdp_plots.draw(kind="pdp", show=False)
+        figs_ice = pdp_plots.draw(kind="ice", show=False)
+        logger.info(f"Saving PD plots in {self.out_path_global}")
         plotly_figures_to_html(
-            dic_figs=fig_pdp,
+            dic_figs=figs_pdp,
             path=self.out_path_global + "/partial_dependency_plots.html",
             title="Partial dependency plots ",
             plot_type="PDP",
             html_sections=html_sections,
         )
+        logger.info(f"Saving ICE plots in {self.out_path_global}")
         plotly_figures_to_html(
-            dic_figs=fig_ice,
+            dic_figs=figs_ice,
             path=self.out_path_global + "/ice_plots.html",
             title="Individual Conditional Expectation (ICE) plots ",
             plot_type="ICE",
@@ -75,16 +76,21 @@ class Interpreter:
         classif = False
         if self.task_name == "classification":
             classif = True
-
-        fig_ale = apply_ale_plot(
-            data=self.data,
-            model=self.model,
+        logger.info("Computing ALE")
+        ale_plots = icecream.IceCream(
+            data=self.data[self.features_name],
             feature_names=self.features_name,
-            target_col=self.target_col,
-            classif=classif,
+            bins=10,
+            model=self.model,
+            targets=self.data[self.target_col],
+            aggfunc="mean",
+            use_classif_proba=classif,
+            use_ale=True,
         )
+        figs_ale = ale_plots.draw(kind="ale", show=False)
+        logger.info(f"Saving ALE plots in {self.out_path_global}")
         plotly_figures_to_html(
-            dic_figs=fig_ale,
+            dic_figs=figs_ale,
             path=self.out_path_global + "/accumulated_local_effects_plots.html",
             title="Accumulated Local Effects (ALE) plots ",
             plot_type="ALE",
@@ -99,16 +105,10 @@ class Interpreter:
         if self.task_name == "classification":
             classif = True
         # apply SHAP
-        fig_list = apply_shap_plot(
+        #fig_list = apply_shap_plot(
             data=self.data, model=self.model, feature_names=self.features_name,
-        )
+        #)
         return None
 
     def intepreter_locally(self, X_test):
-
-        shap_figs = []
-        for obs_num in len(X_test):
-            fig = shap_plot(obs_num, self.model, X_test)
-            shap_figs.append(fig)
-
-        return shap_figs
+        return None

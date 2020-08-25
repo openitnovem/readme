@@ -194,8 +194,8 @@ def plotly_partial_dependency(
         name = "ALE"
         multi_name = "ALE {}"
     else:
-        name = "{} prediction".format(aggfunc)
-        multi_name = "prediction {}"
+        name = "{} effect".format(aggfunc)
+        multi_name = "effect {}"
 
     if agg_predictions is not None:
         # in case there are several prediction values (multiclass)
@@ -212,7 +212,7 @@ def plotly_partial_dependency(
             for name, values in agg_targets.iterrows():
                 data.append(
                     plotly_line(
-                        feature, values, name="{} label {}".format(aggfunc, name)
+                        feature, values, name="{} target {}".format(aggfunc, name)
                     )
                 )
         else:
@@ -220,7 +220,7 @@ def plotly_partial_dependency(
                 plotly_line(
                     feature,
                     agg_targets,
-                    name="{} label".format(aggfunc),
+                    name="{} target".format(aggfunc),
                     marker=dict(
                         size=10, color=options.targets_color, line=dict(width=1)
                     ),

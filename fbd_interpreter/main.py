@@ -1,11 +1,9 @@
-import logging
-
+from pprint import pformat
 import click
 
 from fbd_interpreter.explainers.core import Interpreter
 from fbd_interpreter.utils import _parse_config
-
-logging.getLogger().setLevel(logging.INFO)
+from fbd_interpreter.loger import logger
 
 
 @click.command()
@@ -14,32 +12,33 @@ logging.getLogger().setLevel(logging.INFO)
     default="global",
     show_default=True,
     metavar="",
-    help="Type d'interprétabilité: Choisir global, local ou mix",
+    help="Interpretability type: Choose global, local or mix",
 )
 @click.option(
     "--use-ale",
     default=True,
     show_default=True,
     metavar="",
-    help="Calculer et afficher les plots ALE",
+    help="Computes and plots ALE",
 )
 @click.option(
     "--use-pdp-ice",
     default=True,
     show_default=True,
     metavar="",
-    help="Calculer et afficher les plots PDP & ICE",
+    help="Computes and plots PDP & ICE",
 )
 @click.option(
     "--use-shap",
     default=False,
     show_default=True,
     metavar="",
-    help="Calculer et afficher les plots de feature importance SHAP",
+    help="Computes and plots shapely values for global & local explanation",
 )
 def interept(interpret_type, use_ale, use_pdp_ice, use_shap):
     config_values = _parse_config()
-    print(config_values)
+    logger.info(f"Configuration settings :\n"+pformat(config_values))
+
     exp = Interpreter(
         model_path=config_values["model_path"],
         data_path=config_values["data_path"],
@@ -49,7 +48,7 @@ def interept(interpret_type, use_ale, use_pdp_ice, use_shap):
         out_path=config_values["out_path"],
     )
     if interpret_type == "global" or interpret_type == "mix":
-        logging.info(f"Type d'interprétabilité est : {interpret_type}e")
+        logger.info(f"Interpretability type : {interpret_type}")
         if use_pdp_ice:
             exp.global_pdp_ice()
         if use_ale:
@@ -59,7 +58,7 @@ def interept(interpret_type, use_ale, use_pdp_ice, use_shap):
             # exp.global_shap()
 
     elif interpret_type == "local" or interpret_type == "mix":
-        logging.info(f"Type d'interprétabilité est : {interpret_type}e")
+        logger.info(f"Interpretability type : {interpret_type}")
         raise NotImplemented
 
     else:
