@@ -1,6 +1,9 @@
 import logging
-from fbd_interpreter.config.load import configuration
+
 import colorlog
+
+from fbd_interpreter.config.load import configuration
+
 
 def get_logger():
     """
@@ -9,18 +12,13 @@ def get_logger():
     :rtype:
     """
 
-
     # Create handlers
-    log_path ='../outputs/logs.txt'
+    log_path = "../outputs/logs.txt"
     f_handler = logging.FileHandler(log_path)
 
-    log_format = '%(asctime)s --- %(name)s --- %(levelname)s --- %(message)s'
-    bold_seq = '\033[1m'
-    colorlog_format = (
-        f'{bold_seq} '
-        '%(log_color)s '
-        f'{log_format}'
-    )
+    log_format = "%(asctime)s --- %(name)s --- %(levelname)s --- %(message)s"
+    bold_seq = "\033[1m"
+    colorlog_format = f"{bold_seq} " "%(log_color)s " f"{log_format}"
     handler_color = colorlog.StreamHandler()
     handler_color.setFormatter(colorlog.ColoredFormatter(colorlog_format))
 
@@ -37,6 +35,5 @@ def get_logger():
     logger.addHandler(handler_color)
     return logger
 
+
 logger = get_logger()
-
-

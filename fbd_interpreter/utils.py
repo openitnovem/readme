@@ -1,6 +1,5 @@
-import logging
 from fbd_interpreter.config.load import configuration
-import colorlog
+from fbd_interpreter.logger import logger
 
 
 def _parse_config():
@@ -31,6 +30,24 @@ def _parse_config():
     dico_params["features_to_interpret"] = configuration["DEV"]["features_to_interpret"]
     # Get output path as str
     dico_params["out_path"] = configuration["DEV"]["output_path"]
+    # Sanity check
+    mandatory_conf = [
+        "data_path",
+        "model_path",
+        "features_name",
+        "target_col",
+        "features_to_interpret",
+        "task_name",
+    ]
+    missing_conf = False
+    for k in mandatory_conf:
+        if dico_params[k] == "":
+            logger.error(f"Configuration  requires {k} , but is missing ")
+            missing_conf = True
+    if missing_conf:
+        raise KeyError(
+            "Missing configuration , please update conf file located in config/config_{type_env}.cfg by filling missing keys "
+        )
     return dico_params
 
 
@@ -67,3 +84,12 @@ def read_sections_from_txt(file_path):
     return dico_sections
 
 
+def _names_with_values(names, values):
+    li = []
+    for name, value in zip(names, values):
+        if value == "":
+            li.append("{0}".format(name))
+        else:
+            li.append("{0} ({1})".format(name, value))
+
+    return li

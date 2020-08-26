@@ -1,34 +1,74 @@
+import matplotlib
 import shap
 
 
 class ShapKernelExplainer(object):
-    """
-    The KernelExplainer builds a weighted linear regression by using your data, your predictions,
-    and whatever function that predicts the predicted values.
-    It computes the variable importance values based on the Shapley values from game theory,
-    and the coefficients from a local linear regression.
-    """
+    """Uses the Kernel SHAP method to explain the output of any function.
 
-    def __init__(self, model):
+        Kernel SHAP is a method that uses a special weighted linear regression
+        to compute the importance of each feature. The computed importance values
+        are Shapley values from game theory and also coefficents from a local linear
+        regression.
+
+
+        Parameters
+        ----------
+        model : function or iml.Model
+            Trained model to interpret
+
+        train : pandas.DataFrame
+            Train dataframe - used for global interpretation
+
+        test : pandas.DataFrame
+            Test dataframe or dataframe that contains observations to explain - used for local explanation
+
+        features_name : List of string
+            List of features names
+        """
+
+    def __init__(self, model, train, test, features_name):
         self.model = model
+        self.train = train[features_name]
+        self.train_summary = shap.kmeans(self.train, 10)
+        self.test = test[features_name]
 
-    def apply_shap_plot(self, train_data, feature_names):
-        shap_values = shap.KernelExplainer(self.model).shap_values(
-            train_data[feature_names]
-        )
-        fig_1 = shap.summary_plot(
-            shap_values, train_data[feature_names], plot_type="bar"
-        )
-        fig_2 = shap.summary_plot(shap_values, train_data[feature_names])
-        return fig_1, fig_2
+    def global_explainer(self, classif):
+        if classif:
+            model_func = self.model.predict_proba
+        else:
+            model_func = self.model.predict
+        explainer = shap.KernelExplainer(model_func, self.train_summary)
+        shap_values = explainer.shap_values(self.train)
+        shap_fig1 = matplotlib.pyplot.figure()
+        shap.summary_plot(shap_values, self.train, show=False)
+        shap_fig2 = matplotlib.pyplot.figure()
+        if classif:
+            shap.summary_plot(shap_values[1], self.train, show=False)
+        return shap_fig1, shap_fig2
 
-    def shap_plot(self, obs_num, data_test):
-        explainerModel = shap.KernelExplainer(self.model)
-        shap_values_Model = explainerModel.shap_values(data_test)
-        shap_local_fig = shap.force_plot(
-            explainerModel.expected_value,
-            shap_values_Model[obs_num],
-            data_test.iloc[[obs_num]],
-            link="logit",
-        )
-        return shap_local_fig
+    def local_explainer(self, j, classif, output_path):
+        if classif:
+            explainer = shap.KernelExplainer(
+                self.model.predict_proba, self.test, link="logit"
+            )
+            shap_values = explainer.shap_values(self.test.iloc[j])
+            shap.save_html(
+                output_path + f"/shap_local_kernel_explanation_{j}_th_obs.html",
+                shap.force_plot(
+                    explainer.expected_value[1],
+                    shap_values[1],
+                    self.test.iloc[j],
+                    link="logit",
+                ),
+            )
+        else:
+            explainer = shap.KernelExplainer(self.model.predict, self.test)
+            shap_values = explainer.shap_values(self.test.iloc[j])
+            shap.save_html(
+                output_path + f"/shap_local_kernel_explanation_{j}_th_obs.html",
+                shap.force_plot(
+                    explainer.expected_value, shap_values, self.test.iloc[j]
+                ),
+            )
+
+        return None
