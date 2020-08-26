@@ -17,7 +17,7 @@ Create a virtual environment, by default in .venv directory: `virtualenv -p pyth
 
 Source the virtual environment with `source .venv/bin/activate`.
 
-Install Python dependencies with `pip install -r config/requirements.txt`
+Install Python dependencies with `pip install -r requirements/requirements.txt`
 
 Install project modules with `pip install --editable .`, this command runs the `setup.py` script to make the package `fbd_interpreter` available in the environment.
 
@@ -132,7 +132,7 @@ At each commit, those hooks make a clean copy (without outputs) of all notebooks
 
 ## Upgrade dependencies and freeze (if necessary)
 
-Upgrade Python dependencies with `pip install -r config/requirements-to-freeze.txt --upgrade`
+Upgrade Python dependencies with `pip install -r requirements/requirements-to-freeze.txt --upgrade`
 
 Then freeze dependencies with the command `pip freeze | grep -v "pkg-resources" > config/requirements.txt` (the `grep` part deals with a bug specific to Ubuntu 16.04, see https://github.com/pypa/pip/issues/4022)
 
