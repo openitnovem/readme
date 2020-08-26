@@ -39,8 +39,8 @@ The techniques available in this package are:
 - Accumulated Local Effects Plots (from icecream)
 - SHAP plots for feature importance and impact (from SHAP)
 ### Local interpretability
-- SHAP plots for local explanation with TreeBased model (from SHAP)
-- SHAP plots for local explanation with non TreeBased model (from SHAP)
+- SHAP plots for local explanation with TreeBased model (XGBoost, LightGBM, CatBoost, Pyspark & most tree-based models in scikit-learn).
+- SHAP plots for local explanation with non TreeBased model
 
 Detailed infos are available [here](https://wiki-big-data-ia.intranet.itnovem.com/index.php/REaDME_:_Extraire_la_logique_m%C3%A9tier)
 
@@ -140,9 +140,10 @@ Then freeze dependencies with the command `pip freeze | grep -v "pkg-resources" 
 ## Support 
 
 Road map for future developements : 
+- [ ] SHAP dependence plots
+- [ ] Saliency Maps
 - [ ] Deep Learning Interpreter
 - [ ] Saliency Maps
-- [ ] xx
 
 
 
