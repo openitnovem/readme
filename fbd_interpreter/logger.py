@@ -2,8 +2,6 @@ import logging
 
 import colorlog
 
-from fbd_interpreter.config.load import configuration
-
 
 def get_logger():
     """

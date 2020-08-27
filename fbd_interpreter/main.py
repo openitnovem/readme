@@ -38,11 +38,12 @@ from fbd_interpreter.utils import _parse_config
 )
 def interept(interpret_type, use_ale, use_pdp_ice, use_shap):
     config_values = _parse_config()
-    logger.info(f"Configuration settings :\n" + pformat(config_values))
+    logger.info("Configuration settings :\n" + pformat(config_values))
 
     exp = Interpreter(
         model_path=config_values["model_path"],
-        data_path=config_values["data_path"],
+        train_data_path=config_values["train_data_path"],
+        test_data_path=config_values["test_data_path"],
         task_name=config_values["task_name"],
         features_name=config_values["features_name"],
         features_to_interpret=config_values["features_to_interpret"],

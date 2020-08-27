@@ -1,7 +1,5 @@
 import os
 
-import matplotlib.pyplot as plt
-
 from fbd_interpreter.config.load import configuration
 from fbd_interpreter.data_factory.resource.data_loader import (
     load_csv_resource,
@@ -21,7 +19,8 @@ class Interpreter:
     def __init__(
         self,
         model_path,
-        data_path,
+        train_data_path,
+        test_data_path,
         task_name="classification",
         features_name=None,
         features_to_interpret=None,
@@ -30,10 +29,12 @@ class Interpreter:
     ):
         self.model = load_pickle_resource(model_path)
         # TODO: specify type in conf
-        if os.path.isdir(data_path):
-            self.data = load_parquet_resource(data_path)
+        if os.path.isdir(train_data_path) and os.path.isdir(test_data_path):
+            self.test_data = load_parquet_resource(train_data_path)
+            self.test_data = load_parquet_resource(test_data_path)
         else:
-            self.data = load_csv_resource(data_path)
+            self.test_data = load_csv_resource(train_data_path)
+            self.test_data = load_csv_resource(test_data_path)
         self.features_name = features_name.split(",")
         self.features_to_interpret = features_to_interpret.split(",")
         self.target_col = target_col
@@ -48,12 +49,11 @@ class Interpreter:
             classif = True
         logger.info("Computing PDP & ice")
         pdp_plots = icecream.IceCream(
-            data=self.data.drop([self.target_col], axis=1),
+            data=self.test_data.drop([self.target_col], axis=1),
             feature_names=self.features_to_interpret,
             bins=10,
             model=self.model,
-            targets=self.data[self.target_col],
-            aggfunc="mean",
+            targets=self.test_data[self.target_col],
             use_classif_proba=classif,
         )
         figs_pdp = pdp_plots.draw(kind="pdp", show=False)
@@ -83,12 +83,11 @@ class Interpreter:
             classif = True
         logger.info("Computing ALE")
         ale_plots = icecream.IceCream(
-            data=self.data[self.features_name],
+            data=self.test_data[self.features_name],
             feature_names=self.features_to_interpret,
             bins=10,
             model=self.model,
-            targets=self.data[self.target_col],
-            aggfunc="mean",
+            targets=self.test_data[self.target_col],
             use_classif_proba=classif,
             use_ale=True,
         )
@@ -111,14 +110,13 @@ class Interpreter:
         logger.info("Computing SHAP")
         shap_exp = ShapTreeExplainer(
             model=self.model,
-            train=self.data,
-            test=self.data,
+            train=self.test_data,
+            test=self.test_data,
             features_name=self.features_name,
         )
         # apply SHAP
         fig_1, fig_2 = shap_exp.global_explainer()
         dict_figs = {"Summary bar plot": fig_1, "Summary bee-swarm plot": fig_2}
-        print(dict_figs)
         logger.info(f"Saving SHAP plots in {self.out_path_global}")
         plotly_figures_to_html(
             dic_figs=dict_figs,
@@ -134,16 +132,16 @@ class Interpreter:
         classif = False
         if self.task_name == "classification":
             classif = True
-        logger.info(
-            f"Computiong and saving SHAP individual plots in {self.out_path_local}"
-        )
         shap_exp = ShapTreeExplainer(
             model=self.model,
-            train=self.data,
-            test=self.data.tail(),
+            train=self.test_data,
+            test=self.test_data.head(20),
             features_name=self.features_name,
         )
-        for j in range(0, len(self.data.tail())):
+        for j in range(0, len(self.test_data.head(20))):
+            logger.info(
+                f"Computing and saving SHAP individual plots for {j+1}th observation in {self.out_path_local}"
+            )
             shap_exp.local_explainer(
                 j, output_path=self.out_path_local, classif=classif
             )

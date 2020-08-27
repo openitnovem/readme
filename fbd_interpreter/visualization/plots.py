@@ -1,10 +1,7 @@
 import base64
 from io import BytesIO
-from typing import List
 
-import matplotlib.pyplot as plt
 import plotly.offline as pyo
-import plotly.tools as tls
 
 from fbd_interpreter.utils import read_sections_from_txt
 
@@ -34,11 +31,11 @@ def plotly_figures_to_html(
             }
             </style></head><body>\n"""
     html += f'<h1 style="color:MediumBlue;text-align:center;font-size:300%">{title}</h1>\n\n'
-    html += f'<h1 style="color:Navy;font-size:160%">Description générale : </h1>\n\n'
+    html += '<h1 style="color:Navy;font-size:160%">Description générale : </h1>\n\n'
     commun_section = dico_sections["COMMUN"]
     for el in commun_section:
         html += f'<p style="font-size:120%"> {el} </p>'
-    html += f"<hr>\n\n"
+    html += "<hr>\n\n"
 
     type_plot_section = dico_sections[plot_type]
 
@@ -50,13 +47,13 @@ def plotly_figures_to_html(
     html += f"<hr>\n\n"
 
     html += (
-        f'<p style="color:Navy;font-size:160%"> <strong>Features list </strong> : </p>'
+        '<p style="color:Navy;font-size:160%"> <strong>Features list </strong> : </p>'
     )
     html += "<ul>"
     for feat in titles:
         html += f"<li style=color:Blue><strong><a href=#{feat}> <strong>{feat}</strong></a></li>"
     html += "</ul>"
-    html += f"<hr>\n\n"
+    html += "<hr>\n\n"
 
     for idx, fig in enumerate(figs):
         html += f"<section id ={titles[idx]}>"
@@ -70,7 +67,7 @@ def plotly_figures_to_html(
             inner_html = f"<img src='data:image/png;base64,{encoded}'>"
         html += inner_html
         html += "</section>"
-        html += f"<hr>"
+        html += "<hr>"
         add_js = False
 
     html += "</body></html>\n"

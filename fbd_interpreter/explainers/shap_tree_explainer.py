@@ -74,7 +74,7 @@ class ShapTreeExplainer(object):
         shap_values_Model = explainerModel.shap_values(self.test.iloc[j])
         if classif:
             shap.save_html(
-                output_path + f"/shap_local_explanation_{j}_th_obs.html",
+                output_path + f"/shap_local_explanation_{j+1}th_obs.html",
                 shap.force_plot(
                     explainerModel.expected_value,
                     shap_values_Model,
@@ -82,10 +82,11 @@ class ShapTreeExplainer(object):
                     link="logit",
                 ),
             )
-        shap.save_html(
-            output_path + f"/shap_local_explanation_{j}_th_obs.html",
-            shap.force_plot(
-                explainerModel.expected_value, shap_values_Model, self.test.iloc[j],
-            ),
-        )
+        else:
+            shap.save_html(
+                output_path + f"/shap_local_explanation_{j+1}th_obs.html",
+                shap.force_plot(
+                    explainerModel.expected_value, shap_values_Model, self.test.iloc[j],
+                ),
+            )
         return None

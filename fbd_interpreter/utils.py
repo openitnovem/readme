@@ -14,8 +14,10 @@ def _parse_config():
     True
     """
     dico_params = {}
-    # Get data path as csv / parquet
-    dico_params["data_path"] = configuration["DEV"]["data_path"]
+    # Get train data path as csv / parquet
+    dico_params["train_data_path"] = configuration["DEV"]["train_data_path"]
+    # Get test data path as csv / parquet
+    dico_params["test_data_path"] = configuration["DEV"]["test_data_path"]
     # Get model path as pickle
     dico_params["model_path"] = configuration["DEV"]["model_path"]
     # Get features name as list
@@ -32,7 +34,8 @@ def _parse_config():
     dico_params["out_path"] = configuration["DEV"]["output_path"]
     # Sanity check
     mandatory_conf = [
-        "data_path",
+        "train_data_path",
+        "test_data_path",
         "model_path",
         "features_name",
         "target_col",
