@@ -62,7 +62,7 @@ class Interpreter:
         logger.info(f"Saving ICE plots in {self.out_path_global}")
         plotly_figures_to_html(
             dic_figs=figs_ice,
-            path=self.out_path_global + "/ice_plots.html",
+            path=self.out_path_global + "/individual_conditional_expectation_plots.html",
             title="Individual Conditional Expectation (ICE) plots ",
             plot_type="ICE",
             html_sections=html_sections,
@@ -110,8 +110,8 @@ class Interpreter:
         logger.info(f"Saving SHAP plots in {self.out_path_global}")
         plotly_figures_to_html(
             dic_figs=dict_figs,
-            path=self.out_path_global + "/shapely_values.html",
-            title="SHAP values ",
+            path=self.out_path_global + "/shap_feature_importance_plots.html",
+            title="SHAP feature importance plots",
             plot_type="SHAP_GLOBAL",
             html_sections=html_sections,
         )

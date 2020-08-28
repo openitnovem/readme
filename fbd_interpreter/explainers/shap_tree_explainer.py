@@ -20,10 +20,6 @@ class ShapTreeExplainer(object):
         :param model: A tree based model. Following models are supported by Tree SHAP at present: XGBoost, LightGBM,
                     CatBoost, Pyspark & most tree-based models in scikit-learn.
         :type model:
-        :param train:
-        :type train:
-        :param test:
-        :type test:
         :param features_name:
         :type features_name:
         """
