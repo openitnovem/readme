@@ -12,6 +12,6 @@ try:
     with open(meta_file_path) as jfd:
         datas = jfd.read()
     json_datas = json.loads(datas)
-    __version__ = json_datas['version']
+    __version__ = json_datas["version"]
 except FileNotFoundError:
-    __version__ = '0.0.0.dev0'
+    __version__ = "0.0.0.dev0"

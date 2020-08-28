@@ -19,41 +19,34 @@ class Interpreter:
     def __init__(
         self,
         model_path,
-        train_data_path,
-        test_data_path,
         task_name="classification",
+        tree_based_model=True,
         features_name=None,
         features_to_interpret=None,
         target_col=None,
         out_path=None,
     ):
         self.model = load_pickle_resource(model_path)
-        # TODO: specify type in conf
-        if os.path.isdir(train_data_path) and os.path.isdir(test_data_path):
-            self.test_data = load_parquet_resource(train_data_path)
-            self.test_data = load_parquet_resource(test_data_path)
-        else:
-            self.test_data = load_csv_resource(train_data_path)
-            self.test_data = load_csv_resource(test_data_path)
         self.features_name = features_name.split(",")
         self.features_to_interpret = features_to_interpret.split(",")
         self.target_col = target_col
         self.task_name = task_name
+        self.tree_based_model = tree_based_model
         self.out_path = out_path
         self.out_path_global = os.path.join(out_path, "global_interpretation")
         self.out_path_local = os.path.join(out_path, "local_interpretation")
 
-    def global_pdp_ice(self):
+    def global_pdp_ice(self, train_data):
         classif = False
         if self.task_name == "classification":
             classif = True
         logger.info("Computing PDP & ice")
         pdp_plots = icecream.IceCream(
-            data=self.test_data.drop([self.target_col], axis=1),
+            data=train_data.drop([self.target_col], axis=1),
             feature_names=self.features_to_interpret,
             bins=10,
             model=self.model,
-            targets=self.test_data[self.target_col],
+            targets=train_data[self.target_col],
             use_classif_proba=classif,
         )
         figs_pdp = pdp_plots.draw(kind="pdp", show=False)
@@ -77,17 +70,17 @@ class Interpreter:
 
         return None
 
-    def global_ale(self):
+    def global_ale(self, train_data):
         classif = False
         if self.task_name == "classification":
             classif = True
         logger.info("Computing ALE")
         ale_plots = icecream.IceCream(
-            data=self.test_data[self.features_name],
+            data=train_data[self.features_name],
             feature_names=self.features_to_interpret,
             bins=10,
             model=self.model,
-            targets=self.test_data[self.target_col],
+            targets=train_data[self.target_col],
             use_classif_proba=classif,
             use_ale=True,
         )
@@ -103,19 +96,16 @@ class Interpreter:
 
         return None
 
-    def global_shap(self):
+    def global_shap(self, train_data):
         classif = False
         if self.task_name == "classification":
             classif = True
         logger.info("Computing SHAP")
         shap_exp = ShapTreeExplainer(
-            model=self.model,
-            train=self.test_data,
-            test=self.test_data,
-            features_name=self.features_name,
+            model=self.model, features_name=self.features_name,
         )
         # apply SHAP
-        fig_1, fig_2 = shap_exp.global_explainer()
+        fig_1, fig_2 = shap_exp.global_explainer(train_data)
         dict_figs = {"Summary bar plot": fig_1, "Summary bee-swarm plot": fig_2}
         logger.info(f"Saving SHAP plots in {self.out_path_global}")
         plotly_figures_to_html(
@@ -128,22 +118,19 @@ class Interpreter:
 
         return None
 
-    def local_shap(self):
+    def local_shap(self, test_data):
         classif = False
         if self.task_name == "classification":
             classif = True
         shap_exp = ShapTreeExplainer(
-            model=self.model,
-            train=self.test_data,
-            test=self.test_data.head(20),
-            features_name=self.features_name,
+            model=self.model, features_name=self.features_name,
         )
-        for j in range(0, len(self.test_data.head(20))):
+        for j in range(0, len(test_data.head(10))):
             logger.info(
                 f"Computing and saving SHAP individual plots for {j+1}th observation in {self.out_path_local}"
             )
             shap_exp.local_explainer(
-                j, output_path=self.out_path_local, classif=classif
+                test_data, j, output_path=self.out_path_local, classif=classif
             )
 
         return None

@@ -1,0 +1,355 @@
+2020-08-27 09:57:36,028 --- fbd_interpreter --- INFO --- Configuration settings :
+{'features_name': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'features_to_interpret': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'model_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/model/xgboost_model.sav',
+ 'out_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs',
+ 'target_col': 'target',
+ 'task_name': 'classification',
+ 'test_data_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/data/test/',
+ 'train_data_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/data/train/'}
+2020-08-27 09:57:36,317 --- fbd_interpreter --- INFO --- Interpretability type : mix
+2020-08-27 09:57:36,317 --- fbd_interpreter --- INFO --- Computing PDP & ice
+2020-08-27 09:57:41,577 --- fbd_interpreter --- INFO --- Saving PD plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-27 09:57:41,822 --- fbd_interpreter --- INFO --- Saving ICE plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-27 09:57:42,143 --- fbd_interpreter --- INFO --- Computing ALE
+2020-08-27 09:57:42,830 --- fbd_interpreter --- INFO --- Saving ALE plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-27 09:57:43,064 --- fbd_interpreter --- INFO --- Computing SHAP
+2020-08-27 09:57:43,730 --- fbd_interpreter --- INFO --- Saving SHAP plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-27 09:57:44,583 --- fbd_interpreter --- INFO --- Interpretability type : mix
+2020-08-27 09:57:44,583 --- fbd_interpreter --- INFO --- Computiong and saving SHAP individual plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:04:50,975 --- fbd_interpreter --- INFO --- Configuration settings :
+{'features_name': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'features_to_interpret': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'model_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/model/xgboost_model.sav',
+ 'out_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs',
+ 'target_col': 'target',
+ 'task_name': 'classification',
+ 'test_data_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/data/test/',
+ 'train_data_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/data/train/'}
+2020-08-27 10:04:51,234 --- fbd_interpreter --- INFO --- Interpretability type : mix
+2020-08-27 10:04:51,235 --- fbd_interpreter --- INFO --- Computing PDP & ice
+2020-08-27 10:04:56,367 --- fbd_interpreter --- INFO --- Saving PD plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-27 10:04:56,632 --- fbd_interpreter --- INFO --- Saving ICE plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-27 10:04:56,940 --- fbd_interpreter --- INFO --- Computing ALE
+2020-08-27 10:04:57,617 --- fbd_interpreter --- INFO --- Saving ALE plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-27 10:04:57,844 --- fbd_interpreter --- INFO --- Computing SHAP
+2020-08-27 10:04:58,506 --- fbd_interpreter --- INFO --- Saving SHAP plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-27 10:04:59,384 --- fbd_interpreter --- INFO --- Interpretability type : mix
+2020-08-27 10:04:59,386 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 0th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:04:59,518 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 1th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:04:59,572 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 2th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:04:59,628 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 3th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:04:59,681 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 4th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:04:59,735 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 5th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:04:59,789 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 6th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:04:59,843 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 7th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:04:59,897 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 8th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:04:59,952 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 9th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:05:00,006 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 10th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:05:00,068 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 11th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:05:00,123 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 12th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:05:00,180 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 13th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:05:00,237 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 14th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:05:00,297 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 15th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:05:00,351 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 16th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:05:00,407 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 17th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:05:00,460 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 18th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:05:00,565 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 19th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:05:51,154 --- fbd_interpreter --- INFO --- Configuration settings :
+{'features_name': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'features_to_interpret': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'model_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/model/xgboost_model.sav',
+ 'out_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs',
+ 'target_col': 'target',
+ 'task_name': 'classification',
+ 'test_data_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/data/test/',
+ 'train_data_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/data/train/'}
+2020-08-27 10:05:51,493 --- fbd_interpreter --- INFO --- Interpretability type : mix
+2020-08-27 10:05:51,494 --- fbd_interpreter --- INFO --- Computing PDP & ice
+2020-08-27 10:05:56,238 --- fbd_interpreter --- INFO --- Saving PD plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-27 10:05:56,513 --- fbd_interpreter --- INFO --- Saving ICE plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-27 10:05:56,880 --- fbd_interpreter --- INFO --- Computing ALE
+2020-08-27 10:05:57,663 --- fbd_interpreter --- INFO --- Saving ALE plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-27 10:05:57,930 --- fbd_interpreter --- INFO --- Computing SHAP
+2020-08-27 10:05:58,565 --- fbd_interpreter --- INFO --- Saving SHAP plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-27 10:05:59,446 --- fbd_interpreter --- INFO --- Interpretability type : mix
+2020-08-27 10:05:59,448 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 1th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:05:59,586 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 2th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:05:59,638 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 3th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:05:59,696 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 4th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:05:59,751 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 5th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:05:59,806 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 6th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:05:59,859 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 7th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:05:59,918 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 8th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:05:59,972 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 9th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:06:00,029 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 10th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:06:00,082 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 11th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:06:00,139 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 12th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:06:00,193 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 13th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:06:00,248 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 14th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:06:00,305 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 15th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:06:00,364 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 16th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:06:00,429 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 17th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:06:00,492 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 18th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:06:00,554 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 19th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:06:00,620 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 20th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:08:19,728 --- fbd_interpreter --- INFO --- Configuration settings :
+{'features_name': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'features_to_interpret': 'type_precipitation,intensite_precipitation,intensite_orage',
+ 'model_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/model/xgboost_model.sav',
+ 'out_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs',
+ 'target_col': 'target',
+ 'task_name': 'classification',
+ 'test_data_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/data/test/',
+ 'train_data_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/data/train/'}
+2020-08-27 10:08:20,109 --- fbd_interpreter --- INFO --- Interpretability type : mix
+2020-08-27 10:08:20,110 --- fbd_interpreter --- INFO --- Computing PDP & ice
+2020-08-27 10:08:23,619 --- fbd_interpreter --- INFO --- Saving PD plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-27 10:08:23,721 --- fbd_interpreter --- INFO --- Saving ICE plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-27 10:08:23,837 --- fbd_interpreter --- INFO --- Computing ALE
+2020-08-27 10:08:24,018 --- fbd_interpreter --- INFO --- Saving ALE plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-27 10:08:24,120 --- fbd_interpreter --- INFO --- Computing SHAP
+2020-08-27 10:08:24,936 --- fbd_interpreter --- INFO --- Saving SHAP plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-27 10:08:26,057 --- fbd_interpreter --- INFO --- Interpretability type : mix
+2020-08-27 10:08:26,059 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 1th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:08:26,128 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 2th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:08:26,191 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 3th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:08:26,266 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 4th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:08:26,335 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 5th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:08:26,405 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 6th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:08:26,483 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 7th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:08:26,544 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 8th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:08:26,624 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 9th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:08:26,701 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 10th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:08:26,811 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 11th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:08:26,896 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 12th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:08:27,003 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 13th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:08:27,095 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 14th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:08:27,179 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 15th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:08:27,265 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 16th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:08:27,355 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 17th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:08:27,442 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 18th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:08:27,538 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 19th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:08:27,626 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 20th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:17:29,778 --- fbd_interpreter --- INFO --- Configuration settings :
+{'features_name': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'features_to_interpret': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'model_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/model/xgboost_model.sav',
+ 'out_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs',
+ 'target_col': 'target',
+ 'task_name': 'classification',
+ 'test_data_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/data/test/',
+ 'train_data_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/data/train/'}
+2020-08-27 10:17:30,120 --- fbd_interpreter --- INFO --- Interpretability type : mix
+2020-08-27 10:17:30,121 --- fbd_interpreter --- INFO --- Computing PDP & ice
+2020-08-27 10:17:36,690 --- fbd_interpreter --- INFO --- Saving PD plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-27 10:17:37,032 --- fbd_interpreter --- INFO --- Saving ICE plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-27 10:17:37,499 --- fbd_interpreter --- INFO --- Computing ALE
+2020-08-27 10:17:38,552 --- fbd_interpreter --- INFO --- Saving ALE plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-27 10:17:38,889 --- fbd_interpreter --- INFO --- Computing SHAP
+2020-08-27 10:17:39,791 --- fbd_interpreter --- INFO --- Saving SHAP plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-27 10:17:41,023 --- fbd_interpreter --- INFO --- Interpretability type : mix
+2020-08-27 10:17:41,026 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 1th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:17:41,090 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 2th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:17:41,158 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 3th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:17:41,240 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 4th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:17:41,331 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 5th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:17:41,399 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 6th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:17:41,475 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 7th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:17:41,543 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 8th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:17:41,615 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 9th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:17:41,688 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 10th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:17:41,757 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 11th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:17:41,828 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 12th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:17:41,913 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 13th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:17:41,982 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 14th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:17:42,052 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 15th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:17:42,128 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 16th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:17:42,204 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 17th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:17:42,289 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 18th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:17:42,369 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 19th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 10:17:42,440 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 20th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 18:23:07,320 --- fbd_interpreter --- INFO --- Configuration settings :
+{'features_name': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'features_to_interpret': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'model_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/model/xgboost_model.sav',
+ 'out_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs',
+ 'target_col': 'target',
+ 'task_name': 'classification',
+ 'test_data_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/data/test/',
+ 'train_data_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/data/train/',
+ 'tree_based_model': 'True'}
+2020-08-27 18:23:20,564 --- fbd_interpreter --- INFO --- Configuration settings :
+{'features_name': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'features_to_interpret': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'model_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/model/xgboost_model.sav',
+ 'out_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs',
+ 'target_col': 'target',
+ 'task_name': 'classification',
+ 'test_data_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/data/test/',
+ 'train_data_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/data/train/',
+ 'tree_based_model': 'True'}
+2020-08-27 18:23:20,871 --- fbd_interpreter --- INFO --- Interpretability type : mix
+2020-08-27 18:23:20,871 --- fbd_interpreter --- INFO --- Computing PDP & ice
+2020-08-27 18:23:24,974 --- fbd_interpreter --- INFO --- Saving PD plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-27 18:23:25,200 --- fbd_interpreter --- INFO --- Saving ICE plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-27 18:23:25,503 --- fbd_interpreter --- INFO --- Computing ALE
+2020-08-27 18:23:26,224 --- fbd_interpreter --- INFO --- Saving ALE plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-27 18:23:26,471 --- fbd_interpreter --- INFO --- Computing SHAP
+2020-08-27 18:23:27,119 --- fbd_interpreter --- INFO --- Saving SHAP plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-27 18:23:27,956 --- fbd_interpreter --- INFO --- Interpretability type : mix
+2020-08-27 18:23:27,958 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 1th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 18:23:28,023 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 2th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 18:23:28,075 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 3th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 18:23:28,128 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 4th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 18:23:28,183 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 5th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 18:23:28,236 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 6th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 18:23:28,291 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 7th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 18:23:28,340 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 8th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 18:23:28,392 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 9th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 18:23:28,446 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 10th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 18:23:28,499 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 11th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 18:23:28,550 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 12th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 18:23:28,604 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 13th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 18:23:28,657 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 14th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 18:23:28,708 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 15th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 18:23:28,760 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 16th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 18:23:28,813 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 17th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 18:23:28,866 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 18th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 18:23:28,917 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 19th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 18:23:28,969 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 20th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-27 18:59:11,012 --- fbd_interpreter --- INFO --- Configuration settings :
+{'features_name': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'features_to_interpret': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'model_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/model/xgboost_model.sav',
+ 'out_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs',
+ 'target_col': 'target',
+ 'task_name': 'classification',
+ 'test_data_path': '',
+ 'train_data_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/data/train/',
+ 'tree_based_model': 'True'}
+2020-08-27 19:00:01,100 --- fbd_interpreter --- INFO --- Configuration settings :
+{'features_name': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'features_to_interpret': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'model_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/model/xgboost_model.sav',
+ 'out_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs',
+ 'target_col': 'target',
+ 'task_name': 'classification',
+ 'test_data_path': '',
+ 'train_data_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/data/train/',
+ 'tree_based_model': 'True'}
+2020-08-28 09:21:25,448 --- fbd_interpreter --- INFO --- Configuration settings :
+{'features_name': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'features_to_interpret': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'model_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/model/xgboost_model.sav',
+ 'out_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs',
+ 'target_col': 'target',
+ 'task_name': 'classification',
+ 'test_data_path': '',
+ 'train_data_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/data/train/',
+ 'tree_based_model': 'True'}
+2020-08-28 09:22:14,215 --- fbd_interpreter --- INFO --- Configuration settings :
+{'features_name': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'features_to_interpret': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'model_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/model/xgboost_model.sav',
+ 'out_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs',
+ 'target_col': 'target',
+ 'task_name': 'classification',
+ 'test_data_path': '',
+ 'train_data_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/data/train/',
+ 'tree_based_model': 'True'}
+2020-08-28 09:22:14,386 --- fbd_interpreter --- INFO --- Interpretability type : global
+2020-08-28 09:22:14,476 --- fbd_interpreter --- INFO --- Computing PDP & ice
+2020-08-28 09:22:20,283 --- fbd_interpreter --- INFO --- Saving PD plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-28 09:22:20,519 --- fbd_interpreter --- INFO --- Saving ICE plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-28 09:22:20,842 --- fbd_interpreter --- INFO --- Computing ALE
+2020-08-28 09:22:21,707 --- fbd_interpreter --- INFO --- Saving ALE plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-28 09:22:21,944 --- fbd_interpreter --- INFO --- Computing SHAP
+2020-08-28 09:25:17,441 --- fbd_interpreter --- INFO --- Configuration settings :
+{'features_name': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'features_to_interpret': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'model_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/model/xgboost_model.sav',
+ 'out_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs',
+ 'target_col': 'target',
+ 'task_name': 'classification',
+ 'test_data_path': '',
+ 'train_data_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/data/train/',
+ 'tree_based_model': 'True'}
+2020-08-28 09:25:17,609 --- fbd_interpreter --- INFO --- Interpretability type : global
+2020-08-28 09:25:17,702 --- fbd_interpreter --- INFO --- Computing PDP & ice
+2020-08-28 09:25:23,644 --- fbd_interpreter --- INFO --- Saving PD plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-28 09:25:23,875 --- fbd_interpreter --- INFO --- Saving ICE plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-28 09:25:24,172 --- fbd_interpreter --- INFO --- Computing ALE
+2020-08-28 09:25:24,960 --- fbd_interpreter --- INFO --- Saving ALE plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-28 09:25:25,169 --- fbd_interpreter --- INFO --- Computing SHAP
+2020-08-28 09:26:06,653 --- fbd_interpreter --- INFO --- Configuration settings :
+{'features_name': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'features_to_interpret': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'model_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/model/xgboost_model.sav',
+ 'out_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs',
+ 'target_col': 'target',
+ 'task_name': 'classification',
+ 'test_data_path': '',
+ 'train_data_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/data/train/',
+ 'tree_based_model': 'True'}
+2020-08-28 09:26:06,824 --- fbd_interpreter --- INFO --- Interpretability type : global
+2020-08-28 09:26:06,899 --- fbd_interpreter --- INFO --- Computing PDP & ice
+2020-08-28 09:26:12,900 --- fbd_interpreter --- INFO --- Saving PD plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-28 09:26:13,186 --- fbd_interpreter --- INFO --- Saving ICE plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-28 09:26:13,565 --- fbd_interpreter --- INFO --- Computing ALE
+2020-08-28 09:26:14,436 --- fbd_interpreter --- INFO --- Saving ALE plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-28 09:26:14,667 --- fbd_interpreter --- INFO --- Computing SHAP
+2020-08-28 09:26:15,518 --- fbd_interpreter --- INFO --- Saving SHAP plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-28 09:26:16,506 --- fbd_interpreter --- INFO --- Interpretability type : local
+2020-08-28 09:26:16,506 --- fbd_interpreter --- ERROR --- Configuration file requires test data path , but is missing 
+2020-08-28 09:27:01,996 --- fbd_interpreter --- INFO --- Configuration settings :
+{'features_name': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'features_to_interpret': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'model_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/model/xgboost_model.sav',
+ 'out_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs',
+ 'target_col': 'target',
+ 'task_name': 'classification',
+ 'test_data_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/data/test/',
+ 'train_data_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/data/train/',
+ 'tree_based_model': 'True'}
+2020-08-28 09:27:02,163 --- fbd_interpreter --- INFO --- Interpretability type : global
+2020-08-28 09:27:02,257 --- fbd_interpreter --- INFO --- Computing PDP & ice
+2020-08-28 09:27:08,149 --- fbd_interpreter --- INFO --- Saving PD plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-28 09:27:08,374 --- fbd_interpreter --- INFO --- Saving ICE plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-28 09:27:08,709 --- fbd_interpreter --- INFO --- Computing ALE
+2020-08-28 09:27:09,509 --- fbd_interpreter --- INFO --- Saving ALE plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-28 09:27:09,725 --- fbd_interpreter --- INFO --- Computing SHAP
+2020-08-28 09:27:10,512 --- fbd_interpreter --- INFO --- Saving SHAP plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-28 09:27:11,480 --- fbd_interpreter --- INFO --- Interpretability type : local
+2020-08-28 09:27:11,487 --- fbd_interpreter --- INFO --- Interpretability type : mix
+2020-08-28 09:27:11,487 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 1th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-28 09:27:52,807 --- fbd_interpreter --- INFO --- Configuration settings :
+{'features_name': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'features_to_interpret': 'type_precipitation,intensite_precipitation,intensite_orage,temperature_air,point_rosee,temperature_surface,direction_vent,force_vent,force_rafales,potentiel_neige,hour,sensor55366405,sensor55368505,sensor56368D05',
+ 'model_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/model/xgboost_model.sav',
+ 'out_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs',
+ 'target_col': 'target',
+ 'task_name': 'classification',
+ 'test_data_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/data/test/',
+ 'train_data_path': '/media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter/fbd_interpreter/data_factory/inputs/data/train/',
+ 'tree_based_model': 'True'}
+2020-08-28 09:27:52,973 --- fbd_interpreter --- INFO --- Interpretability type : global
+2020-08-28 09:27:53,050 --- fbd_interpreter --- INFO --- Computing PDP & ice
+2020-08-28 09:27:59,145 --- fbd_interpreter --- INFO --- Saving PD plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-28 09:27:59,378 --- fbd_interpreter --- INFO --- Saving ICE plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-28 09:27:59,690 --- fbd_interpreter --- INFO --- Computing ALE
+2020-08-28 09:28:00,536 --- fbd_interpreter --- INFO --- Saving ALE plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-28 09:28:00,763 --- fbd_interpreter --- INFO --- Computing SHAP
+2020-08-28 09:28:01,642 --- fbd_interpreter --- INFO --- Saving SHAP plots in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/global_interpretation
+2020-08-28 09:28:02,604 --- fbd_interpreter --- INFO --- Interpretability type : local
+2020-08-28 09:28:02,611 --- fbd_interpreter --- INFO --- Interpretability type : mix
+2020-08-28 09:28:02,612 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 1th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-28 09:28:02,667 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 2th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-28 09:28:02,721 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 3th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-28 09:28:02,777 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 4th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-28 09:28:02,839 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 5th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-28 09:28:02,900 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 6th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-28 09:28:02,955 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 7th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-28 09:28:03,009 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 8th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-28 09:28:03,066 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 9th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation
+2020-08-28 09:28:03,122 --- fbd_interpreter --- INFO --- Computing and saving SHAP individual plots for 10th observation in /media/sihihi/Storage/R&D/origin_fbd_interpreter/fbd-interpreter//outputs/local_interpretation

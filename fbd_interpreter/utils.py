@@ -26,6 +26,8 @@ def _parse_config():
     dico_params["target_col"] = configuration["DEV"]["target_col"]
     # Get task name as str
     dico_params["task_name"] = configuration["DEV"]["task_name"]
+    # Get model type (tree based model or not)
+    dico_params["tree_based_model"] = configuration["DEV"]["tree_based_model"]
     # Get task name as str
     dico_params["target_col"] = configuration["DEV"]["target_col"]
     # Get features to interpret as list
@@ -34,13 +36,12 @@ def _parse_config():
     dico_params["out_path"] = configuration["DEV"]["output_path"]
     # Sanity check
     mandatory_conf = [
-        "train_data_path",
-        "test_data_path",
         "model_path",
         "features_name",
         "target_col",
         "features_to_interpret",
         "task_name",
+        "tree_based_model",
     ]
     missing_conf = False
     for k in mandatory_conf:
