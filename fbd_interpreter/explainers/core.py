@@ -1,11 +1,7 @@
 import os
 
 from fbd_interpreter.config.load import configuration
-from fbd_interpreter.data_factory.resource.data_loader import (
-    load_csv_resource,
-    load_parquet_resource,
-    load_pickle_resource,
-)
+from fbd_interpreter.data_factory.resource.data_loader import load_pickle_resource
 from fbd_interpreter.explainers.shap_tree_explainer import ShapTreeExplainer
 from fbd_interpreter.icecream import icecream
 from fbd_interpreter.logger import logger
@@ -62,7 +58,8 @@ class Interpreter:
         logger.info(f"Saving ICE plots in {self.out_path_global}")
         plotly_figures_to_html(
             dic_figs=figs_ice,
-            path=self.out_path_global + "/individual_conditional_expectation_plots.html",
+            path=self.out_path_global
+            + "/individual_conditional_expectation_plots.html",
             title="Individual Conditional Expectation (ICE) plots ",
             plot_type="ICE",
             html_sections=html_sections,

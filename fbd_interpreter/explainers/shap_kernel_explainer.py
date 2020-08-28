@@ -1,7 +1,8 @@
 import matplotlib
 import shap
 
-#WIP
+
+# WIP
 class ShapKernelExplainer(object):
     """Uses the Kernel SHAP method to explain the output of any function.
 

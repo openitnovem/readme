@@ -57,7 +57,7 @@ def plotly_figures_to_html(
 
     for idx, fig in enumerate(figs):
         html += f"<section id ={titles[idx]}>"
-        html += f'<p style="text-align:center;font-size:160%">{title+" for : <strong>"+ titles[idx]+"</strong>"}</p>'
+        html += f'<p style="text-align:center;font-size:160%">{title+" : <strong>"+ titles[idx]+"</strong>"}</p>'
         if plot_type != "SHAP_GLOBAL":
             inner_html = pyo.plot(fig, include_plotlyjs=add_js, output_type="div",)
         else:
