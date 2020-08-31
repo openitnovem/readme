@@ -10,7 +10,7 @@ from fbd_interpreter.data_factory.resource.data_loader import (
 )
 from fbd_interpreter.explainers.core import Interpreter
 from fbd_interpreter.logger import logger
-from fbd_interpreter.utils import _parse_config
+from fbd_interpreter.utils import _parse_config, optimize
 
 
 @click.command()
@@ -91,6 +91,9 @@ def interept(
             train_data = load_parquet_resource(train_data_path)
         else:
             train_data = load_csv_resource(train_data_path)
+
+        logger.info("Reducing train dataframe memory usage to speed up computations")
+        train_data = optimize(train_data)
         if use_pdp_ice:
             exp.global_pdp_ice(train_data)
         if use_ale:
@@ -112,7 +115,8 @@ def interept(
             test_data = load_parquet_resource(test_data_path)
         else:
             test_data = load_csv_resource(test_data_path)
-        logger.info(f"Interpretability type : {interpret_type}")
+        logger.info("Reducing test dataframe memory usage to speed up computations")
+        test_data = optimize(test_data)
         exp.local_shap(test_data)
 
     else:

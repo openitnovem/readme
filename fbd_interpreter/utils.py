@@ -1,3 +1,7 @@
+from typing import List
+
+import pandas as pd
+
 from fbd_interpreter.config.load import configuration
 from fbd_interpreter.logger import logger
 
@@ -97,3 +101,148 @@ def _names_with_values(names, values):
             li.append("{0} ({1})".format(name, value))
 
     return li
+
+
+def optimize(
+    df: pd.DataFrame,
+    datetime_features: List[str] = [],
+    datetime_format: str = "%Y%m%d",
+    prop_unique: float = 0.5,
+):
+    """
+    Returns a pandas dataframe with better memory allocation by downcasting the columns
+    automatically to the smallest possible datatype without losing any information.
+    For strings we make use of the pandas category column type if the amount of unique
+    strings cover less than half the total amount of strings.
+    We cast date columns to the pandas datetime dtype. It does not reduce memory usage,
+    but enables time based operations.
+
+    :Parameters:
+        - `df` (pd.DataFrame)
+            Pandas dataframe to reduce
+        - `datetime_features` (List[str])
+            List of date columns to cast to the pandas datetime dtype
+        - 'datetime_format' (str = "%Y%m%d")
+            datetime features format
+        - 'prop_unique' (float = 0.5)
+            max proportion of unique values in object columns to allow casting to category type
+
+    :Return:
+        - `optimized_df` (pd.DataFrame)
+            Pandas dataframe with better memory allocation
+
+    Example
+    -------
+    >>> import pandas as pd
+    >>> d = {'col1': [1, 2, 3, 4], 'col2': [3.5, 4.89, 2.9, 3.1], 'col3': ["M", "F", "M", "F"]}
+    >>> df = pd.DataFrame(d)
+    >>> print(optimize(df).dtypes.apply(lambda x: x.name).to_dict())
+    Memory usage decreased from 0.00MB to 0.00MB (0.00MB, 17.92% reduction)
+    {'col1': 'int8', 'col2': 'float32', 'col3': 'category'}
+    """
+    optimized_df = optimize_floats(
+        optimize_ints(
+            optimize_objects(df, datetime_features, datetime_format, prop_unique)
+        )
+    )
+    return optimized_df
+
+
+def optimize_floats(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Returns a pandas dataframe after downcasting the float columns to the smallest
+     possible float datatype (float32, float64) using pd.to_numeric.
+
+    :Parameters:
+        - `df` (pd.DataFrame)
+            Pandas dataframe to reduce
+
+    :Return:
+        - `optimized_df` (pd.DataFrame)
+            Pandas dataframe with better memory allocation for float columns
+
+    Example
+    -------
+    >>> import pandas as pd
+    >>> d = {'col1': [1, 2, 3, 4], 'col2': [3.5, 4.89, 2.9, 3.1], 'col3': ["M", "F", "M", "F"]}
+    >>> df = pd.DataFrame(d)
+    >>> print(optimize_floats(df).dtypes.apply(lambda x: x.name).to_dict())
+    {'col1': 'int64', 'col2': 'float32', 'col3': 'object'}
+    """
+    floats = df.select_dtypes(include=["float64"]).columns.tolist()
+    df[floats] = df[floats].apply(pd.to_numeric, downcast="float")
+    return df
+
+
+def optimize_ints(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Returns a pandas dataframe after downcasting the integer columns to the smallest
+     possible int datatype (int8, int16, int32, int64) using pd.to_numeric.
+
+    :Parameters:
+        - `df` (pd.DataFrame)
+            Pandas dataframe to reduce
+
+    :Return:
+        - `optimized_df` (pd.DataFrame)
+            Pandas dataframe with better memory allocation for int columns
+
+    Example
+    -------
+    >>> import pandas as pd
+    >>> d = {'col1': [1, 2, 3, 4], 'col2': [3.5, 4.89, 2.9, 3.1], 'col3': ["M", "F", "M", "F"]}
+    >>> df = pd.DataFrame(d)
+    >>> print(optimize_ints(df).dtypes.apply(lambda x: x.name).to_dict())
+    {'col1': 'int8', 'col2': 'float64', 'col3': 'object'}
+    """
+    ints = df.select_dtypes(include=["int64"]).columns.tolist()
+    df[ints] = df[ints].apply(pd.to_numeric, downcast="integer")
+    return df
+
+
+def optimize_objects(
+    df: pd.DataFrame,
+    datetime_features: List[str],
+    datetime_format: str = "%Y%m%d",
+    prop_unique: float = 0.5,
+) -> pd.DataFrame:
+    """
+    Returns a pandas dataframe after downcasting the object columns to the smallest
+    possible datatype.
+    For strings we make use of the pandas category column type if the amount of unique
+    strings cover less than the proportion p (default 50%) of the total amount of strings.
+    We cast date columns to the pandas datetime dtype. It does not reduce memory usage,
+    but enables time based operations.
+
+    :Parameters:
+        - `df` (pd.DataFrame)
+            Pandas dataframe to reduce
+        - `datetime_features` (List[str])
+            List of date columns to cast to the pandas datetime dtype
+        - 'datetime_format' (str = "%Y%m%d")
+            datetime features format
+        - 'prop_unique' (float = 0.5)
+            max proportion of unique values to allow casting to category type
+
+    :Return:
+        - `optimized_df` (pd.DataFrame)
+            Pandas dataframe with better memory allocation for object columns
+
+    Example
+    -------
+    >>> import pandas as pd
+    >>> d = {'col1': ["08:10", "10:15", "12:30", "06:00"], 'col2': ["M", "F", "M", "F"]}
+    >>> df = pd.DataFrame(d)
+    >>> print(optimize_objects(df, 'col1', "%H:%M").dtypes.apply(lambda x: x.name).to_dict())
+    {'col1': 'datetime64[ns]', 'col2': 'category'}
+    """
+
+    for col in df.select_dtypes(include=["object"]):
+        if col not in datetime_features:
+            num_unique_values = len(df[col].unique())
+            num_total_values = len(df[col])
+            if float(num_unique_values) / num_total_values <= prop_unique:
+                df[col] = df[col].astype("category")
+        else:
+            df[col] = pd.to_datetime(df[col], format=datetime_format)
+    return df
