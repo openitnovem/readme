@@ -9,8 +9,10 @@ from fbd_interpreter.logger import logger
 def _parse_config():
     """
     Parse config from cfg file and return dictionnary with keys as config_params
-    :return: configuration as dictionnary
-    :rtype:
+
+    :Return:
+            - `dico_params` (Dict[str, str])
+                configuration as dictionnary
     Example
     -------
     >>> conf = _parse_config()
@@ -59,14 +61,19 @@ def _parse_config():
     return dico_params
 
 
-def read_sections_from_txt(file_path):
+def read_sections_from_txt(file_path: str):
     """
     Read html sections from txt file
-    :param file_path: path to txt file
-    :type file_path: str
-    :return: Dictionnary of sections with lines as values
-    :rtype: dict
-     Example
+
+    :Parameters:
+        - `file_path` (str)
+            path to txt file containing html sections
+
+    :Return:
+        - `dico_sections` (Dict)
+            Dictionnary of sections with lines as values
+
+    Example
     -------
     >>> dico_sections = read_sections_from_txt("config/sections_html.txt")
     >>> "COMMUN" in (list(dico_sections.keys()))
@@ -90,17 +97,6 @@ def read_sections_from_txt(file_path):
         for k, v in dico_sections.items()
     }
     return dico_sections
-
-
-def _names_with_values(names, values):
-    li = []
-    for name, value in zip(names, values):
-        if value == "":
-            li.append("{0}".format(name))
-        else:
-            li.append("{0} ({1})".format(name, value))
-
-    return li
 
 
 def optimize(

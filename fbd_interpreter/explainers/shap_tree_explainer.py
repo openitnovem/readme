@@ -3,30 +3,55 @@ import shap
 
 
 class ShapTreeExplainer(object):
-    """Uses Tree SHAP algorithms to explain the output of ensemble tree models.
+    """
+    Allows to explain globally or locally a tree based model using Tree SHAP algorithms.
+    Tree SHAP is a fast and exact method to estimate SHAP values for tree models and ensembles of trees.
 
-        Tree SHAP is a fast and exact method to estimate SHAP values for tree models and ensembles of trees,
-        under several different possible assumptions about feature dependence. It depends on fast C++
-        implementations either inside an externel model package or in the local compiled C extention.
-
-        Parameters
-        ----------
-        model : model object
-        """
+    :Parameters:
+        - model:
+            A tree based model. Following models are supported: XGBoost, LightGBM, CatBoost, Pyspark & most
+            tree-based models in scikit-learn.,
+        - features_name (List[str]):
+            List of features names used to train the model
+    """
 
     def __init__(self, model, features_name):
-        """
-
-        :param model: A tree based model. Following models are supported by Tree SHAP at present: XGBoost, LightGBM,
-                    CatBoost, Pyspark & most tree-based models in scikit-learn.
-        :type model:
-        :param features_name:
-        :type features_name:
-        """
         self.model = model
         self.features_name = features_name
 
     def global_explainer(self, train_data):
+        """
+        Create a SHAP feature importance plot and SHAP summary plot, colored by feature values.
+
+        :Parameters:
+            - `kind` (str = "pdp")
+                Kind of plot to draw, possibilities are:
+
+                - "pdp": draws a Partial Dependency Plot
+                - "box": draws a box plot of predictions for each bin of features
+                - "ice": draws a Individual Conditional Expectation plot
+                - "ale": draws an Accumulated Local Effects plot
+
+            - `show` (bool = True)
+                Option to show the plots in notebook
+            - `save_path` (Optional[str] = None)
+                Path to directory to save the plots,
+                directory is created if it does not exist
+            - `ice_nb_lines` (int = 15)
+                Number of lines to draw if kind="ice"
+            - `ice_clustering_method` (str = "quantiles")
+                Sampling or clustering method to compute the best lines to draw if kind="ice",
+                available methods:
+
+                - "kmeans": automatic clustering using KMeans to get representative lines
+                - "quantiles": division of predictions in quantiles to get lines
+                - "random": random selection of rows among predictions
+
+        :Return:
+            - `figures` (Dict[str, go.FigureWidget])
+                Dictionary of generated plots,
+                keys are feature names, values are Plotly objects
+        """
         shap_values = shap.TreeExplainer(self.model).shap_values(
             train_data[self.features_name]
         )
