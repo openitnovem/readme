@@ -11,6 +11,8 @@ Its purpose is to make state-of-the-art machine learning and deep learning inter
 
 Before creating a virtual environment, make sure Python3.6 is installed. If not, install it with `sudo apt-get install python3.6-dev`.
 
+## Dependencies
+
 ## Installation instructions
 
 Create a virtual environment, by default in .venv directory: `virtualenv -p python3.6 .venv`.
@@ -99,6 +101,9 @@ For instance , using **partial dependency plots** for global interpretability:
 from fbd_interpreter.main import interept
 interept(interpret_type="global",use_pdp_ice=True,use_ale=False,use_shap=False)
 ```
+### Usage without filling the config file (by passing data and model directly)
+
+## Documentation
 
 ## Test
 
@@ -137,7 +142,8 @@ Upgrade Python dependencies with `pip install -r requirements/requirements-to-fr
 Then freeze dependencies with the command `pip freeze | grep -v "pkg-resources" > config/requirements.txt` (the `grep` part deals with a bug specific to Ubuntu 16.04, see https://github.com/pypa/pip/issues/4022)
 
 
-## Support 
+## Support : Move to Jira 
+https://jira.apps.eul.sncf.fr/secure/RapidBoard.jspa?rapidView=1771
 
 Road map for future developements : 
 - [ ] SHAP dependence plots

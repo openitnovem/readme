@@ -6,6 +6,7 @@ import click
 from fbd_interpreter.data_factory.resource.data_loader import (
     load_csv_resource,
     load_parquet_resource,
+    load_pickle_resource,
 )
 from fbd_interpreter.explainers.core import Interpreter
 from fbd_interpreter.logger import logger
@@ -29,28 +30,50 @@ from fbd_interpreter.utils import _parse_config
 )
 @click.option(
     "--use-pdp-ice",
-    default=True,
+    default=False,
     show_default=True,
     metavar="",
     help="Computes and plots PDP & ICE",
 )
 @click.option(
     "--use-shap",
-    default=True,
+    default=False,
     show_default=True,
     metavar="",
     help="Computes and plots shapely values for global & local explanation",
 )
-def interept(interpret_type, use_ale, use_pdp_ice, use_shap):
+def interept(
+    interpret_type: str = "mix",
+    use_ale: bool = True,
+    use_pdp_ice: bool = True,
+    use_shap: bool = True,
+):
+    """
+    Interpret locally, globally or both any ML model using PDP, ICE, ALE & SHAP
+    :Parameters:
+        - interpret_type (str):
+            Type of interpretability global, local or mix(both). Default is mix
+        - use_ale (bool):
+            If True, computes ALE: Accumulated Local Effects.
+            Can only be used for numerical features.
+        - use_pdp_ice (bool):
+            If True, computes PDP & ICE: Partial Dependency & Individual Expectation plots.
+        - use_shap (bool):
+            If True, computes SHAP plots.
+    :Return:
+        None
+    """
     config_values = _parse_config()
     logger.info("Configuration settings :\n" + pformat(config_values))
+    logger.info("Loading model")
+    model = load_pickle_resource(config_values["model_path"])
 
     exp = Interpreter(
-        model_path=config_values["model_path"],
+        model=model,
         task_name=config_values["task_name"],
         tree_based_model=config_values["tree_based_model"],
-        features_name=config_values["features_name"],
-        features_to_interpret=config_values["features_to_interpret"],
+        features_name=config_values["features_name"].split(","),
+        features_to_interpret=config_values["features_to_interpret"].split(","),
         target_col=config_values["target_col"],
         out_path=config_values["out_path"],
     )

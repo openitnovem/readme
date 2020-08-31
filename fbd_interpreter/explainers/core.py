@@ -1,7 +1,8 @@
 import os
+from typing import Any, List
 
 from fbd_interpreter.config.load import configuration
-from fbd_interpreter.data_factory.resource.data_loader import load_pickle_resource
+from fbd_interpreter.explainers.shap_kernel_explainer import ShapKernelExplainer
 from fbd_interpreter.explainers.shap_tree_explainer import ShapTreeExplainer
 from fbd_interpreter.icecream import icecream
 from fbd_interpreter.logger import logger
@@ -12,19 +13,44 @@ html_sections = configuration["DEV"]["html_sections"]
 
 
 class Interpreter:
+    """
+    Class that contains different interpretability techniques to explain the model training (global interpretation)
+    and its predictions (local interpretation).
+    :Parameters:
+        - model:
+            Model to compute predictions using provided data,
+            `model.predict(data)` must work
+        - task_name (str):
+            Task name: choose from supported_tasks in config/config_{type_env}.cfg
+        - tree_based_model (str):
+            If "True", Tree SHAP algorithms to explain the output of ensemble tree models.
+            XGBoost, LightGBM, CatBoost, Pyspark and most tree-based scikit-learn models are supported
+        - features_name (List[str]):
+            List of features names used to train the model
+        - features_to_interpret (List[str]):
+            List of features to interpret using pdp, ice and ale
+        - target_col (str):
+            name of target column
+        - out_path (str):
+            Output path used to save interpretability plots.
+    :Return:
+        None
+    """
+
     def __init__(
         self,
-        model_path,
-        task_name="classification",
-        tree_based_model=True,
-        features_name=None,
-        features_to_interpret=None,
-        target_col=None,
-        out_path=None,
+        model: Any,
+        task_name: str = "classification",
+        tree_based_model: str = None,
+        features_name: List[str] = None,
+        features_to_interpret: List[str] = None,
+        target_col: str = None,
+        out_path: str = None,
     ):
-        self.model = load_pickle_resource(model_path)
-        self.features_name = features_name.split(",")
-        self.features_to_interpret = features_to_interpret.split(",")
+
+        self.model = model
+        self.features_name = features_name
+        self.features_to_interpret = features_to_interpret
         self.target_col = target_col
         self.task_name = task_name
         self.tree_based_model = tree_based_model
@@ -98,12 +124,36 @@ class Interpreter:
         if self.task_name == "classification":
             classif = True
         logger.info("Computing SHAP")
-        shap_exp = ShapTreeExplainer(
-            model=self.model, features_name=self.features_name,
-        )
-        # apply SHAP
-        fig_1, fig_2 = shap_exp.global_explainer(train_data)
-        dict_figs = {"Summary bar plot": fig_1, "Summary bee-swarm plot": fig_2}
+        if self.tree_based_model == "True":
+            logger.info(
+                "You are using a tree based model, if it's not the case, please set tree_based_model to False in config/config_{type_env}.cfg"
+            )
+
+            shap_exp = ShapTreeExplainer(
+                model=self.model, features_name=self.features_name,
+            )
+            # apply SHAP
+            shap_fig_1, shap_fig_2 = shap_exp.global_explainer(train_data)
+        elif self.tree_based_model == "False":
+            logger.info(
+                "You are using a non tree based model, if it's not the case, please set tree_based_model to True in config/config_{type_env}.cfg"
+            )
+            shap_exp = ShapKernelExplainer(
+                model=self.model, features_name=self.features_name,
+            )
+            # apply SHAP
+            shap_fig_1, shap_fig_2 = shap_exp.global_explainer(
+                train_data, classif=classif
+            )
+        else:
+            logger.error(
+                "Please set tree_based_model to True or False in config/config_{type_env}.cfg"
+            )
+
+        dict_figs = {
+            "Summary bar plot": shap_fig_1,
+            "Summary bee-swarm plot": shap_fig_2,
+        }
         logger.info(f"Saving SHAP plots in {self.out_path_global}")
         plotly_figures_to_html(
             dic_figs=dict_figs,
@@ -119,15 +169,37 @@ class Interpreter:
         classif = False
         if self.task_name == "classification":
             classif = True
-        shap_exp = ShapTreeExplainer(
-            model=self.model, features_name=self.features_name,
-        )
-        for j in range(0, len(test_data.head(10))):
+
+        if self.tree_based_model == "True":
             logger.info(
-                f"Computing and saving SHAP individual plots for {j+1}th observation in {self.out_path_local}"
-            )
-            shap_exp.local_explainer(
-                test_data, j, output_path=self.out_path_local, classif=classif
+                "You are using a tree based model, if it's not the case, please set tree_based_model to False in config/config_{type_env}.cfg"
             )
 
+            shap_exp = ShapTreeExplainer(
+                model=self.model, features_name=self.features_name,
+            )
+
+        elif self.tree_based_model == "False":
+            logger.info(
+                "You are using a non tree based model, if it's not the case, please set tree_based_model to True in config/config_{type_env}.cfg"
+            )
+            shap_exp = ShapKernelExplainer(
+                model=self.model, features_name=self.features_name,
+            )
+
+        else:
+            logger.error(
+                "Please set tree_based_model to True or False in config/config_{type_env}.cfg"
+            )
+
+        for j in range(0, len(test_data.head(10))):
+            logger.info(
+                f"Computing and saving SHAP individual plots for {j + 1}th observation in {self.out_path_local}"
+            )
+            shap_exp.local_explainer(
+                test_data=test_data,
+                num_obs=j,
+                classif=classif,
+                output_path=self.out_path_local,
+            )
         return None

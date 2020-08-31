@@ -27,48 +27,50 @@ class ShapKernelExplainer(object):
             List of features names
         """
 
-    def __init__(self, model, train, test, features_name):
+    def __init__(self, model, features_name):
         self.model = model
-        self.train = train[features_name]
-        self.train_summary = shap.kmeans(self.train, 10)
-        self.test = test[features_name]
+        self.features_name = features_name
 
-    def global_explainer(self, classif):
+    def global_explainer(self, train_data, classif):
+        train = train_data[self.features_name]
+        train_summary = shap.kmeans(train, 10)
         if classif:
             model_func = self.model.predict_proba
         else:
             model_func = self.model.predict
-        explainer = shap.KernelExplainer(model_func, self.train_summary)
-        shap_values = explainer.shap_values(self.train)
+        explainer = shap.KernelExplainer(model_func, train_summary)
+        shap_values = explainer.shap_values(train)
         shap_fig1 = matplotlib.pyplot.figure()
-        shap.summary_plot(shap_values, self.train, show=False)
+        shap.summary_plot(shap_values, train, show=False)
         shap_fig2 = matplotlib.pyplot.figure()
+        # TODO: handle shap_fig2 if not classif
         if classif:
-            shap.summary_plot(shap_values[1], self.train, show=False)
+            shap.summary_plot(shap_values[1], train, show=False)
         return shap_fig1, shap_fig2
 
-    def local_explainer(self, j, classif, output_path):
+    def local_explainer(self, test_data, num_obs, classif, output_path):
+        test_data = test_data[self.features_name]
         if classif:
             explainer = shap.KernelExplainer(
-                self.model.predict_proba, self.test, link="logit"
+                self.model.predict_proba, test_data, link="logit"
             )
-            shap_values = explainer.shap_values(self.test.iloc[j])
+            shap_values = explainer.shap_values(test_data.iloc[num_obs])
             shap.save_html(
-                output_path + f"/shap_local_kernel_explanation_{j}_th_obs.html",
+                output_path + f"/shap_local_kernel_explanation_{num_obs}_th_obs.html",
                 shap.force_plot(
                     explainer.expected_value[1],
                     shap_values[1],
-                    self.test.iloc[j],
+                    test_data.iloc[num_obs],
                     link="logit",
                 ),
             )
         else:
-            explainer = shap.KernelExplainer(self.model.predict, self.test)
-            shap_values = explainer.shap_values(self.test.iloc[j])
+            explainer = shap.KernelExplainer(self.model.predict, test_data)
+            shap_values = explainer.shap_values(test_data.iloc[num_obs])
             shap.save_html(
-                output_path + f"/shap_local_kernel_explanation_{j}_th_obs.html",
+                output_path + f"/shap_local_kernel_explanation_{num_obs}_th_obs.html",
                 shap.force_plot(
-                    explainer.expected_value, shap_values, self.test.iloc[j]
+                    explainer.expected_value, shap_values, test_data.iloc[num_obs]
                 ),
             )
 

@@ -24,7 +24,6 @@ class ShapTreeExplainer(object):
         :type features_name:
         """
         self.model = model
-        self.shap_values = None
         self.features_name = features_name
 
     def global_explainer(self, train_data):
@@ -39,25 +38,27 @@ class ShapTreeExplainer(object):
         shap.summary_plot(shap_values, train_data[self.features_name], show=False)
         return shap_fig1, shap_fig2
 
-    def local_explainer(self, test_data, j, output_path, classif):
+    def local_explainer(self, test_data, num_obs, classif, output_path):
         test_data = test_data[self.features_name]
         explainerModel = shap.TreeExplainer(self.model)
-        shap_values_Model = explainerModel.shap_values(test_data.iloc[j])
+        shap_values_Model = explainerModel.shap_values(test_data.iloc[num_obs])
         if classif:
             shap.save_html(
-                output_path + f"/shap_local_explanation_{j+1}th_obs.html",
+                output_path + f"/shap_local_explanation_{num_obs + 1}th_obs.html",
                 shap.force_plot(
                     explainerModel.expected_value,
                     shap_values_Model,
-                    test_data.iloc[j],
+                    test_data.iloc[num_obs],
                     link="logit",
                 ),
             )
         else:
             shap.save_html(
-                output_path + f"/shap_local_explanation_{j+1}th_obs.html",
+                output_path + f"/shap_local_explanation_{num_obs + 1}th_obs.html",
                 shap.force_plot(
-                    explainerModel.expected_value, shap_values_Model, test_data.iloc[j],
+                    explainerModel.expected_value,
+                    shap_values_Model,
+                    test_data.iloc[num_obs],
                 ),
             )
         return None
