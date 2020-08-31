@@ -37,7 +37,7 @@ from fbd_interpreter.utils import _parse_config, optimize
 )
 @click.option(
     "--use-shap",
-    default=False,
+    default=True,
     show_default=True,
     metavar="",
     help="Computes and plots shapely values for global & local explanation",

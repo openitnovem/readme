@@ -23,8 +23,7 @@ class Interpreter:
         - task_name (str):
             Task name: choose from supported_tasks in config/config_{type_env}.cfg
         - tree_based_model (str):
-            If "True", Tree SHAP algorithms to explain the output of ensemble tree models.
-            XGBoost, LightGBM, CatBoost, Pyspark and most tree-based scikit-learn models are supported
+            If "True", we use Tree SHAP algorithms to explain the output of ensemble tree models.
         - features_name (List[str]):
             List of features names used to train the model
         - features_to_interpret (List[str]):
