@@ -3,7 +3,6 @@ The interpreter package of the Fab Big Data (SNCF).
 
 Its purpose is to make state-of-the-art machine learning and deep learning interpretability techniques easy to use. 
 
-## Live Demo
 
 ## Requirements 
 **fbd_interpreter** 1.0 requires : 
@@ -12,6 +11,12 @@ Its purpose is to make state-of-the-art machine learning and deep learning inter
 Before creating a virtual environment, make sure Python3.6 is installed. If not, install it with `sudo apt-get install python3.6-dev`.
 
 ## Dependencies
+
+- [click](https://pypi.org/project/click/)
+- [Pandas](https://pypi.org/project/pandas/)
+- [plotly](https://pypi.org/project/plotly/)
+- [scikit-learn](https://pypi.org/project/scikit-learn/)
+- [shap](https://pypi.org/project/shap/)
 
 ## Installation instructions
 
@@ -25,7 +30,7 @@ Install project modules with `pip install --editable .`, this command runs the `
 
 ## Pre-requisites 
 
-Update required  configuration variables located in `fbd_interpreter/config/config_local.cfg` 
+Update required configuration variables located in `fbd_interpreter/config/config_local.cfg` 
 
 ## Features
 
@@ -115,16 +120,18 @@ exp = Interpreter(
         features_name=["f1", "f2", "f3", "f4", "f5"],
         features_to_interpret=["f1", "f2"],
         target_col="target",
-        out_path="/outputs/",
+        out_path="outputs/",
     )
 exp.global_ale(df_train)
 ```
 
 ## Documentation
 
+TODO
+
 ## Test
 
-
+TODO
 
 ## Deployment 
 
@@ -159,22 +166,14 @@ Upgrade Python dependencies with `pip install -r requirements/requirements-to-fr
 Then freeze dependencies with the command `pip freeze | grep -v "pkg-resources" > config/requirements.txt` (the `grep` part deals with a bug specific to Ubuntu 16.04, see https://github.com/pypa/pip/issues/4022)
 
 
-## Support : Move to Jira 
-https://jira.apps.eul.sncf.fr/secure/RapidBoard.jspa?rapidView=1771
-
-Road map for future developements : 
-- [ ] SHAP dependence plots
-- [ ] Saliency Maps
-- [ ] Deep Learning Interpreter
-- [ ] Saliency Maps
-
 
 
 ## Linting 
 Please for future development , use black for code formatting  
 
 ## References 
-
+- [Interpretable Machine Learning](https://christophm.github.io/interpretable-ml-book/)
+- [SHAP](https://github.com/slundberg/shap)
 
 
 ## Copyright 
