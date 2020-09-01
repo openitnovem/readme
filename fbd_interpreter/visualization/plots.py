@@ -1,21 +1,36 @@
 import base64
 from io import BytesIO
+from typing import Dict
 
+import plotly.graph_objs as go
 import plotly.offline as pyo
 
 from fbd_interpreter.utils import read_sections_from_txt
 
 
-def plotly_figures_to_html(
-    dic_figs, html_sections, plot_type, path: str, title: str = ""
+def interpretation_plots_to_html_report(
+    dic_figs: Dict[str, go.FigureWidget],
+    path: str,
+    html_sections: str,
+    plot_type: str,
+    title: str = "",
 ) -> None:
-    """Convert a dict of plotly figures to html format.
+    """
+    Convert a dict of plotly figures to html format.
 
-    Args:
-        dic_figs: Dict of plotly figures to be saved.
-        path: Path to write html file
-        title: Title
-    Returns:
+    :Parameters:
+        - dic_figs (Dict[str, go.FigureWidget]):
+            Dict of plotly figures to be saved
+        - path (str):
+            Path to write html file
+        - html_sections (str):
+            Path to the text file that contains html reports sections (config/sections_html.txt)
+        - plot_type (str):
+            Must be the same as the title of the plot section in html_sections
+        - title (str):
+            Title of the html report
+
+    :Return:
         string in HTML format
     """
     figs = list(dic_figs.values())

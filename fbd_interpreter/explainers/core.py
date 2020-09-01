@@ -1,12 +1,14 @@
 import os
 from typing import Any, List
 
+import pandas as pd
+
 from fbd_interpreter.config.load import configuration
 from fbd_interpreter.explainers.shap_kernel_explainer import ShapKernelExplainer
 from fbd_interpreter.explainers.shap_tree_explainer import ShapTreeExplainer
 from fbd_interpreter.icecream import icecream
 from fbd_interpreter.logger import logger
-from fbd_interpreter.visualization.plots import plotly_figures_to_html
+from fbd_interpreter.visualization.plots import interpretation_plots_to_html_report
 
 # Get html sections path
 html_sections = configuration["DEV"]["html_sections"]
@@ -57,7 +59,14 @@ class Interpreter:
         self.out_path_global = os.path.join(out_path, "global_interpretation")
         self.out_path_local = os.path.join(out_path, "local_interpretation")
 
-    def global_pdp_ice(self, train_data):
+    def global_pdp_ice(self, train_data: pd.DataFrame) -> None:
+        """
+        Compute and save Partial Dependency and Individual Conditional Expectation plots using icecream module for
+        global interpretation.
+        :Parameters:
+            - `train_data` (pd.DataFrame)
+                Dataframe of model inputs, used to explain the model
+       """
         classif = False
         if self.task_name == "classification":
             classif = True
@@ -73,7 +82,7 @@ class Interpreter:
         figs_pdp = pdp_plots.draw(kind="pdp", show=False)
         figs_ice = pdp_plots.draw(kind="ice", show=False)
         logger.info(f"Saving PD plots in {self.out_path_global}")
-        plotly_figures_to_html(
+        interpretation_plots_to_html_report(
             dic_figs=figs_pdp,
             path=self.out_path_global + "/partial_dependency_plots.html",
             title="Partial dependency plots ",
@@ -81,7 +90,7 @@ class Interpreter:
             html_sections=html_sections,
         )
         logger.info(f"Saving ICE plots in {self.out_path_global}")
-        plotly_figures_to_html(
+        interpretation_plots_to_html_report(
             dic_figs=figs_ice,
             path=self.out_path_global
             + "/individual_conditional_expectation_plots.html",
@@ -92,7 +101,14 @@ class Interpreter:
 
         return None
 
-    def global_ale(self, train_data):
+    def global_ale(self, train_data: pd.DataFrame) -> None:
+        """
+        Compute and save Accumulated Local Effect plots using icecream module for global interpretation.
+        :Parameters:
+            - `train_data` (pd.DataFrame)
+                Dataframe of model inputs, used to explain the model
+
+       """
         classif = False
         if self.task_name == "classification":
             classif = True
@@ -108,7 +124,7 @@ class Interpreter:
         )
         figs_ale = ale_plots.draw(kind="ale", show=False)
         logger.info(f"Saving ALE plots in {self.out_path_global}")
-        plotly_figures_to_html(
+        interpretation_plots_to_html_report(
             dic_figs=figs_ale,
             path=self.out_path_global + "/accumulated_local_effects_plots.html",
             title="Accumulated Local Effects (ALE) plots ",
@@ -118,14 +134,22 @@ class Interpreter:
 
         return None
 
-    def global_shap(self, train_data):
+    def global_shap(self, train_data: pd.DataFrame) -> None:
+        """
+        Compute and save SHAP summary plots for global interpretation.
+        :Parameters:
+            - `train_data` (pd.DataFrame)
+                Dataframe of model inputs, used to explain the model
+
+       """
         classif = False
         if self.task_name == "classification":
             classif = True
         logger.info("Computing SHAP")
         if self.tree_based_model == "True":
             logger.info(
-                "You are using a tree based model, if it's not the case, please set tree_based_model to False in config/config_{type_env}.cfg"
+                "You are using a tree based model, if it's not the case, please set tree_based_model to False in "
+                "config/config_{type_env}.cfg"
             )
 
             shap_exp = ShapTreeExplainer(
@@ -135,7 +159,8 @@ class Interpreter:
             shap_fig_1, shap_fig_2 = shap_exp.global_explainer(train_data)
         elif self.tree_based_model == "False":
             logger.info(
-                "You are using a non tree based model, if it's not the case, please set tree_based_model to True in config/config_{type_env}.cfg"
+                "You are using a non tree based model, if it's not the case, please set tree_based_model to True in "
+                "config/config_{type_env}.cfg"
             )
             shap_exp = ShapKernelExplainer(
                 model=self.model, features_name=self.features_name,
@@ -154,7 +179,7 @@ class Interpreter:
             "Summary bee-swarm plot": shap_fig_2,
         }
         logger.info(f"Saving SHAP plots in {self.out_path_global}")
-        plotly_figures_to_html(
+        interpretation_plots_to_html_report(
             dic_figs=dict_figs,
             path=self.out_path_global + "/shap_feature_importance_plots.html",
             title="SHAP feature importance plots",
@@ -164,14 +189,21 @@ class Interpreter:
 
         return None
 
-    def local_shap(self, test_data):
+    def local_shap(self, test_data: pd.DataFrame) -> None:
+        """
+        Compute and save SHAP force plots for all observations in a test_data for local interpretation.
+        :Parameters:
+            - `test_data` (pd.DataFrame)
+                Dataframe of model inputs, used to explain the model
+       """
         classif = False
         if self.task_name == "classification":
             classif = True
 
         if self.tree_based_model == "True":
             logger.info(
-                "You are using a tree based model, if it's not the case, please set tree_based_model to False in config/config_{type_env}.cfg"
+                "You are using a tree based model, if it's not the case, please set tree_based_model to False in "
+                "config/config_{type_env}.cfg"
             )
 
             shap_exp = ShapTreeExplainer(
@@ -180,7 +212,8 @@ class Interpreter:
 
         elif self.tree_based_model == "False":
             logger.info(
-                "You are using a non tree based model, if it's not the case, please set tree_based_model to True in config/config_{type_env}.cfg"
+                "You are using a non tree based model, if it's not the case, please set tree_based_model to True in "
+                "config/config_{type_env}.cfg"
             )
             shap_exp = ShapKernelExplainer(
                 model=self.model, features_name=self.features_name,

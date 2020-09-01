@@ -1,6 +1,5 @@
 from typing import List
 
-import matplotlib
 import matplotlib.pyplot as plt
 import pandas as pd
 import shap
@@ -72,9 +71,6 @@ class ShapKernelExplainer(object):
                 True, if it's a classification problem, else False
             - `output_path` (str)
                 Output path used to save plots.
-
-        :Return:
-            None
         """
         test_data = test_data[self.features_name]
         if classif:

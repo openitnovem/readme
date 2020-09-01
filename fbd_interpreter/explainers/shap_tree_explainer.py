@@ -60,9 +60,6 @@ class ShapTreeExplainer(object):
                 True, if it's a classification problem, else False
             - `output_path` (str)
                 Output path used to save plots.
-
-        :Return:
-            None
         """
         test_data = test_data[self.features_name]
         explainerModel = shap.TreeExplainer(self.model)

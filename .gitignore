@@ -16,3 +16,5 @@ meta_build.json
 fbd_interpreter/data_factory/inputs
 outputs/global_interpretation/
 outputs/local_interpretation/
+outputs/logs.txt
+doc/

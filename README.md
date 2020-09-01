@@ -94,14 +94,31 @@ Options:
 
 ### Usage as external module  [Python package] 
 
-One way of using the package is  to run the `interpret` function which takes care  of explaining model behaviour .
+One way of using the package is to run the `interpret` function which takes care of explaining model behaviour .
 
 For instance , using **partial dependency plots** for global interpretability:
 ```python
 from fbd_interpreter.main import interept
-interept(interpret_type="global",use_pdp_ice=True,use_ale=False,use_shap=False)
+interept(interpret_type="global", use_pdp_ice=True, use_ale=False, use_shap=False)
 ```
-### Usage without filling the config file (by passing data and model directly)
+### Usage without filling in the config file (by passing data and model directly)
+You can also use the package without filling in the configuration file by using the `Interpreter` class which 
+contains many methods to explain globally or locally any ML model.
+
+For instance , using **accumulated local effect plots** for global interpretability of a tree based classification model:
+```python
+from fbd_interpreter.explainers.core import Interpreter
+exp = Interpreter(
+        model=xgb_model,
+        task_name="classification",
+        tree_based_model="True",
+        features_name=["f1", "f2", "f3", "f4", "f5"],
+        features_to_interpret=["f1", "f2"],
+        target_col="target",
+        out_path="/outputs/",
+    )
+exp.global_ale(df_train)
+```
 
 ## Documentation
 

@@ -4,11 +4,6 @@ import colorlog
 
 
 def get_logger():
-    """
-
-    :return:
-    :rtype:
-    """
 
     # Create handlers
     log_path = "../outputs/logs.txt"

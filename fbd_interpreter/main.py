@@ -85,7 +85,8 @@ def interept(
                 f"Configuration file requires train data path , but is missing "
             )
             raise KeyError(
-                "Missing train data path, please update conf file located in config/config_{type_env}.cfg by filling train_data_path "
+                "Missing train data path, please update conf file located in config/config_{type_env}.cfg"
+                " by filling train_data_path "
             )
         elif os.path.isdir(train_data_path):
             train_data = load_parquet_resource(train_data_path)
@@ -109,7 +110,8 @@ def interept(
                 f"Configuration file requires test data path , but is missing "
             )
             raise KeyError(
-                "Missing test data path, please update conf file located in config/config_{type_env}.cfg by filling test_data_path "
+                "Missing test data path, please update conf file located in config/config_{type_env}.cfg"
+                " by filling test_data_path "
             )
         elif os.path.isdir(test_data_path):
             test_data = load_parquet_resource(test_data_path)
