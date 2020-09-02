@@ -45,9 +45,7 @@ class ShapTreeExplainer(object):
         shap.summary_plot(shap_values, train_data[self.features_name], show=False)
         return shap_fig1, shap_fig2
 
-    def local_explainer(
-        self, test_data: pd.DataFrame, num_obs: int, classif: bool, output_path: str
-    ) -> None:
+    def local_explainer(self, test_data: pd.DataFrame, num_obs: int, classif: bool):
         """
         Computes and save SHAP force plot for a given observation in a pandas dataframe using Tree Explainer.
 
@@ -65,22 +63,16 @@ class ShapTreeExplainer(object):
         explainerModel = shap.TreeExplainer(self.model)
         shap_values_Model = explainerModel.shap_values(test_data.iloc[num_obs])
         if classif:
-            shap.save_html(
-                output_path + f"/shap_local_explanation_{num_obs + 1}th_obs.html",
-                shap.force_plot(
-                    explainerModel.expected_value,
-                    shap_values_Model,
-                    test_data.iloc[num_obs],
-                    link="logit",
-                ),
+            shap_fig = shap.force_plot(
+                explainerModel.expected_value,
+                shap_values_Model,
+                test_data.iloc[num_obs],
+                link="logit",
             )
         else:
-            shap.save_html(
-                output_path + f"/shap_local_explanation_{num_obs + 1}th_obs.html",
-                shap.force_plot(
-                    explainerModel.expected_value,
-                    shap_values_Model,
-                    test_data.iloc[num_obs],
-                ),
+            shap_fig = shap.force_plot(
+                explainerModel.expected_value,
+                shap_values_Model,
+                test_data.iloc[num_obs],
             )
-        return None
+        return shap_fig

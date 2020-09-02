@@ -2,6 +2,7 @@ import os
 from typing import Any, List
 
 import pandas as pd
+import shap
 
 from fbd_interpreter.config.load import configuration
 from fbd_interpreter.explainers.shap_kernel_explainer import ShapKernelExplainer
@@ -237,10 +238,12 @@ class Interpreter:
             logger.info(
                 f"Computing and saving SHAP individual plots for {j + 1}th observation in {self.out_path_local}"
             )
-            shap_exp.local_explainer(
-                test_data=test_data,
-                num_obs=j,
-                classif=classif,
-                output_path=self.out_path_local,
+            local_fig = shap_exp.local_explainer(
+                test_data=test_data, num_obs=j, classif=classif
             )
+            shap.save_html(
+                self.out_path_local + f"/shap_local_explanation_{j + 1}th_obs.html",
+                local_fig,
+            )
+
         return None

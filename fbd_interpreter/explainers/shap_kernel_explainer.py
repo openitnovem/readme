@@ -56,9 +56,7 @@ class ShapKernelExplainer(object):
             shap.summary_plot(shap_values[1], train, show=False)
         return shap_fig1, shap_fig2
 
-    def local_explainer(
-        self, test_data: pd.DataFrame, num_obs: int, classif: bool, output_path: str
-    ) -> None:
+    def local_explainer(self, test_data: pd.DataFrame, num_obs: int, classif: bool):
         """
         Computes and save SHAP force plot for a given observation in a pandas dataframe using Kernel Explainer.
 
@@ -78,23 +76,17 @@ class ShapKernelExplainer(object):
                 self.model.predict_proba, test_data, link="logit"
             )
             shap_values = explainer.shap_values(test_data.iloc[num_obs])
-            shap.save_html(
-                output_path + f"/shap_local_kernel_explanation_{num_obs}_th_obs.html",
-                shap.force_plot(
-                    explainer.expected_value[1],
-                    shap_values[1],
-                    test_data.iloc[num_obs],
-                    link="logit",
-                ),
+            shap_fig = shap.force_plot(
+                explainer.expected_value[1],
+                shap_values[1],
+                test_data.iloc[num_obs],
+                link="logit",
             )
         else:
             explainer = shap.KernelExplainer(self.model.predict, test_data)
             shap_values = explainer.shap_values(test_data.iloc[num_obs])
-            shap.save_html(
-                output_path + f"/shap_local_kernel_explanation_{num_obs}_th_obs.html",
-                shap.force_plot(
-                    explainer.expected_value, shap_values, test_data.iloc[num_obs]
-                ),
+            shap_fig = shap.force_plot(
+                explainer.expected_value, shap_values, test_data.iloc[num_obs]
             )
 
-        return None
+        return shap_fig
