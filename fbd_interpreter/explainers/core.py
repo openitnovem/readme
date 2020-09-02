@@ -18,35 +18,39 @@ class Interpreter:
     """
     Class that contains different interpretability techniques to explain the model training (global interpretation)
     and its predictions (local interpretation).
-    :Parameters:
-        - model:
-            Model to compute predictions using provided data,
-            `model.predict(data)` must work
-        - task_name (str):
-            Task name: choose from supported_tasks in config/config_{type_env}.cfg
-        - tree_based_model (str):
-            If "True", we use Tree SHAP algorithms to explain the output of ensemble tree models.
-        - features_name (List[str]):
-            List of features names used to train the model
-        - features_to_interpret (List[str]):
-            List of features to interpret using pdp, ice and ale
-        - target_col (str):
-            name of target column
-        - out_path (str):
-            Output path used to save interpretability plots.
-    :Return:
-        None
+
+    Attributes
+    ----------
+    model : model
+        Model to compute predictions using provided data,
+        `model.predict(data)` must work
+    task_name : str
+        Task name: choose from supported_tasks in config/config_{type_env}.cfg
+    tree_based_model : str
+        If "True", we use Tree SHAP algorithms to explain the output of ensemble tree models.
+    features_name : List[str]
+        List of features names used to train the model
+    features_to_interpret : List[str]
+        List of features to interpret using pdp, ice and ale
+    target_col : str
+        name of target column
+    out_path : str
+        Output path used to save interpretability plots.
+
+    Returns
+    -------
+    None
     """
 
     def __init__(
         self,
         model: Any,
-        task_name: str = "classification",
-        tree_based_model: str = None,
-        features_name: List[str] = None,
-        features_to_interpret: List[str] = None,
-        target_col: str = None,
-        out_path: str = None,
+        task_name: str,
+        tree_based_model: str,
+        features_name: List[str],
+        features_to_interpret: List[str],
+        target_col: str,
+        out_path: str,
     ):
 
         self.model = model
@@ -63,9 +67,11 @@ class Interpreter:
         """
         Compute and save Partial Dependency and Individual Conditional Expectation plots using icecream module for
         global interpretation.
-        :Parameters:
-            - `train_data` (pd.DataFrame)
-                Dataframe of model inputs, used to explain the model
+
+        Parameters
+        ----------
+        train_data : pd.DataFrame
+            Dataframe of model inputs, used to explain the model
        """
         classif = False
         if self.task_name == "classification":
@@ -104,10 +110,11 @@ class Interpreter:
     def global_ale(self, train_data: pd.DataFrame) -> None:
         """
         Compute and save Accumulated Local Effect plots using icecream module for global interpretation.
-        :Parameters:
-            - `train_data` (pd.DataFrame)
-                Dataframe of model inputs, used to explain the model
 
+        Parameters
+        ----------
+        train_data : pd.DataFrame
+            Dataframe of model inputs, used to explain the model
        """
         classif = False
         if self.task_name == "classification":
@@ -137,9 +144,11 @@ class Interpreter:
     def global_shap(self, train_data: pd.DataFrame) -> None:
         """
         Compute and save SHAP summary plots for global interpretation.
-        :Parameters:
-            - `train_data` (pd.DataFrame)
-                Dataframe of model inputs, used to explain the model
+
+        Parameters
+        ----------
+        train_data : pd.DataFrame
+            Dataframe of model inputs, used to explain the model
 
        """
         classif = False
@@ -155,7 +164,6 @@ class Interpreter:
             shap_exp = ShapTreeExplainer(
                 model=self.model, features_name=self.features_name,
             )
-            # apply SHAP
             shap_fig_1, shap_fig_2 = shap_exp.global_explainer(train_data)
         elif self.tree_based_model == "False":
             logger.info(
@@ -165,7 +173,6 @@ class Interpreter:
             shap_exp = ShapKernelExplainer(
                 model=self.model, features_name=self.features_name,
             )
-            # apply SHAP
             shap_fig_1, shap_fig_2 = shap_exp.global_explainer(
                 train_data, classif=classif
             )
@@ -192,9 +199,11 @@ class Interpreter:
     def local_shap(self, test_data: pd.DataFrame) -> None:
         """
         Compute and save SHAP force plots for all observations in a test_data for local interpretation.
-        :Parameters:
-            - `test_data` (pd.DataFrame)
-                Dataframe of model inputs, used to explain the model
+
+        Parameters
+        ----------
+        test_data : pd.DataFrame
+            Dataframe of model inputs, used to explain the model
        """
         classif = False
         if self.task_name == "classification":

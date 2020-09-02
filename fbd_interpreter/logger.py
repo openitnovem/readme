@@ -1,12 +1,15 @@
 import logging
+import os
 
 import colorlog
+
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 def get_logger():
 
     # Create handlers
-    log_path = "../outputs/logs.txt"
+    log_path = os.path.join(ROOT_DIR, "../outputs/logs.log")
     f_handler = logging.FileHandler(log_path)
 
     log_format = "%(asctime)s --- %(name)s --- %(levelname)s --- %(message)s"

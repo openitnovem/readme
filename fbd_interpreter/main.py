@@ -50,18 +50,24 @@ def interept(
 ):
     """
     Interpret locally, globally or both any ML model using PDP, ICE, ALE & SHAP
-    :Parameters:
-        - interpret_type (str):
-            Type of interpretability global, local or mix(both). Default is mix
-        - use_ale (bool):
-            If True, computes ALE: Accumulated Local Effects.
-            Can only be used for numerical features.
-        - use_pdp_ice (bool):
-            If True, computes PDP & ICE: Partial Dependency & Individual Expectation plots.
-        - use_shap (bool):
-            If True, computes SHAP plots.
-    :Return:
-        None
+
+    Parameters
+    ----------
+    interpret_type : str, optional
+        Type of interpretability global, local or mix(both). (the default is "mix", which implies
+        global and local interpretability)
+    use_ale : bool, optional
+        If True, computes ALE: Accumulated Local Effects.
+        Can only be used for numerical features. (the default is True)
+    use_pdp_ice : bool, optional
+        If True, computes PDP & ICE: Partial Dependency & Individual Expectation plots.
+        (the default is True)
+    use_shap : bool, optional
+        If True, computes SHAP plots. (the default is True)
+
+    Returns
+    -------
+    None
     """
     config_values = _parse_config()
     logger.info("Configuration settings :\n" + pformat(config_values))

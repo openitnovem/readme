@@ -18,13 +18,14 @@ def guess_model_predict_function(model: Any, use_classif_proba: bool) -> Callabl
     """
     Returns model prediction method guessed from model properties.
     Multi-class classification not implemented yet.
-
-    :Parameters:
-        - `model` (scikit-learn model)
-            Model to compute predictions, `model.predict()` must work
-        - `use_classif_proba` (bool)
-            If True, use `predict_proba` for positive class as model output,
-            only used if model is a classifier
+    Parameters
+    ----------
+    interpret_type : str, optional
+    model : scikit-learn model
+        Model to compute predictions, `model.predict()` must work
+    use_classif_proba : bool
+        If True, use `predict_proba` for positive class as model output,
+        only used if model is a classifier
 
     :Return:
         - `function` (Callable)

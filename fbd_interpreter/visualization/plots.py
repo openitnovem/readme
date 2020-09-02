@@ -90,4 +90,4 @@ def interpretation_plots_to_html_report(
     with open(path, "w") as f:
         f.write(html)
 
-    return None
+    return html
