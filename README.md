@@ -107,6 +107,7 @@ from fbd_interpreter.main import interept
 interept(interpret_type="global", use_pdp_ice=True, use_ale=False, use_shap=False)
 ```
 ### Usage without filling in the config file (by passing data and model directly)
+
 You can also use the package without filling in the configuration file by using the `Interpreter` class which 
 contains many methods to explain globally or locally any ML model.
 
@@ -124,7 +125,49 @@ exp = Interpreter(
     )
 exp.global_ale(df_train)
 ```
+### Usage of icecream module for PDP, ICE & ALE plots
 
+**icecream** is a module that aims at explaining how a machine learning model works by drawing Partial Dependency Plots,
+ Individual Conditional Expectation and Accumulated Local Effects. 
+ 
+For instance , using **partial dependency plots** for global interpretability:
+```python
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+from fbd_interpreter.icecream import icecream
+# load data and adapt for binary classification
+df = pd.read_csv('https://raw.githubusercontent.com/mwaskom/seaborn-data/master/iris.csv')
+df['label'] = (df.species == 'setosa') * 1
+df = df.drop('species', axis=1)
+# train a classification model
+features = ['sepal_length', 'sepal_width', 'petal_length', 'petal_width']
+model = LogisticRegression(solver='lbfgs').fit(df[features], df['label'])
+# optionally customize icecream options
+icecream.options.default_number_bins = 20
+# create partial dependencies and draw plots
+pdp = icecream.IceCream(
+        data=df[features],
+        feature_names=features,
+        bins={'sepal_length': 10},
+        model=model,
+        targets=df['label'],
+        use_classif_proba=True,
+        use_ale= False
+    )
+pdp.draw(kind='pdp', show=True)
+# create 2D partial dependencies and draw plots
+pdp2d = icecream.IceCream2D(
+        data=df[features],
+        feature_x='petal_length',
+        feature_y='sepal_width',
+        bins_x=10,
+        bins_y=10,
+        model=model,
+        targets=df['label'],
+        use_classif_proba=True,
+    )
+pdp2d.draw(kind='hist', show=True)
+```
 ## Documentation
 
 TODO
