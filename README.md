@@ -1,4 +1,11 @@
 # fbd-interpreter Package
+[![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
+
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Python 3.6+](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
+![Fbd interpreter](https://img.shields.io/badge/fbd__interpreter-v0-brightgreen)
+![Maintainer](https://img.shields.io/badge/maintainer-Soumaya%20IHHI-green)
+
 The interpreter package of the Fab Big Data (SNCF).
 
 Its purpose is to make state-of-the-art machine learning and deep learning interpretability techniques easy to use. 
