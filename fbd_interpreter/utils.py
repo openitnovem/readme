@@ -2,11 +2,16 @@ from typing import List
 
 import pandas as pd
 
-from fbd_interpreter.config.load import configuration
+from fbd_interpreter.config.load import configuration, load_cfg_resource
+
+# TODO: import load_cf_ressources instead configuration
 from fbd_interpreter.logger import logger
 
+# TODO: déplacer data_loader ici
 
+# TODO: importer le load_cfg_resource, et utiliser la fonction
 def _parse_config():
+    # TODO: lit le bon fichier selon la varible d'env
     """
     Parse config from cfg file and return dictionnary with keys as config_params
 
@@ -24,8 +29,12 @@ def _parse_config():
     dico_params = {}
     # Get train data path as csv / parquet
     dico_params["train_data_path"] = configuration["DEV"]["train_data_path"]
+    # Get train data format to load the data
+    dico_params["train_data_format"] = configuration["DEV"]["train_data_format"]
     # Get test data path as csv / parquet
     dico_params["test_data_path"] = configuration["DEV"]["test_data_path"]
+    # Get test data format to load the data
+    dico_params["test_data_format"] = configuration["DEV"]["test_data_format"]
     # Get model path as pickle
     dico_params["model_path"] = configuration["DEV"]["model_path"]
     # Get features name as list
@@ -58,7 +67,8 @@ def _parse_config():
             missing_conf = True
     if missing_conf:
         raise KeyError(
-            "Missing configuration , please update conf file located in config/config_{type_env}.cfg by filling missing keys "
+            "Missing configuration , please update conf file located in config/config_{type_env}.cfg by "
+            "filling in missing keys "
         )
     return dico_params
 

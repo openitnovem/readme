@@ -1,6 +1,5 @@
 import os
 
-from fbd_interpreter.config.load import configuration
 from fbd_interpreter.logger import logger
 
 
@@ -32,6 +31,3 @@ def initialize_dir(out_path: str):
             os.path.join(out_path, "global_interpretation"),
         )
 
-
-output_path = configuration["DEV"]["output_path"]
-initialize_dir(output_path)

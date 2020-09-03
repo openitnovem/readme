@@ -5,6 +5,7 @@ import pandas as pd
 import shap
 
 from fbd_interpreter.config.load import configuration
+from fbd_interpreter.resource.output_builders import initialize_dir
 from fbd_interpreter.explainers.shap_kernel_explainer import ShapKernelExplainer
 from fbd_interpreter.explainers.shap_tree_explainer import ShapTreeExplainer
 from fbd_interpreter.icecream import icecream
@@ -22,13 +23,14 @@ class Interpreter:
 
     Attributes
     ----------
-    model : model
+    model : scikit-learn model or Pyspark model
         Model to compute predictions using provided data,
-        `model.predict(data)` must work
+        Any scikit-learn model, `model.predict(data)` must work
+        Note that you can also use a pyspark model if you are only using SHAP interpretation
     task_name : str
         Task name: choose from supported_tasks in config/config_{type_env}.cfg
-    tree_based_model : str
-        If "True", we use Tree SHAP algorithms to explain the output of ensemble tree models.
+    tree_based_model : bool
+        If True, we use Tree SHAP algorithms to explain the output of ensemble tree models.
     features_name : List[str]
         List of features names used to train the model
     features_to_interpret : List[str]
@@ -37,13 +39,17 @@ class Interpreter:
         name of target column
     out_path : str
         Output path used to save interpretability plots.
+
+    Returns
+    -------
+    None
     """
 
     def __init__(
         self,
         model: Any,
         task_name: str,
-        tree_based_model: str,
+        tree_based_model: bool,
         features_name: List[str],
         features_to_interpret: List[str],
         target_col: str,
@@ -59,6 +65,8 @@ class Interpreter:
         self.out_path = out_path
         self.out_path_global = os.path.join(out_path, "global_interpretation")
         self.out_path_local = os.path.join(out_path, "local_interpretation")
+        # Check if output_dir tree exists if not it will be created
+        initialize_dir(self.out_path)
 
     def global_pdp_ice(self, train_data: pd.DataFrame) -> None:
         """
@@ -69,6 +77,10 @@ class Interpreter:
         ----------
         train_data : pd.DataFrame
             Dataframe of model inputs, used to explain the model
+
+        Returns
+        -------
+        None
        """
         classif = True if self.task_name == "classification" else False
         logger.info("Computing PDP & ice")
@@ -110,6 +122,10 @@ class Interpreter:
         ----------
         train_data : pd.DataFrame
             Dataframe of model inputs, used to explain the model
+
+        Returns
+        -------
+        None
        """
         classif = True if self.task_name == "classification" else False
         logger.info("Computing ALE")
@@ -143,10 +159,13 @@ class Interpreter:
         train_data : pd.DataFrame
             Dataframe of model inputs, used to explain the model
 
-       """
+        Returns
+        -------
+        None
+        """
         classif = True if self.task_name == "classification" else False
         logger.info("Computing SHAP")
-        if self.tree_based_model == "True":
+        if self.tree_based_model:
             logger.info(
                 "You are using a tree based model, if it's not the case, please set tree_based_model to False in "
                 "config/config_{type_env}.cfg"
@@ -156,7 +175,7 @@ class Interpreter:
                 model=self.model, features_name=self.features_name,
             )
             shap_fig_1, shap_fig_2 = shap_exp.global_explainer(train_data)
-        elif self.tree_based_model == "False":
+        elif not self.tree_based_model:
             logger.info(
                 "You are using a non tree based model, if it's not the case, please set tree_based_model to True in "
                 "config/config_{type_env}.cfg"
@@ -195,9 +214,13 @@ class Interpreter:
         ----------
         test_data : pd.DataFrame
             Dataframe of model inputs, used to explain the model
-       """
+
+        Returns
+        -------
+        None
+        """
         classif = True if self.task_name == "classification" else False
-        if self.tree_based_model == "True":
+        if self.tree_based_model:
             logger.info(
                 "You are using a tree based model, if it's not the case, please set tree_based_model to False in "
                 "config/config_{type_env}.cfg"
@@ -207,7 +230,7 @@ class Interpreter:
                 model=self.model, features_name=self.features_name,
             )
 
-        elif self.tree_based_model == "False":
+        elif not self.tree_based_model:
             logger.info(
                 "You are using a non tree based model, if it's not the case, please set tree_based_model to True in "
                 "config/config_{type_env}.cfg"

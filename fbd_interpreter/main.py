@@ -3,7 +3,7 @@ from pprint import pformat
 
 import click
 
-from fbd_interpreter.data_factory.resource.data_loader import (
+from fbd_interpreter.resource.data_loader import (
     load_csv_resource,
     load_parquet_resource,
     load_pickle_resource,
@@ -49,7 +49,12 @@ def interept(
     use_shap: bool = True,
 ):
     """
-    Interpret locally, globally or both any ML model using PDP, ICE, ALE & SHAP
+    Interpret locally, globally or both any ML model using PDP, ICE, ALE & SHAP.
+    Before using this function, you must fill in the config file located in
+    config/config_{type_env}.cfg.
+    Note that to speed up computations, we apply the function `optimize` to reduce the pandas
+    dataframes memory usage, by downcasting the columns automatically to the smallest possible
+    datatype without losing any information.
 
     Parameters
     ----------
@@ -64,16 +69,21 @@ def interept(
         (the default is True)
     use_shap : bool, optional
         If True, computes SHAP plots. (the default is True)
+
+    Returns
+    -------
+    None
     """
     config_values = _parse_config()
     logger.info("Configuration settings :\n" + pformat(config_values))
     logger.info("Loading model")
     model = load_pickle_resource(config_values["model_path"])
+    tree_based_model = True if config_values["tree_based_model"] == "True" else False
 
     exp = Interpreter(
         model=model,
         task_name=config_values["task_name"],
-        tree_based_model=config_values["tree_based_model"],
+        tree_based_model=tree_based_model,
         features_name=config_values["features_name"].split(","),
         features_to_interpret=config_values["features_to_interpret"].split(","),
         target_col=config_values["target_col"],
@@ -82,16 +92,18 @@ def interept(
     if interpret_type == "global" or interpret_type == "mix":
         logger.info("Interpretability type : global")
         train_data_path = config_values["train_data_path"]
-        if train_data_path == "":
+        train_data_format = config_values["train_data_format"]
+        if train_data_path == "" or train_data_format == "":
             logger.error(
-                f"Configuration file requires train data path , but is missing "
+                f"Configuration file requires train data path and format, but is missing "
             )
             raise KeyError(
                 "Missing train data path, please update conf file located in config/config_{type_env}.cfg"
                 " by filling train_data_path "
             )
-        elif os.path.isdir(train_data_path):
+        elif train_data_format == "parquet":
             train_data = load_parquet_resource(train_data_path)
+
         else:
             train_data = load_csv_resource(train_data_path)
 

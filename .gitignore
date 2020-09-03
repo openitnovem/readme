@@ -13,8 +13,10 @@ build/
 .DS_Store
 meta_build.json
 .idea/
-fbd_interpreter/data_factory/inputs
+fbd_interpreter/data_factory/
 outputs/global_interpretation/
 outputs/local_interpretation/
-outputs/logs.txt
+outputs/logs.log
 doc/
+htmlcov/
+.coverage

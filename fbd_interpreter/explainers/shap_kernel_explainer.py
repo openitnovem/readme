@@ -15,7 +15,7 @@ class ShapKernelExplainer:
 
     Attributes
     ----------
-    model : model
+    model : scikit-learn model or Pyspark model
         Trained model to interpret
     features_name : List[str]
         List of features names used to train the model

@@ -17,5 +17,6 @@ def load_cfg_resource(
     return config
 
 
+# TODO: remove configuration and import load_cfg_ressources instead in utils
 config_ = load_cfg_resource(config, f"config_{env}.cfg")
 configuration: dict = {s: dict(config_.items(s)) for s in config_.sections()}
