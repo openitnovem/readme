@@ -30,4 +30,3 @@ def initialize_dir(out_path: str):
             "Directory created",
             os.path.join(out_path, "global_interpretation"),
         )
-

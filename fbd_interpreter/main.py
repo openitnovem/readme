@@ -3,13 +3,13 @@ from pprint import pformat
 
 import click
 
+from fbd_interpreter.explainers.core import Interpreter
+from fbd_interpreter.logger import logger
 from fbd_interpreter.resource.data_loader import (
     load_csv_resource,
     load_parquet_resource,
     load_pickle_resource,
 )
-from fbd_interpreter.explainers.core import Interpreter
-from fbd_interpreter.logger import logger
 from fbd_interpreter.utils import _parse_config, optimize
 
 
