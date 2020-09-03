@@ -20,14 +20,16 @@ def detect_axis_range(*args: Union[pd.Series, pd.DataFrame]) -> Optional[List[fl
     Determines axis range based on content of data.
     Returns [-0.05, 1.05] if data is contained in this interval, else None.
 
-    :Parameters:
-        - `args` (Union[pd.Series, pd.DataFrame])
-            Dataframes or series containing values shown on axis,
-            each arg should have an attribute `values` that returns a np.ndarray
+    Parameters
+    ----------
+    args : Union[pd.Series, pd.DataFrame]
+        Dataframes or series containing values shown on axis,
+        each arg should have an attribute `values` that returns a np.ndarray
 
-    :Return:
-        - `range` (Optional[List[float]])
-            Axis range values, None to let the graph library decide
+    Returns
+    -------
+    range : Optional[List[float]]
+        Axis range values, None to let the graph library decide
     """
     # prevent problems if data is not numerical
     try:
@@ -57,21 +59,23 @@ def plotly_background_bars(
     representation of the feature.
     Wrapper around go.Bar with sane defaults with present usage.
 
-    :Parameters:
-        - `feature` (FeatureDiscretizer)
-            Discretized representation of the feature
-        - `opacity` (float)
-            Opacity of the bars
-        - `marker` (Dict[str, Any] = dict(size=10, line=dict(width=1)))
-            Plotly option: marker definition
-        - `name` (str = "output")
-            Plotly option: Name given to the trace
-        - `hbar` (bool = False)
-            Option to plot bars horizontally
+    Parameters
+    ----------
+    feature : FeatureDiscretizer
+        Discretized representation of the feature
+    opacity : float
+        Opacity of the bars
+    marker : Dict[str, Any], optional
+        Plotly option: marker definition (the default is dict(size=10, line=dict(width=1)))
+    name : str, optional
+        Plotly option: Name given to the trace (the default is "output")
+    hbar : bool, optional
+        Option to plot bars horizontally (the default is False)
 
-    :Return:
-        - `bar` (go.Bar)
-            Bar plot representing the distribution of values of feature
+    Returns
+    -------
+    bar : go.Bar
+        Bar plot representing the distribution of values of feature
     """
     if hbar:
         return go.Bar(
@@ -109,25 +113,28 @@ def plotly_line(
     Generates a line plot with Plotly to show outputs for discretized feature.
     Wrapper around go.Scatter with sane defaults with present usage.
 
-    :Parameters:
-        - `feature` (FeatureDiscretizer)
-            Discretized representation of the feature, used for x values
-        - `outputs` (pd.Series)
-            Y values
-        - `mode` (str = "lines+markers")
-            Plotly option: line plot mode
-        - `marker` (Dict[str, Any] = dict(size=10, line=dict(width=1)))
-            Plotly option: marker definition
-        - `line` (Optional[Dict[str, Any]] = None)
-            Plotly option: line definition, mainly useful if mode="lines"
-        - `name` (str = "output")
-            Plotly option: Name given to the trace
-        - `showlegend` (bool = True)
-            Plotly option: Option to show name in legend or not
+    Parameters
+    ----------
+    feature : FeatureDiscretizer
+        Discretized representation of the feature, used for x values
+    outputs : pd.Series
+        Y values
+    mode : str, optional
+        Plotly option: line plot mode (the default is "lines+markers")
+    marker : Dict[str, Any], optional
+        Plotly option: marker definition (the default is dict(size=10, line=dict(width=1)))
+    line : Dict[str, Any], optional None
+        Plotly option: line definition, mainly useful if mode="lines"
+        (the default is None)
+    name : str, optional
+        Plotly option: Name given to the trace (the default is "output")
+    showlegend : bool, optional
+        Plotly option: Option to show name in legend or not (the default is True)
 
-    :Return:
-        - `line` (go.Scatter)
-            Line plot representing the output values
+    Returns
+    -------
+    line : go.Scatter
+        Line plot representing the output values
     """
     return go.Scatter(
         x=feature.centers,
@@ -147,17 +154,19 @@ def plotly_boxes(
     Generates boxes with Plotly using 2D dataframe.
     Uses dataframe columns as x values for boxes, and rows generate the boxes.
 
-    :Parameters:
-        - `outputs` (pd.Series)
-            Dataframe where columns are bins of discretized feature,
-            rows are predictions
-        - `name` (str = "output")
-            Name given to the boxes in the legend
+    Parameters
+    ----------
+    outputs : pd.Series
+        Dataframe where columns are bins of discretized feature,
+        rows are predictions
+    name : str, optional
+        Name given to the boxes in the legend (the default is "output")
 
-    :Return:
-        - `boxes` (go.Box)
-            Boxes plot representing the distribution of values
-            of rows of outputs for each column of outputs
+    Returns
+    -------
+    boxes : go.Box
+        Boxes plot representing the distribution of values
+        of rows of outputs for each column of outputs
     """
     melted = outputs.melt()
     return go.Box(x=melted.variable, y=melted.value, marker=marker, name=name)
@@ -173,21 +182,23 @@ def plotly_partial_dependency(
     """
     Generates a Partial Dependency Plot for given feature, predictions and targets.
 
-    :Parameters:
-        - `feature` (FeatureDiscretizer)
-            Discretized representation of the feature, used for x values
-        - `agg_predictions` (Optional[pd.Series])
-            Aggregated predictions for feature, used for y values
-        - `agg_targets` (Optional[pd.Series])
-            Aggregated values of targets, used for y values
-        - `aggfunc` (str = "")
-            Name of aggregation function for legend
-        - `use_ale` (bool = False)
-            True if use ale else False
+    Parameters
+    ----------
+    feature : FeatureDiscretizer
+        Discretized representation of the feature, used for x values
+    agg_predictions : Optional[pd.Series])
+        Aggregated predictions for feature, used for y values
+    agg_targets : Optional[pd.Series]
+        Aggregated values of targets, used for y values
+    aggfunc : str = ""
+        Name of aggregation function for legend
+    use_ale : bool, optional
+        True if use ale else False (the default is False)
 
-    :Return:
-        - `figure` (go.FigureWidget)
-            Full partial dependency plot
+    Returns
+    -------
+    figure : go.FigureWidget
+        Full partial dependency plot
     """
     data = [plotly_background_bars(feature)]
     if use_ale:
@@ -253,19 +264,21 @@ def plotly_ice_box(
     """
     Generates an ICE Box Plot with Plotly for given feature, predictions and targets.
 
-    :Parameters:
-        - `feature` (FeatureDiscretizer)
-            Discretized representation of the feature, used for x values
-        - `predictions` (pd.DataFrame)
-            Dataframe of predictions for feature, columns must be bins of `feature`
-        - `agg_targets` (pd.Series)
-            Aggregated values of targets, used for y values
-        - `aggfunc` (str = "")
-            Name of aggregation function for legend
+    Parameters
+    ----------
+    feature : FeatureDiscretizer
+        Discretized representation of the feature, used for x values
+    predictions : pd.DataFrame
+        Dataframe of predictions for feature, columns must be bins of `feature`
+    agg_targets : pd.Series
+        Aggregated values of targets, used for y values
+    aggfunc : str = ""
+        Name of aggregation function for legend
 
-    :Return:
-        - `figure` (go.FigureWidget)
-            Full ICE Box plot
+    Returns
+    -------
+    figure : go.FigureWidget
+        Full ICE Box plot
     """
     data = [plotly_background_bars(feature)]
 
@@ -319,25 +332,27 @@ def plotly_ice_lines(
     Operates a sampling or clustering on predictions to draw a limited number
     of lines.
 
-    :Parameters:
-        - `feature` (FeatureDiscretizer)
-            Discretized representation of the feature, used for x values
-        - `samples` (pd.DataFrame)
-            Quantiles limits as a dataframe of shape (len(data), nb_rows)
-        - `counts` (np.ndarray)
-            Number of examples in each cluster, array of shape (nb_rows)
-        - `names` (List[str])
-            Description of each row of samples
-        - `colors` (List[str])
-            Colors for plotting each row of samples
-        - `agg_targets` (pd.Series)
-            Aggregated values of targets, used for y values
-        - `aggfunc` (str = "")
-            Name of aggregation function for legend
+    Parameters
+    ----------
+    feature : FeatureDiscretizer
+        Discretized representation of the feature, used for x values
+    samples : pd.DataFrame
+        Quantiles limits as a dataframe of shape (len(data), nb_rows)
+    counts : np.ndarray
+        Number of examples in each cluster, array of shape (nb_rows)
+    names : List[str]
+        Description of each row of samples
+    colors : List[str]
+        Colors for plotting each row of samples
+    agg_targets : pd.Series
+        Aggregated values of targets, used for y values
+    aggfunc : str = ""
+        Name of aggregation function for legend
 
-    :Return:
-        - `figure` (go.FigureWidget)
-            Full ICE plot
+    Returns
+    -------
+    figure : go.FigureWidget
+        Full ICE plot
     """
     data = [plotly_background_bars(feature)]
 
@@ -393,21 +408,23 @@ def plotly_partial_dependency_2d_scatter(
     Generates a heatmap + scatter with Plotly for given features, counts and values.
     Heatmap represent predictions or target values, scatter represent histogram.
 
-    :Parameters:
-        - `feature_x` (FeatureDiscretizer)
-            Discretized representation of the feature, used for x values
-        - `feature_y` (FeatureDiscretizer)
-            Discretized representation of the feature, used for y values
-        - `counts` (pd.DataFrame)
-            Pivot table of number of examples in each bin of features
-        - `values` (pd.DataFrame)
-            Pivot table of output values (predictions or targets) for each bin of features
-        - `name` (str = "output")
-            Plotly option: Name given to the trace
+    Parameters
+    ----------
+    feature_x : FeatureDiscretizer
+        Discretized representation of the feature, used for x values
+    feature_y : FeatureDiscretizer
+        Discretized representation of the feature, used for y values
+    counts : pd.DataFrame
+        Pivot table of number of examples in each bin of features
+    values : pd.DataFrame
+        Pivot table of output values (predictions or targets) for each bin of features
+    name : str
+        Plotly option: Name given to the trace (the default is "output")
 
-    :Return:
-        - `figure` (go.FigureWidget)
-            Full heatmap + scatter plot
+    Returns
+    -------
+    figure : go.FigureWidget
+        Full heatmap + scatter plot
     """
     zaxis_range = detect_axis_range(values)
     zmin = None
@@ -467,21 +484,23 @@ def plotly_partial_dependency_2d_hist(
     Generates a heatmap + 2 histograms with Plotly for given features and values.
     Heatmap represent predictions or target values.
 
-    :Parameters:
-        - `feature_x` (FeatureDiscretizer)
-            Discretized representation of the feature, used for x values
-        - `feature_y` (FeatureDiscretizer)
-            Discretized representation of the feature, used for y values
-        - `counts` (pd.DataFrame)
-            Pivot table of number of examples in each bin of features
-        - `values` (pd.DataFrame)
-            Pivot table of output values (predictions or targets) for each bin of features
-        - `name` (str = "output")
-            Plotly option: Name given to the trace
+    Parameters
+    ----------
+    feature_x : FeatureDiscretizer
+        Discretized representation of the feature, used for x values
+    feature_y : FeatureDiscretizer
+        Discretized representation of the feature, used for y values
+    counts : pd.DataFrame
+        Pivot table of number of examples in each bin of features
+    values : pd.DataFrame
+        Pivot table of output values (predictions or targets) for each bin of features
+    name : str
+        Plotly option: Name given to the trace (the default is "output")
 
-    :Return:
-        - `figure` (go.FigureWidget)
-            Full heatmap + hists plot
+    Returns
+    -------
+    figure : go.FigureWidget
+        Full heatmap + hists plot
     """
     zaxis_range = detect_axis_range(values)
     zmin = None

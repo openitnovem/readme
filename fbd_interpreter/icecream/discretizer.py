@@ -21,37 +21,38 @@ class FeatureDiscretizer(object):
     - If feature is continuous, creates bins.
     - If feature is categorical, uses feature values as discret bins.
 
-    :Parameters:
-        - `series` (pd.Series)
-            Series of values of feature to discretize
-        - `bins` (Union[Sized, int, None] = None)
-            Bins definition:
+    Parameters
+    ----------
+    series : pd.Series
+        Series of values of feature to discretize
+    bins : Union[Sized, int, None]
+        Bins definition:
+        - integer for number of bins (0 if feature is categorical)
+        - None to let the module decide using series values
+        - Sized to define specific bins
+        (the default is None)
+    clip_quantile : float
+        Quantile to clip the feature values for continuous features,
+        set to 0 to disable clipping (the default is 0.0)
+    quantile_based : bool
+        Option to use a quantile-based discretization function for
+        continuous features (instead of a linear discretization),
+        False by default
 
-            - integer for number of bins (0 if feature is categorical)
-            - None to let the module decide using series values
-            - Sized to define specific bins
-
-        - `clip_quantile` (float = 0.0)
-            Quantile to clip the feature values for continuous features,
-            set to 0 to disable clipping
-        - `quantile_based` (bool = False)
-            Option to use a quantile-based discretization function for
-            continuous features (instead of a linear discretization),
-            False by default
-
-    :Attributes:
-        - `name` (str)
-            Name of the discretized feature
-        - `centers` (pd.Index)
-            Centers of the discrete bins
-            (equals to ordered values if feature is categorical)
-        - `widths` (Optional[pd.Float64Index])
-            Widths of the bins (None if feature is categorical)
-        - `counts` (pd.Series)
-            Number of exemples from series for each bin
-            (height of the histogram/bar plot)
-        - `categorical_feature` (pd.Categorical)
-            Categorical view of the discretized feature
+    Attributes
+    ----------
+    name: str
+        Name of the discretized feature
+    centers : pd.Index
+        Centers of the discrete bins
+        (equals to ordered values if feature is categorical)
+    widths : Optional[pd.Float64Index]
+        Widths of the bins (None if feature is categorical)
+    counts : pd.Series
+        Number of exemples from series for each bin
+        (height of the histogram/bar plot)
+    categorical_feature : pd.Categorical
+        Categorical view of the discretized feature
     """
 
     def __init__(
@@ -104,26 +105,27 @@ class FeatureDiscretizer(object):
         Discretizes series and returns categorical view of the series and precise
         bin boundaries.
 
-        :Parameters:
-            - `series` (pd.Series)
-                Series of values
-            - `bins` (Union[Sized, int, None] = None)
-                Bins definition:
+        Parameters
+        ----------
+        series : pd.Series
+            Series of values
+        bins : Union[Sized, int, None]
+            Bins definition:
+            - integer for number of bins (0 if feature is categorical)
+            - None to let the module decide using series values
+            - Sized to define specific bins
+            (the default is None)
+        quantile_based : bool
+            Option to use a quantile-based discretization function for
+            continuous features (instead of a linear discretization),
+            False by default
 
-                - integer for number of bins (0 if feature is categorical)
-                - None to let the module decide using series values
-                - Sized to define specific bins
-
-            - `quantile_based` (bool = False)
-                Option to use a quantile-based discretization function for
-                continuous features (instead of a linear discretization),
-                False by default
-
-        :Return:
-            - `categorical_feature` (pd.Series)
-                Categorical view of the discretized feature
-            - `ret_bins` (np.ndarray)
-                Bin boundaries
+        Returns
+        -------
+        categorical_feature : pd.Series
+            Categorical view of the discretized feature
+        ret_bins : np.ndarray
+            Bin boundaries
         """
         if quantile_based:
             categorical_feature, ret_bins = pd.qcut(
@@ -152,13 +154,15 @@ class FeatureDiscretizer(object):
             - number of unique values of series is below N and below X percent of
               series length
 
-        :Parameters:
-            - `series` (pd.Series)
-                Series of values of feature to discretize
+        Parameters
+        ----------
+        series : pd.Series
+            Series of values of feature to discretize
 
-        :Return:
-            - `bins` (int)
-                Number of bins
+        Returns
+        -------
+        bins : int
+            Number of bins
         """
         if (
             pd.api.types.is_categorical_dtype(series)
@@ -180,15 +184,17 @@ class FeatureDiscretizer(object):
         """
         Clip extreme values of series using quantiles values as boundaries.
 
-        :Parameters:
-            - `series` (pd.Series)
-                Series of values
-            - `clip_quantile` (float)
-                Value of lower quantile to clip,
-                will be used for upper quantile too (upper = 1 - lower)
+        Parameters
+        ----------
+        series : pd.Series
+            Series of values
+        clip_quantile : float
+            Value of lower quantile to clip,
+            will be used for upper quantile too (upper = 1 - lower)
 
-        :Return:
-            - `series` (pd.Series)
+        Returns
+        -------
+            series : pd.Series
                 Series of clipped values
         """
         check_clip_quantile(clip_quantile)
