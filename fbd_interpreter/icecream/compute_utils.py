@@ -20,16 +20,16 @@ def guess_model_predict_function(model: Any, use_classif_proba: bool) -> Callabl
     Multi-class classification not implemented yet.
     Parameters
     ----------
-    interpret_type : str, optional
     model : scikit-learn model
         Model to compute predictions, `model.predict()` must work
     use_classif_proba : bool
         If True, use `predict_proba` for positive class as model output,
         only used if model is a classifier
 
-    :Return:
-        - `function` (Callable)
-            Prediction method for direct use on data
+    Returns
+    -------
+    function : Callable
+        Prediction method for direct use on data
     """
     if hasattr(model, "classes_"):
         if len(model.classes_) > 2:
@@ -51,23 +51,25 @@ def compute_ale_agg_results(
     Computes ale : difference in the prediction when we replace the discretized feature
     with the upper and lower limit of the bins. We only replace observations within the bins.
 
-    :Parameters:
-        - `data` (pd.DataFrame)
-            Dataframe of model inputs
-        - `feature` (FeatureDiscretizer)
-            Discretized representation of the feature
-        - `predict_function` (Callable)
-            Function to compute predictions `predict_function(data)` must work
+    Parameters
+    ----------
+    data : pd.DataFrame
+        Dataframe of model inputs
+    feature : FeatureDiscretizer
+        Discretized representation of the feature
+    predict_function : Callable
+        Function to compute predictions `predict_function(data)` must work
 
-    :Return:
-        - `predictions` (pd.DataFrame)
-            Dataframe of results:
-            - rows are the same as in `data`
-            - columns are bins of `feature`
-        - 'agg_predictions' [pd.DataFrame]
-            DataFrame of agg results:
-            - rows are mean agg
-            -columns are bins of 'feature'
+    Returns
+    -------
+    predictions : pd.DataFrame
+        Dataframe of results:
+        - rows are the same as in `data`
+        - columns are bins of `feature`
+    agg_predictions : [pd.DataFrame]
+        DataFrame of agg results:
+        - rows are mean agg
+        -columns are bins of 'feature'
     """
 
     comb = []
@@ -98,19 +100,21 @@ def compute_ice_model_predictions(
     """
     Computes predictions on full data for each possible value of discretized feature.
 
-    :Parameters:
-        - `data` (pd.DataFrame)
-            Dataframe of model inputs
-        - `feature` (FeatureDiscretizer)
-            Discretized representation of the feature
-        - `predict_function` (Callable)
-            Function to compute predictions `predict_function(data)` must work
+    Parameters
+    ----------
+    data : pd.DataFrame
+        Dataframe of model inputs
+    feature : FeatureDiscretizer
+        Discretized representation of the feature
+    predict_function : Callable
+        Function to compute predictions `predict_function(data)` must work
 
-    :Return:
-        - `predictions` (pd.DataFrame)
-            Dataframe of results:
-            - rows are the same as in `data`
-            - columns are bins of `feature`
+    Returns
+    -------
+    predictions : pd.DataFrame
+        Dataframe of results:
+        - rows are the same as in `data`
+        - columns are bins of `feature`
     """
     return pd.DataFrame(
         [
@@ -127,17 +131,19 @@ def aggregate_series(
     """
     Aggregates series according to discretized feature, returns a series of aggregated values.
 
-    :Parameters:
-        - `feature` (FeatureDiscretizer)
-            Discretized representation of the feature
-        - `series` (pd.Series, optional)
-            Series containing target values
-        - `aggfunc` (Union[str, Callable])
-            Aggregation function
+    Parameters
+    ----------
+    feature : FeatureDiscretizer
+        Discretized representation of the feature
+    series : pd.Series, optional
+        Series containing target values
+    aggfunc : Union[str, Callable]
+        Aggregation function
 
-    :Return:
-        - `agg_targets` (pd.Series)
-            Aggregated target values, indices are bins of `feature`
+    Returns
+    -------
+    agg_targets : pd.Series
+        Aggregated target values, indices are bins of `feature`
     """
     return series.groupby(feature.categorical_feature).agg(aggfunc)
 
@@ -152,21 +158,23 @@ def compute_model_ale_results_2D(
     Computes and aggregates predictions on full data for each possible value of
     discretized features.
 
-    :Parameters:
-        - `data` (pd.DataFrame)
-            Dataframe of model inputs
-        - `feature_x` (FeatureDiscretizer)
-            Discretized representation of the x feature (will be used for table columns)
-        - `feature_y` (FeatureDiscretizer)
-            Discretized representation of the y feature (will be used for table index)
-        - `predict_function` (Callable)
-            Function to compute predictions `predict_function(data)` must work
+    Parameters
+    ----------
+    data : pd.DataFrame
+        Dataframe of model inputs
+    feature_x : FeatureDiscretizer
+        Discretized representation of the x feature (will be used for table columns)
+    feature_y : FeatureDiscretizer
+        Discretized representation of the y feature (will be used for table index)
+    predict_function : Callable
+        Function to compute predictions `predict_function(data)` must work
 
-    :Return:
-        - `predictions` (pd.DataFrame)
-            Dataframe of aggregated predictions:
-            - rows are bins of feature y
-            - columns are bins of feature x
+    Returns
+    -------
+    predictions : pd.DataFrame
+        Dataframe of aggregated predictions:
+        - rows are bins of feature y
+        - columns are bins of feature x
     """
     comb_y = []
 
@@ -248,20 +256,22 @@ def compute_ice_model_results_2D(
     Computes and aggregates predictions on full data for each possible value of
     discretized features.
 
-    :Parameters:
-        - `data` (pd.DataFrame)
-            Dataframe of model inputs
-        - `feature_x` (FeatureDiscretizer)
-            Discretized representation of the x feature (will be used for table columns)
-        - `feature_y` (FeatureDiscretizer)
-            Discretized representation of the y feature (will be used for table index)
-        - `predict_function` (Callable)
-            Function to compute predictions `predict_function(data)` must work
-        - `aggfunc` (Union[str, Callable])
-            Aggregation function
+    Parameters
+    ----------
+    data : pd.DataFrame
+        Dataframe of model inputs
+    feature_x : FeatureDiscretizer
+        Discretized representation of the x feature (will be used for table columns)
+    feature_y : FeatureDiscretizer
+        Discretized representation of the y feature (will be used for table index)
+    predict_function : Callable
+        Function to compute predictions `predict_function(data)` must work
+    aggfunc : Union[str, Callable]
+        Aggregation function
 
-    :Return:
-        - `predictions` (pd.DataFrame)
+    Returns
+    -------
+        predictions : pd.DataFrame
             Dataframe of aggregated predictions:
             - rows are bins of feature y
             - columns are bins of feature x
@@ -302,25 +312,27 @@ def pivot_dataframe(
     """
     Wrapper around pandas pivot_table for use with discretized features.
 
-    :Parameters:
-        - `data` (pd.DataFrame)
-            Dataframe to pivot
-        - `values_name` (str)
-            Name of the column of data to aggregate
-        - `feature_x` (FeatureDiscretizer)
-            Discretized representation of the x feature (will be used for table columns)
-        - `feature_y` (FeatureDiscretizer)
-            Discretized representation of the y feature (will be used for table index)
-        - `aggfunc` (Union[str, Callable])
-            Aggregation function
-        - `fill_value` (Any = None)
-            Value used to fill NaN values
+    Parameters
+    ----------
+    data : pd.DataFrame
+        Dataframe to pivot
+    values_name : str
+        Name of the column of data to aggregate
+    feature_x : FeatureDiscretizer
+        Discretized representation of the x feature (will be used for table columns)
+    feature_y : FeatureDiscretizer
+        Discretized representation of the y feature (will be used for table index)
+    aggfunc : Union[str, Callable]
+        Aggregation function
+    fill_value : Any
+        Value used to fill NaN values
 
-    :Return:
-        - `predictions` (pd.DataFrame)
-            Pivot table of aggregated values:
-            - rows are bins of feature y
-            - columns are bins of feature x
+    Returns
+    -------
+    predictions : pd.DataFrame
+        Pivot table of aggregated values:
+        - rows are bins of feature y
+        - columns are bins of feature x
     """
     return pd.pivot_table(
         data,
@@ -339,17 +351,19 @@ def generate_fake_data(
     """
     Returns full dataframe except studied feature takes a constant given value.
 
-    :Parameters:
-        - `data` (pd.DataFrame)
-            Input dataframe
-        - `feature_name` (str)
-            Name of column in `data` to change
-        - `value` (Any)
-            Constant value to give to column
+    Parameters
+    ----------
+    data : pd.DataFrame
+        Input dataframe
+    feature_name : str
+        Name of column in `data` to change
+    value : Any
+        Constant value to give to column
 
-    :Return:
-        - `data` (pd.DataFrame)
-            Fake data with constant column
+    Returns
+    -------
+    data : pd.DataFrame
+        Fake data with constant column
     """
     return data.assign(**{feature_name: value})
 
@@ -362,21 +376,23 @@ def sample_kmeans(
     Returns cluster centers, number of examples in each cluster,
     and names and colors convenient for ice plots.
 
-    :Parameters:
-        - `data` (pd.DataFrame)
-            Input dataframe
-        - `nb_rows` (int)
-            Number of rows to return (number of clusters)
+    Parameters
+    ----------
+    data : pd.DataFrame
+        Input dataframe
+    nb_rows : int
+        Number of rows to return (number of clusters)
 
-    :Return:
-        - `samples` (pd.DataFrame)
-            Cluster centers as a dataframe of shape (len(data), nb_rows)
-        - `counts` (np.ndarray)
-            Number of examples in each cluster, array of shape (nb_rows)
-        - `names` (List[str])
-            Description of each row of samples
-        - `colors` (List[str])
-            Colors for plotting each row of samples
+    Returns
+    -------
+    samples : pd.DataFrame
+        Cluster centers as a dataframe of shape (len(data), nb_rows)
+    counts : np.ndarray
+        Number of examples in each cluster, array of shape (nb_rows)
+    names : List[str]
+        Description of each row of samples
+    colors : List[str]
+        Colors for plotting each row of samples
     """
     km = KMeans(
         n_clusters=nb_rows,
@@ -402,21 +418,23 @@ def sample_quantiles(
     and names and colors convenient for ice plots.
     Specific (fake) count and color for median line.
 
-    :Parameters:
-        - `data` (pd.DataFrame)
-            Innut dataframe
-        - `nb_rows` (int)
-            Number of rows to return
+    Parameters
+    ----------
+    data : pd.DataFrame
+        Innut dataframe
+    nb_rows : int
+        Number of rows to return
 
-    :Return:
-        - `samples` (pd.DataFrame)
-            Quantiles limits as a dataframe of shape (len(data), nb_rows)
-        - `counts` (np.ndarray)
-            Number of examples in each cluster, array of shape (nb_rows)
-        - `names` (List[str])
-            Description of each row of samples
-        - `colors` (List[str])
-            Colors for plotting each row of samples
+    Returns
+    -------
+    samples : pd.DataFrame
+        Quantiles limits as a dataframe of shape (len(data), nb_rows)
+    counts : np.ndarray
+        Number of examples in each cluster, array of shape (nb_rows)
+    names : List[str]
+        Description of each row of samples
+    colors : List[str]
+        Colors for plotting each row of samples
     """
     quantiles = [i / (nb_rows - 1) for i in range(nb_rows)]
     samples = data.apply(
