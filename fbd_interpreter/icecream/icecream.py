@@ -40,60 +40,61 @@ class IceCream(object):
     Class that generates and contains predictions and aggregations used to
     draw PDPlots, ICE plots and ALE plots.
 
-    :Parameters:
-        - `data` (pd.DataFrame)
-            Dataframe of model inputs
-        - `feature_names` (List[str])
-            List of names of columns from data to discretize and analyse
-        - `bins` (Union[Dict[str, Union[int, Sized, None]], int] = {})
-            Bin definitions for features:
+    Parameters
+    ----------
+    data : pd.DataFrame
+        Dataframe of model inputs
+    feature_names : List[str]
+        List of names of columns from data to discretize and analyse
+    bins : Union[Dict[str, Union[int, Sized, None]], int] = {}
+        Bin definitions for features:
+        - None -> all bin definitions are guessed by module
+        - integer -> value is used as number of bins for all features
+        - dict -> keys are features names, values are:
 
-            - None -> all bin definitions are guessed by module
-            - integer -> value is used as number of bins for all features
-            - dict -> keys are features names, values are:
+            - integers for number of bins (0 for categorical features)
+            - None to let the module decide
+            - Sized to define specific bins
 
-                - integers for number of bins (0 for categorical features)
-                - None to let the module decide
-                - Sized to define specific bins
+        Empty dict by default (which means all bins will be guessed)
 
-            Empty dict by default (which means all bins will be guessed)
+    use_ale : bool, optional
+        If True, computes ALE: Accumulated Local Effects.
+        Can only be used for numerical features. (the Default is False)
+    model : scikit-learn model, optional
+        Model to compute predictions using provided data,
+        `model.predict(data)` must work
+    predictions : Optional[Sized]
+        Series containing predictions for rows in data,
+        used if no model can be given
+    targets : Optional[Sized]
+        Series containing targets for rows in data
+    aggfunc : str, optional
+        Aggregation function for targets and predictions aggregation (the default is "mean")
+    use_classif_proba : bool, optional
+        If True, use prediction probability as model output,
+        only used if model is a classifier. (the default is True)
+    clip_quantile : float, optional
+        Quantile to clip the feature values for continuous features,
+        set to 0 to disable clipping (the default is 0.0)
+    quantile_based : bool, optional
+        Option to use a quantile-based discretization function for
+        continuous features (instead of a linear discretization),  (the default is False)
 
-        - 'use_ale' (bool = False)
-            If True, computes ALE: Accumulated Local Effects.
-            Can only be used for numerical features.
-        - `model` (scikit-learn model, optional)
-            Model to compute predictions using provided data,
-            `model.predict(data)` must work
-        - `predictions` (Optional[Sized])
-            Series containing predictions for rows in data,
-            used if no model can be given
-        - `targets` (Optional[Sized])
-            Series containing targets for rows in data
-        - `aggfunc` (str = "mean")
-            Aggregation function for targets and predictions aggregation
-        - `use_classif_proba` (bool = True)
-            If True, use prediction probability as model output,
-            only used if model is a classifier
-        - `clip_quantile` (float = 0.0)
-            Quantile to clip the feature values for continuous features,
-            set to 0 to disable clipping
-        - `quantile_based` (bool = False)
-            Option to use a quantile-based discretization function for
-            continuous features (instead of a linear discretization),
-
-    :Attributes:
-        - `features` (List[FeatureDiscretizer])
-            Discretized representations of the studied features
-        - `predictions` (Dict[str, pd.DataFrame])
-            Dictionary of predictions, keys are feature names, values are
-            dataframes of predictions for each bin
-        - `agg_predictions` (Dict[str, pd.Series])
-            Dictionary of aggregated predictions values, keys are feature names
-        - `agg_targets` (Dict[str, pd.Series])
-            Dictionary of aggregated target values, keys are feature names
-        - `samples` (Dict[str, pd.DataFrame])
-            Dict of dataframes of computed predictions samples/clusters
-            if ice line plot is drawn. Not filled until `draw` method is called.
+    Attributes
+    ----------
+    features : List[FeatureDiscretizer]
+        Discretized representations of the studied features
+    predictions : Dict[str, pd.DataFrame]
+        Dictionary of predictions, keys are feature names, values are
+        dataframes of predictions for each bin
+    agg_predictions : Dict[str, pd.Series]
+        Dictionary of aggregated predictions values, keys are feature names
+    agg_targets : Dict[str, pd.Series]
+        Dictionary of aggregated target values, keys are feature names
+    - samples : Dict[str, pd.DataFrame]
+        Dict of dataframes of computed predictions samples/clusters
+        if ice line plot is drawn. Not filled until `draw` method is called.
     """
 
     def __init__(
@@ -210,34 +211,36 @@ class IceCream(object):
         """
         Builds plots, optionally shows them in current notebook and save them in HTML format.
 
-        :Parameters:
-            - `kind` (str = "pdp")
-                Kind of plot to draw, possibilities are:
+        Parameters
+        ----------
+        kind : str, optional
+            Kind of plot to draw, possibilities are:
+            - "pdp": draws a Partial Dependency Plot
+            - "box": draws a box plot of predictions for each bin of features
+            - "ice": draws a Individual Conditional Expectation plot
+            - "ale": draws an Accumulated Local Effects plot
+            (the default is "pdp")
 
-                - "pdp": draws a Partial Dependency Plot
-                - "box": draws a box plot of predictions for each bin of features
-                - "ice": draws a Individual Conditional Expectation plot
-                - "ale": draws an Accumulated Local Effects plot
+        show : bool, optional
+            Option to show the plots in notebook (the default is True)
+        save_path : Optional[str]
+            Path to directory to save the plots,
+            directory is created if it does not exist
+        ice_nb_lines : int, optional
+            Number of lines to draw if kind="ice" (the default is 15)
+        ice_clustering_method : str, optional
+            Sampling or clustering method to compute the best lines to draw if kind="ice",
+            available methods:
+            - "kmeans": automatic clustering using KMeans to get representative lines
+            - "quantiles": division of predictions in quantiles to get lines
+            - "random": random selection of rows among predictions
+            (the default is "quantiles")
 
-            - `show` (bool = True)
-                Option to show the plots in notebook
-            - `save_path` (Optional[str] = None)
-                Path to directory to save the plots,
-                directory is created if it does not exist
-            - `ice_nb_lines` (int = 15)
-                Number of lines to draw if kind="ice"
-            - `ice_clustering_method` (str = "quantiles")
-                Sampling or clustering method to compute the best lines to draw if kind="ice",
-                available methods:
-
-                - "kmeans": automatic clustering using KMeans to get representative lines
-                - "quantiles": division of predictions in quantiles to get lines
-                - "random": random selection of rows among predictions
-
-        :Return:
-            - `figures` (Dict[str, go.FigureWidget])
-                Dictionary of generated plots,
-                keys are feature names, values are Plotly objects
+        Returns
+        -------
+        figures : Dict[str, go.FigureWidget]
+            Dictionary of generated plots,
+            keys are feature names, values are Plotly objects
         """
         check_input_in_list(kind, ["pdp", "box", "ice", "ale"])
         check_input_in_list(ice_clustering_method, ["kmeans", "quantiles", "random"])
@@ -270,10 +273,11 @@ class IceCream(object):
         """
         Returns a dict of N Plotly line plots for the N features contained in instance.
 
-        :Return:
-            - `figures` (Dict[str, go.FigureWidget])
-                Dictionary of generated plots,
-                keys are feature names, values are Plotly objects
+        Returns
+        -------
+        figures : Dict[str, go.FigureWidget]
+            Dictionary of generated plots,
+            keys are feature names, values are Plotly objects
         """
         if not self.predictions and self.agg_predictions and not self.use_ale:
             warnings.warn(
@@ -296,10 +300,11 @@ class IceCream(object):
         """
         Returns a dict of N Plotly ICE Box plots for the N features in instance.
 
-        :Return:
-            - `figures` (Dict[str, go.FigureWidget])
-                Dictionary of generated plots,
-                keys are feature names, values are Plotly objects
+        Returns
+        -------
+        figures : Dict[str, go.FigureWidget]
+            Dictionary of generated plots,
+            keys are feature names, values are Plotly objects
         """
         if not self.predictions and self.agg_predictions:
             warnings.warn(
@@ -322,10 +327,11 @@ class IceCream(object):
         """
         Returns a dict of N Plotly ICE plots for the N features in instance.
 
-        :Return:
-            - `figures` (Dict[str, go.FigureWidget])
-                Dictionary of generated plots,
-                keys are feature names, values are Plotly objects
+        Returns
+        -------
+        figures : Dict[str, go.FigureWidget]
+            Dictionary of generated plots,
+            keys are feature names, values are Plotly objects
         """
         if not self.predictions and self.agg_predictions:
             warnings.warn(
@@ -378,60 +384,63 @@ class IceCream2D(object):
     Class that generates and contains predictions and aggregations used to
     draw 2D interaction plots (partial dependencies or ALE heatmaps).
 
-    :Parameters:
-        - `data` (pd.DataFrame)
-            Dataframe of model inputs
-        - `feature_x` (str)
-            Name of column from data to discretize for x axis
-        - `feature_y` (str)
-            Name of column from data to discretize for y axis
-        - `bins_x` (Optional[Union[int, Sized]])
-            Bin definition for feature_x
+    Parameters
+    ----------
+    data : pd.DataFrame
+        Dataframe of model inputs
+    feature_x : str
+        Name of column from data to discretize for x axis
+    feature_y : str
+        Name of column from data to discretize for y axis
+    bins_x : Optional[Union[int, Sized]]
+        Bin definition for feature_x
+        - None -> bin definition is guessed by module
+        - integer -> value is used as number of bins for all features
+        - Sized -> define specific bins
+    bins_y : Optional[Union[int, Sized]]
+        Bin definition for feature_y
+        - None -> bin definition is guessed by module
+        - integer -> value is used as number of bins for all features
+        - Sized -> define specific bins
+    use_ale : bool, optional
+        If True, computes ALE: Accumulated Local Effects.
+        Can only be used for numerical features. (the default is False)
+    model : scikit-learn model, optional
+        Model to compute predictions using provided data,
+        `model.predict(data)` must work
+    predictions : Optional[Sized]
+        Series containing predictions for rows in data,
+        used if no model can be given
+    targets : Optional[Sized]
+        Series containing targets for rows in data
+    aggfunc : str, optional
+        Aggregation function for targets and predictions aggregation
+        (the default is "mean")
+    use_classif_proba : bool
+        If True, use prediction probability as model output,
+        only used if model is a classifier
+        (the default is True)
+    clip_quantile : float, optional
+        Quantile to clip the feature values for continuous features,
+        set to 0 to disable clipping
+        (the default is 0.0)
+    quantile_based : bool, optional
+        Option to use a quantile-based discretization function for
+        continuous features (instead of a linear discretization).
+        (the default is False)
 
-            - None -> bin definition is guessed by module
-            - integer -> value is used as number of bins for all features
-            - Sized -> define specific bins
-
-        - `bins_y` (Optional[Union[int, Sized]])
-            Bin definition for feature_y
-
-            - None -> bin definition is guessed by module
-            - integer -> value is used as number of bins for all features
-            - Sized -> define specific bins
-        - 'use_ale' (bool = False)
-            If True, computes ALE: Accumulated Local Effects.
-            Can only be used for numerical features.
-        - `model` (scikit-learn model, optional)
-            Model to compute predictions using provided data,
-            `model.predict(data)` must work
-        - `predictions` (Optional[Sized])
-            Series containing predictions for rows in data,
-            used if no model can be given
-        - `targets` (Optional[Sized])
-            Series containing targets for rows in data
-        - `aggfunc` (str = "mean")
-            Aggregation function for targets and predictions aggregation
-        - `use_classif_proba` (bool = True)
-            If True, use prediction probability as model output,
-            only used if model is a classifier
-        - `clip_quantile` (float = 0.0)
-            Quantile to clip the feature values for continuous features,
-            set to 0 to disable clipping
-        - `quantile_based` (bool = False)
-            Option to use a quantile-based discretization function for
-            continuous features (instead of a linear discretization),
-
-    :Attributes:
-        - `feature_x` (FeatureDiscretizer)
-            Discretized representation of feature for x axis
-        - `feature_y` (FeatureDiscretizer)
-            Discretized representation of feature for y axis
-        - `counts` (List[pd.DataFrame])
-            List of counts of number of rows for each square of heatmap
-        - `agg_predictions` (pd.DataFrame)
-            Dataframe of aggregated predictions for each bin of features x and y
-        - `agg_targets` (pd.DataFrame)
-            Dataframe of aggregated targets for each bin of features x and y
+    Attributes
+    ----------
+    feature_x : FeatureDiscretizer
+        Discretized representation of feature for x axis
+    feature_y : FeatureDiscretizer
+        Discretized representation of feature for y axis
+    counts : List[pd.DataFrame]
+        List of counts of number of rows for each square of heatmap
+    agg_predictions : pd.DataFrame
+        Dataframe of aggregated predictions for each bin of features x and y
+    agg_targets : pd.DataFrame
+        Dataframe of aggregated targets for each bin of features x and y
     """
 
     def __init__(
@@ -540,23 +549,27 @@ class IceCream2D(object):
         """
         Builds plots, optionally shows them in current notebook and save them in HTML format.
 
-        :Parameters:
-            - `show` (bool = True)
-                Option to show the plots in notebook
-            - `save_path` (Optional[str] = None)
-                Path to directory to save the plots,
-                directory is created if it does not exist
-            - `kind` (str = "hist")
-                Kind of plot to draw, possibilities are:
+        Parameters
+        ----------
+        show : bool, optional
+            Option to show the plots in notebook
+            (the default is True)
+        save_path : Optional[str]
+            Path to directory to save the plots,
+            directory is created if it does not exist
+            (the default is None)
+        kind : str
+            Kind of plot to draw, possibilities are:
+            - "hist": histograms for feature values, heatmap for predictions and targets
+            - "scatter": scatter for feature values, heatmap for predictions and targets
+            (the default is "hist")
 
-                - "hist": histograms for feature values, heatmap for predictions and targets
-                - "scatter": scatter for feature values, heatmap for predictions and targets
-
-        :Return:
-            - `figures` (List[go.FigureWidget])
-                List of generated plots,
-                1 plot for predictions if model or predictions were given
-                1 plot for targets if they were given
+        Returns
+        -------
+        figures : List[go.FigureWidget]
+            List of generated plots,
+            1 plot for predictions if model or predictions were given
+            1 plot for targets if they were given
         """
         check_input_in_list(kind, ["hist", "scatter"])
         if kind == "hist":
@@ -581,11 +594,12 @@ class IceCream2D(object):
         """
         Returns a list of Plotly PDP 2D plots.
 
-        :Return:
-            - `figures` (Dict[str, go.FigureWidget])
-                List of generated plots,
-                1 plot for predictions if model or predictions were given
-                1 plot for targets if they were given
+        Returns
+        -------
+        figures : Dict[str, go.FigureWidget]
+            List of generated plots,
+            1 plot for predictions if model or predictions were given
+            1 plot for targets if they were given
         """
         figures = []  # type: List[go.FigureWidget]
         if self.agg_predictions is not None:
@@ -614,11 +628,12 @@ class IceCream2D(object):
         """
         Returns a list of Plotly PDP 2D plots.
 
-        :Return:
-            - `figures` (Dict[str, go.FigureWidget])
-                List of generated plots,
-                1 plot for predictions if model or predictions were given
-                1 plot for targets if they were given
+        Returns
+        -------
+        figures : Dict[str, go.FigureWidget]
+            List of generated plots,
+            1 plot for predictions if model or predictions were given
+            1 plot for targets if they were given
         """
         figures = []  # type: List[go.FigureWidget]
         if self.agg_predictions is not None:
