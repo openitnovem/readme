@@ -6,7 +6,7 @@ import shap
 
 
 # WIP
-class ShapKernelExplainer(object):
+class ShapKernelExplainer:
     """
     Allows to explain globally or locally any non tree based model using Kernel SHAP method.
     Kernel SHAP is a method that uses a special weighted linear regression to compute the importance

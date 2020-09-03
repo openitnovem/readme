@@ -5,7 +5,7 @@ import pandas as pd
 import shap
 
 
-class ShapTreeExplainer(object):
+class ShapTreeExplainer:
     """
     Allows to explain globally or locally a tree based model using Tree SHAP algorithms.
     Tree SHAP is a fast and exact method to estimate SHAP values for tree models and ensembles of trees.
