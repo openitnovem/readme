@@ -70,9 +70,7 @@ class Interpreter:
         train_data : pd.DataFrame
             Dataframe of model inputs, used to explain the model
        """
-        classif = False
-        if self.task_name == "classification":
-            classif = True
+        classif = True if self.task_name == "classification" else False
         logger.info("Computing PDP & ice")
         pdp_plots = icecream.IceCream(
             data=train_data.drop([self.target_col], axis=1),
@@ -113,9 +111,7 @@ class Interpreter:
         train_data : pd.DataFrame
             Dataframe of model inputs, used to explain the model
        """
-        classif = False
-        if self.task_name == "classification":
-            classif = True
+        classif = True if self.task_name == "classification" else False
         logger.info("Computing ALE")
         ale_plots = icecream.IceCream(
             data=train_data[self.features_name],
@@ -148,9 +144,7 @@ class Interpreter:
             Dataframe of model inputs, used to explain the model
 
        """
-        classif = False
-        if self.task_name == "classification":
-            classif = True
+        classif = True if self.task_name == "classification" else False
         logger.info("Computing SHAP")
         if self.tree_based_model == "True":
             logger.info(
@@ -202,10 +196,7 @@ class Interpreter:
         test_data : pd.DataFrame
             Dataframe of model inputs, used to explain the model
        """
-        classif = False
-        if self.task_name == "classification":
-            classif = True
-
+        classif = True if self.task_name == "classification" else False
         if self.tree_based_model == "True":
             logger.info(
                 "You are using a tree based model, if it's not the case, please set tree_based_model to False in "
