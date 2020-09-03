@@ -8,6 +8,11 @@ def initialize_dir(out_path: str):
     """
     Check if output dir tree exists if not it will be created.
     Output dir includes global_interpretation and local_interpretation folders
+
+    Parameters
+    ----------
+    out_path : str
+        outputs path, folder where interpretation reports will be saved
     """
     if not os.path.isdir(out_path):
         os.makedirs(out_path)
