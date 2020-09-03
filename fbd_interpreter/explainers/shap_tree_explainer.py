@@ -12,10 +12,10 @@ class ShapTreeExplainer:
 
     Attributes
     ----------
-    - model : Any
+    model : Any
         A tree based model. Following models are supported: XGBoost, LightGBM, CatBoost, Pyspark & most
         tree-based models in scikit-learn...
-    - features_name : List[str]
+    features_name : List[str]
         List of features names used to train the model
     """
 
