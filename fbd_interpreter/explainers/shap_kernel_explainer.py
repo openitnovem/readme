@@ -13,11 +13,12 @@ class ShapKernelExplainer(object):
     of each feature. The computed importance values are Shapley values from game theory and also
     coefficients from a local linear regression.
 
-    :Parameters:
-        - model:
-            Trained model to interpret
-        - features_name (List[str]):
-            List of features names used to train the model
+    Attributes
+    ----------
+    model : model
+        Trained model to interpret
+    features_name : List[str]
+        List of features names used to train the model
     """
 
     def __init__(self, model, features_name):
@@ -30,15 +31,17 @@ class ShapKernelExplainer(object):
         """
         Create a SHAP feature importance plot and SHAP summary plot colored by feature values using Kernel Explainer.
 
-        :Parameters:
-            - `train_data` (pd.DataFrame)
-                Dataframe of model inputs, used to explain the model
-            - `classif` (bool)
-                True, if it's a classification problem else False
+        Parameters
+        ----------
+        train_data : pd.DataFrame
+            Dataframe of model inputs, used to explain the model
+        classif : bool
+            True, if it's a classification problem else False
 
-        :Return:
-            - `shap_fig1, shap_fig2` (List[plt.figure])
-                SHAP summary plots
+        Returns
+        -------
+        shap_fig1, shap_fig2 : List[plt.figure]
+            SHAP summary plots
        """
         train = train_data[self.features_name]
         train_summary = shap.kmeans(train, 10)
@@ -60,15 +63,18 @@ class ShapKernelExplainer(object):
         """
         Computes and save SHAP force plot for a given observation in a pandas dataframe using Kernel Explainer.
 
-        :Parameters:
-            - `test_data` (pd.DataFrame)
-                Dataframe of observations to interpret, must have the same features as the model inputs
-            - `num_obs` (int)
-                The observation number to explain (n° raw in test_data)
-            - `classif` (bool)
-                True, if it's a classification problem, else False
-            - `output_path` (str)
-                Output path used to save plots.
+        Parameters
+        ----------
+        test_data : pd.DataFrame
+            Dataframe of observations to interpret, must have the same features as the model inputs
+        num_obs : int
+            The observation number to explain (n° raw in test_data)
+        classif : bool
+            True, if it's a classification problem, else False
+
+        Returns
+        -------
+        HTML Object
         """
         test_data = test_data[self.features_name]
         if classif:

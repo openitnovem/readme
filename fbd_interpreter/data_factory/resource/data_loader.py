@@ -1,14 +1,10 @@
 import json
 import pickle
-from configparser import ConfigParser
 from types import ModuleType
 from typing import Dict, List, Union
 
 import importlib_resources as pkg_resources
 import pandas as pd
-
-from fbd_interpreter.config.load import load_cfg_resource
-from fbd_interpreter.data_factory import resource
 
 
 def load_json_resource(
@@ -31,8 +27,3 @@ def load_parquet_resource(resource_file_name: str,) -> pd.DataFrame:
 def load_pickle_resource(resource_file_name: str):
     pickle_resource = pickle.load(open(resource_file_name, "rb"))
     return pickle_resource
-
-
-parameters_: ConfigParser = load_cfg_resource(resource, "parameters.cfg")
-
-parameters: dict = {s: dict(parameters_.items(s)) for s in parameters_.sections()}

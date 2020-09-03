@@ -10,9 +10,11 @@ def _parse_config():
     """
     Parse config from cfg file and return dictionnary with keys as config_params
 
-    :Return:
-            - `dico_params` (Dict[str, str])
-                configuration as dictionnary
+    Returns
+    -------
+    dico_params : Dict[str, str]
+        configuration as dictionnary
+
     Example
     -------
     >>> conf = _parse_config()
@@ -65,13 +67,15 @@ def read_sections_from_txt(file_path: str):
     """
     Read html sections from txt file
 
-    :Parameters:
-        - `file_path` (str)
-            path to txt file containing html sections
+    Parameters
+    ----------
+    file_path : str
+        path to txt file containing html sections
 
-    :Return:
-        - `dico_sections` (Dict)
-            Dictionnary of sections with lines as values
+    Returns
+    -------
+    dico_sections : Dict
+        Dictionnary of sections with lines as values
 
     Example
     -------
@@ -113,19 +117,22 @@ def optimize(
     We cast date columns to the pandas datetime dtype. It does not reduce memory usage,
     but enables time based operations.
 
-    :Parameters:
-        - `df` (pd.DataFrame)
-            Pandas dataframe to reduce
-        - `datetime_features` (List[str])
-            List of date columns to cast to the pandas datetime dtype
-        - 'datetime_format' (str = "%Y%m%d")
-            datetime features format
-        - 'prop_unique' (float = 0.5)
-            max proportion of unique values in object columns to allow casting to category type
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Pandas dataframe to reduce
+    datetime_features : List[str]
+        List of date columns to cast to the pandas datetime dtype
+    datetime_format : str, optional
+        datetime features format (the default is "%Y%m%d")
+    prop_unique : float, optional = 0.5
+        max proportion of unique values in object columns to allow casting to category type
+        (the default is 0.5)
 
-    :Return:
-        - `optimized_df` (pd.DataFrame)
-            Pandas dataframe with better memory allocation
+    Returns
+    -------
+    optimized_df : pd.DataFrame
+        Pandas dataframe with better memory allocation
 
     Example
     -------
@@ -149,13 +156,15 @@ def optimize_floats(df: pd.DataFrame) -> pd.DataFrame:
     Returns a pandas dataframe after downcasting the float columns to the smallest
      possible float datatype (float32, float64) using pd.to_numeric.
 
-    :Parameters:
-        - `df` (pd.DataFrame)
-            Pandas dataframe to reduce
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Pandas dataframe to reduce
 
-    :Return:
-        - `optimized_df` (pd.DataFrame)
-            Pandas dataframe with better memory allocation for float columns
+    Returns
+    -------
+    optimized_df : pd.DataFrame
+        Pandas dataframe with better memory allocation for float columns
 
     Example
     -------
@@ -175,13 +184,15 @@ def optimize_ints(df: pd.DataFrame) -> pd.DataFrame:
     Returns a pandas dataframe after downcasting the integer columns to the smallest
      possible int datatype (int8, int16, int32, int64) using pd.to_numeric.
 
-    :Parameters:
-        - `df` (pd.DataFrame)
-            Pandas dataframe to reduce
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Pandas dataframe to reduce
 
-    :Return:
-        - `optimized_df` (pd.DataFrame)
-            Pandas dataframe with better memory allocation for int columns
+    Returns
+    -------
+    optimized_df : pd.DataFrame
+        Pandas dataframe with better memory allocation for int columns
 
     Example
     -------
@@ -210,19 +221,22 @@ def optimize_objects(
     We cast date columns to the pandas datetime dtype. It does not reduce memory usage,
     but enables time based operations.
 
-    :Parameters:
-        - `df` (pd.DataFrame)
-            Pandas dataframe to reduce
-        - `datetime_features` (List[str])
-            List of date columns to cast to the pandas datetime dtype
-        - 'datetime_format' (str = "%Y%m%d")
-            datetime features format
-        - 'prop_unique' (float = 0.5)
-            max proportion of unique values to allow casting to category type
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Pandas dataframe to reduce
+    datetime_features : List[str]
+        List of date columns to cast to the pandas datetime dtype
+    datetime_format : str, optional
+        datetime features format (the default is "%Y%m%d")
+    prop_unique : float, optional
+        max proportion of unique values to allow casting to category type
+        (the default is 0.5)
 
-    :Return:
-        - `optimized_df` (pd.DataFrame)
-            Pandas dataframe with better memory allocation for object columns
+    Returns
+    -------
+    optimized_df : pd.DataFrame
+        Pandas dataframe with better memory allocation for object columns
 
     Example
     -------

@@ -64,10 +64,6 @@ def interept(
         (the default is True)
     use_shap : bool, optional
         If True, computes SHAP plots. (the default is True)
-
-    Returns
-    -------
-    None
     """
     config_values = _parse_config()
     logger.info("Configuration settings :\n" + pformat(config_values))

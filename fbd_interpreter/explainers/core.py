@@ -37,10 +37,6 @@ class Interpreter:
         name of target column
     out_path : str
         Output path used to save interpretability plots.
-
-    Returns
-    -------
-    None
     """
 
     def __init__(

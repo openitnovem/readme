@@ -14,7 +14,7 @@ def interpretation_plots_to_html_report(
     html_sections: str,
     plot_type: str,
     title: str = "",
-) :
+):
     """
     Convert a dict of plotly figures to html format.
 
