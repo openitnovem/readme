@@ -30,7 +30,7 @@ from fbd_interpreter.utils import _parse_config, optimize
 )
 @click.option(
     "--use-pdp-ice",
-    default=False,
+    default=True,
     show_default=True,
     metavar="",
     help="Computes and plots PDP & ICE",

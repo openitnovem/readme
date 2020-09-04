@@ -1,19 +1,20 @@
 #COMMUN
+L'interprétabilité globale consiste à comprendre et expliquer l'apprentissage du modèle. Cette étape est essentielle car elle permet de débugger le modèle, détecter les biais, faire confiance aux décisons du modèle une fois en production...
+
 Les "partial dependency plots" (PDP), les "ICE Plots" et les "ALE Plots" sont un moyen de quantifier l'impact d'une (ou deux) features sur un modèle de machine learning. Ils permettent en effet de tracer, feature par feature, l'influence d'une variation de cette feature sur le modèle.
-Il est préférable d'avoir un modèle de bonne qualité avant de lancer ces plots. En effet, il n'y a pas grand intérêt à expliquer un modèle peu fiable. Cependant, ces plots peuvent être tracés indifféremment à partir de données d’entraînement, de test ou même de données non labellisées; la seule condition étant que ces données soit représentatives de la distribution normale des données.
 Dans le cas de features corrélées, il est conseillé d'utiliser les ALE plots au lieu des PDP.
-Add plots explanation
+Les plots SHAP (explication globale) permetent de connaître la feature importance mais aussi comment les valeurs des features ont impacté l'apprentissage du modèle. Il est préférable d'avoir un modèle de bonne qualité avant de lancer ces plots. En effet, il n'y a pas grand intérêt à expliquer un modèle peu fiable.
+Cependant, ces plots peuvent être tracés indifféremment à partir de données d’entraînement, de test ou même de données non labellisées; la seule condition étant que ces données soit représentatives de la distribution normale des données.
 
 #PDP
 Les plots de dépendance partielle (PDP) montrent l'effet marginal qu’a une ou deux features sur les prévisions d’un modèle de machine learning. Un PDP est la moyenne des lignes d'un tracé ICE. 
+Dans le cas de non-corrélation des features, l’interprétation est simple : les PD plots montrent comment la prédiction moyenne change quand la n-ième feature change. On fait varier une feature et on visualise les changements qu’entraînent cette variation sur les prédictions. Nous mesurons donc une relation de causalité entre la feature et la prédiction.
 En pratique, il est conseillé d'utiliser les PDP et les ICE plots ensemble pour une meilleure interprétation.
-Add plots explanation
-
 
 #ICE
 Un tracé ICE (Individual Conditional Expectation) visualise la dépendance de la prédiction sur une feature pour chaque observation séparément, ce qui donne une courbe par instance, contrairement à une courbe globale dans les tracés de dépendance partielle. Un PDP est la moyenne des lignes d'un tracé ICE.
+Les courbes ICE sont plus intuitives et plus faciles à interpréter que les PDP. Chaque courbe représente les prédictions pour une valeur donnée si on varie la feature en question.
 En pratique, il est conseillé d'utiliser les PDP et les ICE plots ensemble pour une meilleure interprétation.
-Add plots explanation
 
 #ALE
 Les ALE (Accumulated Local Effects) décrivent en moyenne l’influence des features sur la prédiction d’un modèle de Machine Learning.
