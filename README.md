@@ -36,8 +36,8 @@ Install Python dependencies with `pip install -r requirements/requirements.txt`
 
 Install project modules with `pip install --editable .`, this command runs the `setup.py` script to make the package `fbd_interpreter` available in the environment.
 
-## Pre-requisites 
-#TODO: optional ...
+## Pre-requisites
+**Optional for some usages** (See the Quickstart section)
 
 Update required configuration variables located in `fbd_interpreter/config/config_local.cfg` 
 
@@ -126,7 +126,7 @@ from fbd_interpreter.explainers.core import Interpreter
 exp = Interpreter(
         model=xgb_model,
         task_name="classification",
-        tree_based_model="True",
+        tree_based_model=True,
         features_name=["f1", "f2", "f3", "f4", "f5"],
         features_to_interpret=["f1", "f2"],
         target_col="target",
