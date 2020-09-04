@@ -95,12 +95,12 @@ Usage: main.py [OPTIONS]
 
 Options:
   --interpret-type   Type d'interprétabilité: Choisir global, local ou mix
-                     [default: global]
+                     [default: mix]
 
   --use-ale          Calculer et afficher les plots ALE  [default: True]
   --use-pdp-ice      Calculer et afficher les plots PDP & ICE  [default: True]
   --use-shap         Calculer et afficher les plots de feature importance SHAP
-                     [default: False]
+                     [default: True]
 
   --help             Show this message and exit.
 
