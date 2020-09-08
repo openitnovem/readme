@@ -13,6 +13,7 @@ html_sections = configuration["DEV"]["html_sections"]
 
 def test_interpretation_plots_to_html_report() -> None:
     # Create dummy figure to plot as html with available content of sections
+    # TODO: Move dummy htmls to other folder
     pdp_dummy_figure = go.FigureWidget()
     pdp_dummy_figure.add_scatter(y=[2, 1, 4, 3])
     dict_figures = {"PDP": pdp_dummy_figure}

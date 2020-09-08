@@ -7,13 +7,19 @@ from fbd_interpreter.config.load import configuration, load_cfg_resource
 # TODO: import load_cf_ressources instead configuration
 from fbd_interpreter.logger import logger
 
+# TODO: importer le load_cfg_resource, et utiliser la fonction
+from fbd_interpreter.resource.data_loader import (
+    load_csv_resource,
+    load_json_resource,
+    load_parquet_resource,
+)
+
 # TODO: déplacer data_loader ici
 
-# TODO: importer le load_cfg_resource, et utiliser la fonction
+
 def _parse_config():
     # TODO: lit le bon fichier selon la varible d'env
-    """
-    Parse config from cfg file and return dictionnary with keys as config_params
+    """Parse config from cfg file and return dictionnary with keys as config_params
 
     Returns
     -------
@@ -73,6 +79,24 @@ def _parse_config():
     return dico_params
 
 
+def check_and_load_data(data_path: str, data_format: str, data_type: str):
+    if data_path == "" or data_format == "":
+        logger.error(
+            f"Configuration file requires {data_type} data path and format, but is missing "
+        )
+        raise KeyError(
+            f"Missing {data_type} data path or format, please update conf file located in config/config_[type_env].cfg "
+            f"by filling {data_type}_data_path "
+        )
+    elif data_format == "parquet":
+        data = load_parquet_resource(data_path)
+    elif data_format == "csv":
+        data = load_csv_resource(data_path)
+    else:
+        data = load_json_resource(data_path)
+    return data
+
+
 def read_sections_from_txt(file_path: str):
     """
     Read html sections from txt file
@@ -89,8 +113,8 @@ def read_sections_from_txt(file_path: str):
 
     Example
     -------
-    >>> dico_sections = read_sections_from_txt("config/sections_html.txt")
-    >>> "COMMUN" in (list(dico_sections.keys()))
+    >>> import os
+    >>> "COMMUN" in (list(read_sections_from_txt(os.path.abspath("fbd_interpreter/config/sections_html.txt")).keys()))
     True
     """
     with open(file_path, mode="r") as f:
@@ -150,7 +174,6 @@ def optimize(
     >>> d = {'col1': [1, 2, 3, 4], 'col2': [3.5, 4.89, 2.9, 3.1], 'col3': ["M", "F", "M", "F"]}
     >>> df = pd.DataFrame(d)
     >>> print(optimize(df).dtypes.apply(lambda x: x.name).to_dict())
-    Memory usage decreased from 0.00MB to 0.00MB (0.00MB, 17.92% reduction)
     {'col1': 'int8', 'col2': 'float32', 'col3': 'category'}
     """
     optimized_df = optimize_floats(

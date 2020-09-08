@@ -3,7 +3,7 @@
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Python 3.6+](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
-![Fbd interpreter](https://img.shields.io/badge/fbd__interpreter-v0-brightgreen)
+![Fbd interpreter](https://img.shields.io/badge/fbd__interpreter-v0-green)
 ![Maintainer](https://img.shields.io/badge/Maintainer-Soumaya%20IHHI-green)
 ![Reviewed by](https://img.shields.io/badge/Reviewed%20by-Guido%20INTRONATI-green)
 
@@ -112,8 +112,8 @@ One way of using the package is to run the `interpret` function which takes care
 
 For instance , using **partial dependency plots** for global interpretability:
 ```python
-from fbd_interpreter.main import interept
-interept(interpret_type="global", use_pdp_ice=True, use_ale=False, use_shap=False)
+from fbd_interpreter.main import interpret
+interpret(interpret_type="global", use_pdp_ice=True, use_ale=False, use_shap=False)
 ```
 ### Usage without filling in the config file (by passing data and model directly)
 

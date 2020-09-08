@@ -10,7 +10,7 @@ from fbd_interpreter.resource.data_loader import (
     load_parquet_resource,
     load_pickle_resource,
 )
-from fbd_interpreter.utils import _parse_config, optimize
+from fbd_interpreter.utils import _parse_config, check_and_load_data, optimize
 
 
 @click.command()
@@ -42,7 +42,7 @@ from fbd_interpreter.utils import _parse_config, optimize
     metavar="",
     help="Computes and plots shapely values for global & local explanation",
 )
-def interept(
+def interpret(
     interpret_type: str = "mix",
     use_ale: bool = True,
     use_pdp_ice: bool = True,
@@ -93,20 +93,10 @@ def interept(
         logger.info("Interpretability type : global")
         train_data_path = config_values["train_data_path"]
         train_data_format = config_values["train_data_format"]
-        if train_data_path == "" or train_data_format == "":
-            logger.error(
-                f"Configuration file requires train data path and format, but is missing "
-            )
-            raise KeyError(
-                "Missing train data path, please update conf file located in config/config_{type_env}.cfg"
-                " by filling train_data_path "
-            )
-        elif train_data_format == "parquet":
-            train_data = load_parquet_resource(train_data_path)
-
-        else:
-            train_data = load_csv_resource(train_data_path)
-
+        logger.info("Loading train data")
+        train_data = check_and_load_data(
+            data_path=train_data_path, data_format=train_data_format, data_type="train"
+        )
         logger.info("Reducing train dataframe memory usage to speed up computations")
         train_data = optimize(train_data)
         if use_pdp_ice:
@@ -119,18 +109,11 @@ def interept(
     if interpret_type == "local" or interpret_type == "mix":
         logger.info("Interpretability type : local")
         test_data_path = config_values["test_data_path"]
-        if test_data_path == "":
-            logger.error(
-                f"Configuration file requires test data path , but is missing "
-            )
-            raise KeyError(
-                "Missing test data path, please update conf file located in config/config_{type_env}.cfg"
-                " by filling test_data_path "
-            )
-        elif os.path.isdir(test_data_path):
-            test_data = load_parquet_resource(test_data_path)
-        else:
-            test_data = load_csv_resource(test_data_path)
+        test_data_format = config_values["test_data_format"]
+        logger.info("Loading test data")
+        test_data = check_and_load_data(
+            data_path=test_data_path, data_format=test_data_format, data_type="test"
+        )
         logger.info("Reducing test dataframe memory usage to speed up computations")
         test_data = optimize(test_data)
         exp.local_shap(test_data)
@@ -140,4 +123,4 @@ def interept(
 
 
 if __name__ == "__main__":
-    interept()
+    interpret()

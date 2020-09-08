@@ -6,8 +6,6 @@ from typing import Dict, List, Union
 import importlib_resources as pkg_resources
 import pandas as pd
 
-"""Supprimer data_factory s'inspirer de pandas, module avec des fonctions auxiliaires"""
-
 
 def load_json_resource(
     resource_package: Union[ModuleType, str], resource_file_name: str
