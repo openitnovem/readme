@@ -54,7 +54,9 @@ def _parse_config():
     # Get task name as str
     dico_params["target_col"] = configuration["PARAMS"]["target_col"]
     # Get features to interpret as list
-    dico_params["features_to_interpret"] = configuration["PARAMS"]["features_to_interpret"]
+    dico_params["features_to_interpret"] = configuration["PARAMS"][
+        "features_to_interpret"
+    ]
     # Get output path as str
     dico_params["out_path"] = configuration["PARAMS"]["output_path"]
     # Sanity check
