@@ -13,7 +13,7 @@ from fbd_interpreter.utils import configuration
 from fbd_interpreter.visualization.plots import interpretation_plots_to_html_report
 
 # Get html sections path
-html_sections = configuration["DEV"]["html_sections"]
+html_sections = configuration["PARAMS"]["html_sections"]
 
 
 class Interpreter:

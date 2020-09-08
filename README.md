@@ -183,9 +183,9 @@ TODO
 
 ## Test
 To run tests and generate html report use:
+
 `pytest --cov-report html --cov=fbd_interpreter tests/`
 
-TODO
 
 ## Deployment 
 
