@@ -1,8 +1,8 @@
 # fbd-interpreter Package
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
 
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Python 3.6+](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-black)](https://github.com/psf/black)
+[![Python 3.6+](https://img.shields.io/badge/python-3.6-blue)](https://www.python.org/downloads/release/python-360/)
 ![Fbd interpreter](https://img.shields.io/badge/fbd__interpreter-v0-green)
 ![Maintainer](https://img.shields.io/badge/Maintainer-Soumaya%20IHHI-green)
 ![Reviewed by](https://img.shields.io/badge/Reviewed%20by-Guido%20INTRONATI-green)
