@@ -2,23 +2,23 @@ from typing import List
 
 import pandas as pd
 
-from fbd_interpreter.config.load import configuration, load_cfg_resource
-
-# TODO: import load_cf_ressources instead configuration
+from fbd_interpreter import config
+from fbd_interpreter.config import env
+from fbd_interpreter.config.load import load_cfg_resource
 from fbd_interpreter.logger import logger
-
-# TODO: importer le load_cfg_resource, et utiliser la fonction
 from fbd_interpreter.resource.data_loader import (
     load_csv_resource,
     load_json_resource,
     load_parquet_resource,
 )
 
-# TODO: déplacer data_loader ici
+# Get configuration as dict from config_{type_env}.cfg
+config_ = load_cfg_resource(config, f"config_{env}.cfg")
+configuration: dict = {s: dict(config_.items(s)) for s in config_.sections()}
+print(configuration)
 
 
 def _parse_config():
-    # TODO: lit le bon fichier selon la varible d'env
     """Parse config from cfg file and return dictionnary with keys as config_params
 
     Returns

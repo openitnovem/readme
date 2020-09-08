@@ -182,6 +182,8 @@ pdp2d.draw(kind='hist', show=True)
 TODO
 
 ## Test
+To run tests and generate html report use:
+`pytest --cov-report html --cov=fbd_interpreter tests/`
 
 TODO
 

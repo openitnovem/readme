@@ -4,9 +4,6 @@ from typing import Union
 
 import importlib_resources as pkg_resources
 
-from fbd_interpreter import config
-from fbd_interpreter.config import env
-
 
 def load_cfg_resource(
     resource_package: Union[ModuleType, str], resource_file_name: str
@@ -15,8 +12,3 @@ def load_cfg_resource(
     config = ConfigParser()
     config.read_string(text)
     return config
-
-
-# TODO: remove configuration and import load_cfg_ressources instead in utils
-config_ = load_cfg_resource(config, f"config_{env}.cfg")
-configuration: dict = {s: dict(config_.items(s)) for s in config_.sections()}
