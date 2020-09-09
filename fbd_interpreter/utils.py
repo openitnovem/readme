@@ -15,7 +15,6 @@ from fbd_interpreter.resource.data_loader import (
 # Get configuration as dict from config_{type_env}.cfg
 config_ = load_cfg_resource(config, f"config_{env}.cfg")
 configuration: dict = {s: dict(config_.items(s)) for s in config_.sections()}
-print(configuration)
 
 
 def _parse_config():
