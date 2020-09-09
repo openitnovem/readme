@@ -206,7 +206,7 @@ class Interpreter:
                 self.out_path_global, "shap_feature_importance_plots.html"
             ),
             title="SHAP feature importance plots",
-            plot_type="SHAP_GLOBAL",
+            plot_type="SHAP",
             html_sections=html_sections,
         )
 

@@ -73,7 +73,7 @@ def interpretation_plots_to_html_report(
     for idx, fig in enumerate(figs):
         html += f"<section id ={titles[idx]}>"
         html += f'<p style="text-align:center;font-size:160%">{title+" : <strong>"+ titles[idx]+"</strong>"}</p>'
-        if plot_type != "SHAP_GLOBAL":
+        if plot_type != "SHAP":
             inner_html = pyo.plot(fig, include_plotlyjs=add_js, output_type="div",)
         else:
             tmpfile = BytesIO()
