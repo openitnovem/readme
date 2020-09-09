@@ -79,6 +79,8 @@ Detailed infos are available [here](https://wiki-big-data-ia.intranet.itnovem.co
 ### Usage via command line interface [CLI] 
 The most straightforward way is to use the **interpret** click command , that wraps around most of the functionality in the module.
 
+You need to update required configuration variables located in `fbd_interpreter/config/config_local.cfg`
+
 A basic usage example is shown below :
 
 ```bash src
@@ -109,6 +111,8 @@ Options:
 ### Usage as external module  [Python package] 
 
 One way of using the package is to run the `interpret` function which takes care of explaining model behaviour .
+
+You need to update required configuration variables located in `fbd_interpreter/config/config_local.cfg` before.
 
 For instance , using **partial dependency plots** for global interpretability:
 ```python
@@ -179,7 +183,7 @@ pdp2d.draw(kind='hist', show=True)
 ```
 ## Documentation
 
-TODO
+WIP
 
 ## Test
 To run tests and generate html report use:
