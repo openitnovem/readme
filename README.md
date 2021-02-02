@@ -3,7 +3,8 @@
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-black)](https://github.com/psf/black)
 [![Python 3.6+](https://img.shields.io/badge/python-3.6-blue)](https://www.python.org/downloads/release/python-360/)
-![Fbd interpreter](https://img.shields.io/badge/fbd__interpreter-v0-green)
+[![Tensorflow](https://img.shields.io/badge/Tensorflow-2.2-orange)](https://www.tensorflow.org/)
+![Fbd interpreter](https://img.shields.io/badge/fbd__interpreter-v1-green)
 ![Maintainer](https://img.shields.io/badge/Maintainer-Soumaya%20IHHI-green)
 ![Reviewed by](https://img.shields.io/badge/Reviewed%20by-Guido%20INTRONATI-green)
 
@@ -25,16 +26,17 @@ Before creating a virtual environment, make sure Python3.6 is installed. If not,
 - [plotly](https://pypi.org/project/plotly/)
 - [scikit-learn](https://pypi.org/project/scikit-learn/)
 - [shap](https://pypi.org/project/shap/)
+- [Tensorflow](https://pypi.org/project/tensorflow/)
 
 ## Installation instructions
 
-Create a virtual environment, by default in .venv directory: `virtualenv -p python3.6 .venv`.
+Create a virtual environment : `python3 -m venv interpret-env`.
 
 Source the virtual environment with `source .venv/bin/activate`.
 
 Install Python dependencies with `pip install -r requirements/requirements.txt`
 
-Install project modules with `pip install --editable .`, this command runs the `setup.py` script to make the package `fbd_interpreter` available in the environment.
+Install project modules with `pip install -e .`, this command runs the `setup.py` script to make the package `fbd_interpreter` available in the environment.
 
 ## Pre-requisites
 **Optional for some usages** (See the Quickstart section)
@@ -43,34 +45,37 @@ Update required configuration variables located in `fbd_interpreter/config/confi
 
 ## Features
 
-This package incorporates state-of-the-art machine learning **interpretability techniques** under one roof. 
+This package incorporates state-of-the-art machine learning (and deep learning) **interpretability techniques** under one roof. 
 
 With this package, you can understand and explain your model's global behavior **global interpretability**, understand the reasons behind individual predictions **local interpretability** or both (mix).
 
 The techniques available in this package are:
-
-### Global interpretability
-- Partial Dependecy Plots (from icecream)
+## Global interpretability
+- Partial Dependecy Plots (from icecream) 
 - Individual Conditional Expectation Plots (from icecream)
 - Accumulated Local Effects Plots (from icecream)
-- SHAP plots for feature importance and impact (from SHAP)
-### Local interpretability
-- SHAP plots for local explanation with TreeBased model (XGBoost, LightGBM, CatBoost, Pyspark & most tree-based models in scikit-learn).
-- SHAP plots for local explanation with non TreeBased model
+- SHAP feature importance and summary plots (from SHAP)
+## Local interpretability
+- SHAP local explanation plots for non TreeBased model (model agnostic)
+- SHAP local explanation plots for TreeBased model (XGBoost, LightGBM, CatBoost, Pyspark & most tree-based models in scikit-learn).
+- SHAP local explanation plots for DL model on text or tabular data (using Deep SHAP)
+- GRAD-CAM for DL models on image data
 
 Detailed infos are available [here](https://wiki-big-data-ia.intranet.itnovem.com/index.php/REaDME_:_Extraire_la_logique_m%C3%A9tier)
 
 ### Supported techniques 
 
-| Interpretability Technique | Interpretability Type | Model Type |
-| --- | --- | ---|
-|ShapTreeExplainer - Feature Importance|Global|Tree Based models|
-|ShapKernelExplainer - Feature Importance|Global|Non Tree Based models|
-|Partial Dependecy Plots|Global|Model Agnostic|
-|Individual Conditional Expectation Plots|Global|Model Agnostic|
-|Accumulated Local Effects Plots|Global|Model Agnostic|
-|ShapTreeExplainer - force plot|Local|Tree Based models|
-|ShapKernelExplainer - force plot|Local|Non Tree Based models|
+| Interpretability Technique | Interpretability Type | Model Type | Data Type |
+| --- | --- | ---| ---|
+|Partial Dependecy Plots|Global|Model Agnostic|Tabular Data|
+|Individual Conditional Expectation Plots|Global|Model Agnostic|Tabular Data|
+|Accumulated Local Effects Plots|Global|Model Agnostic|Tabular Data|
+|ShapTreeExplainer - Feature Importance|Global|Model Specific : Tree Based models|Tabular Data|
+|ShapKernelExplainer - Feature Importance|Global|Model Agnostic: Non Tree Based models|Tabular Data|ML|
+|ShapKernelExplainer - force plot|Local|Model Agnostic: Non Tree Based models|Tabular Data|
+|ShapTreeExplainer - force plot|Local|Model Specific : Tree Based models|Tabular Data|
+|ShapDeepExplainer - force plot|Local|Model Specific : DL models on tabular & text data|Tabular or Text Data|
+|GRAD-CAM heatmaps|Local|Model Specific : DL models on image data|Image Data|
 
 
 
@@ -88,7 +93,7 @@ python fbd_interpreter/main.py
 
 ```
 
-Supported parameters are :
+Supported parameters are (not used for DL):
 
 ```bash src
 python fbd_interpreter/main.py --help
@@ -96,13 +101,17 @@ python fbd_interpreter/main.py --help
 Usage: main.py [OPTIONS]
 
 Options:
-  --interpret-type   Type d'interprétabilité: Choisir global, local ou mix
-                     [default: mix]
+  --interpret-type   Interpretability type: Choose global, local or mix. Not
+                     needed for DL  [default: mix]
 
-  --use-ale          Calculer et afficher les plots ALE  [default: True]
-  --use-pdp-ice      Calculer et afficher les plots PDP & ICE  [default: True]
-  --use-shap         Calculer et afficher les plots de feature importance SHAP
+  --use-ale          Computes and plots ALE. Not needed for DL  [default:
+                     True]
+
+  --use-pdp-ice      Computes and plots PDP & ICE. Not needed for DL
                      [default: True]
+
+  --use-shap         Computes and plots shapely values for global & local
+                     explanation. Not needed for DL  [default: True]
 
   --help             Show this message and exit.
 
@@ -114,31 +123,47 @@ One way of using the package is to run the `interpret` function which takes care
 
 You need to update required configuration variables located in `fbd_interpreter/config/config_local.cfg` before.
 
-For instance , using **partial dependency plots** for global interpretability:
+For instance , using **partial dependency plots** for global interpretability on ML model:
 ```python
 from fbd_interpreter.main import interpret
 interpret(interpret_type="global", use_pdp_ice=True, use_ale=False, use_shap=False)
 ```
 ### Usage without filling in the config file (by passing data and model directly)
 
-You can also use the package without filling in the configuration file by using the `Interpreter` class which 
-contains many methods to explain globally or locally any ML model.
+You can also use the package without filling in the configuration file by using the `ExplainML` class which contains 
+many methods to explain globally or locally any ML model, or the `ExplainDL` class to explain locally any DL model 
+when applied to tabular, textual or image data.
 
 For instance , using **accumulated local effect plots** for global interpretability of a tree based classification model:
 ```python
-from fbd_interpreter.explainers.core import Interpreter
-exp = Interpreter(
+from fbd_interpreter.explainers.ml.explain_ml import ExplainML
+exp = ExplainML(
         model=xgb_model,
         task_name="classification",
         tree_based_model=True,
         features_name=["f1", "f2", "f3", "f4", "f5"],
         features_to_interpret=["f1", "f2"],
         target_col="target",
-        out_path="outputs/",
+        out_path="outputs_ml/",
     )
 exp.global_ale(df_train)
 ```
-### Usage of icecream module for PDP, ICE & ALE plots
+
+Here is an other example of using **GRAD-CAM** for local interpretability of a DL model applied to images:
+```python
+from fbd_interpreter.explainers.dl.explain_dl import ExplainDL
+from tensorflow.keras.applications.vgg16 import VGG16
+exp = ExplainDL(
+        model=VGG16(),
+        out_path="outputs_dl/",
+    )
+exp.explain_image(
+            image_dir="fbd_interpreter/data_factory/inputs/data/image_data",
+            size=(224, 224),
+            color_mode="rgb",
+        )
+```
+### Usage of a particular explainer : icecream module for PDP, ICE & ALE plots
 
 **icecream** is a module that aims at explaining how a machine learning model works by drawing Partial Dependency Plots,
  Individual Conditional Expectation and Accumulated Local Effects. 
@@ -181,11 +206,18 @@ pdp2d = icecream.IceCream2D(
     )
 pdp2d.draw(kind='hist', show=True)
 ```
+Other explainers located in `fbd_interpreter/explainers/` can also be used directly.
+
 ## Documentation
 
-WIP
+To run documentation, go to the `doc` folder and run:
+
+`make html`
+
+Documentation will be available in `build/html/` folder.
 
 ## Test
+
 To run tests and generate html report use:
 
 `pytest --cov-report html --cov=fbd_interpreter tests/`
@@ -225,9 +257,8 @@ Then freeze dependencies with the command `pip freeze | grep -v "pkg-resources" 
 
 
 
-
 ## Linting 
-Please for future development , use black for code formatting  
+For future development, please use black for code formatting  
 
 ## References 
 - [Interpretable Machine Learning](https://christophm.github.io/interpretable-ml-book/)

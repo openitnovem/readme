@@ -1,17 +1,16 @@
 import json
 import pickle
-from types import ModuleType
-from typing import Dict, List, Union
+from typing import Dict
 
-import importlib_resources as pkg_resources
 import pandas as pd
 
 
-def load_json_resource(
-    resource_package: Union[ModuleType, str], resource_file_name: str
-) -> Union[List, Dict]:
-    text = pkg_resources.read_text(resource_package, resource_file_name)
-    return json.loads(text)
+def load_json_resource(resource_file_name: str) -> Dict:
+    f = open(resource_file_name)
+    # returns JSON object as a dictionary
+    data = json.load(f)
+    f.close()
+    return data
 
 
 def load_csv_resource(resource_file_name: str,) -> pd.DataFrame:

@@ -1,11 +1,12 @@
-from typing import List
+from typing import Any, List, Tuple
 
 import matplotlib.pyplot as plt
 import pandas as pd
 import shap
 
+from fbd_interpreter.logger import logger
 
-# WIP
+
 class ShapKernelExplainer:
     """
     Allows to explain globally or locally any non tree based model using Kernel SHAP method.
@@ -21,15 +22,17 @@ class ShapKernelExplainer:
         List of features names used to train the model
     """
 
-    def __init__(self, model, features_name):
-        self.model = model
+    def __init__(self, model: Any, features_name: List[str], classif: bool) -> None:
         self.features_name = features_name
+        self.classif = classif
+        self.model_func = model.predict_proba if self.classif else model.predict
 
     def global_explainer(
-        self, train_data: pd.DataFrame, classif: bool
-    ) -> List[plt.figure]:
+        self, train_data: pd.DataFrame
+    ) -> Tuple[plt.figure, plt.figure]:
         """
         Create a SHAP feature importance plot and SHAP summary plot colored by feature values using Kernel Explainer.
+        Note that we use shap.kmeans to speed up computations
 
         Parameters
         ----------
@@ -40,35 +43,29 @@ class ShapKernelExplainer:
 
         Returns
         -------
-        shap_fig1, shap_fig2 : List[plt.figure]
+        shap_fig1, shap_fig2 : Tuple[plt.figure, plt.figure]
             SHAP summary plots
        """
         train = train_data[self.features_name]
         train_summary = shap.kmeans(train, 10)
-        if classif:
-            model_func = self.model.predict_proba
-        else:
-            model_func = self.model.predict
-        explainer = shap.KernelExplainer(model_func, train_summary)
+        explainer = shap.KernelExplainer(self.model_func, train_summary)
         shap_values = explainer.shap_values(train)
+        if self.classif:
+            shap_values = shap_values[1]
         shap_fig1 = plt.figure()
         shap.summary_plot(shap_values, train, show=False)
         shap_fig2 = plt.figure()
-        # TODO: handle shap_fig2 if not classif
-        if classif:
-            shap.summary_plot(shap_values[1], train, show=False)
+        shap.summary_plot(shap_values, train, show=False)
         return shap_fig1, shap_fig2
 
-    def local_explainer(self, test_data: pd.DataFrame, num_obs: int, classif: bool):
+    def local_explainer(self, test_data: pd.DataFrame):
         """
-        Computes and save SHAP force plot for a given observation in a pandas dataframe using Kernel Explainer.
+        Computes SHAP force plot for all observations in a giving pandas dataframe using Kernel Explainer.
 
         Parameters
         ----------
         test_data : pd.DataFrame
             Dataframe of observations to interpret, must have the same features as the model inputs
-        num_obs : int
-            The observation number to explain (n° raw in test_data)
         classif : bool
             True, if it's a classification problem, else False
 
@@ -77,22 +74,29 @@ class ShapKernelExplainer:
         HTML Object
         """
         test_data = test_data[self.features_name]
-        if classif:
-            explainer = shap.KernelExplainer(
-                self.model.predict_proba, test_data, link="logit"
-            )
-            shap_values = explainer.shap_values(test_data.iloc[num_obs])
-            shap_fig = shap.force_plot(
-                explainer.expected_value[1],
-                shap_values[1],
-                test_data.iloc[num_obs],
-                link="logit",
-            )
-        else:
-            explainer = shap.KernelExplainer(self.model.predict, test_data)
-            shap_values = explainer.shap_values(test_data.iloc[num_obs])
-            shap_fig = shap.force_plot(
-                explainer.expected_value, shap_values, test_data.iloc[num_obs]
-            )
+        link = "logit" if self.classif else "identity"
+        explainer = shap.KernelExplainer(self.model_func, test_data, link=link)
+        shap_values = explainer.shap_values(test_data)
 
-        return shap_fig
+        list_figs = []
+        for obs_idx in range(0, len(test_data)):
+            logger.info(
+                f"Computing SHAP individual plots for {obs_idx + 1}th observation"
+            )
+            if self.classif:
+                local_fig = shap.force_plot(
+                    explainer.expected_value[1],
+                    shap_values[1][obs_idx],
+                    test_data.iloc[obs_idx],
+                    link="logit",
+                )
+            else:
+                local_fig = shap.force_plot(
+                    explainer.expected_value,
+                    shap_values[obs_idx],
+                    test_data.iloc[obs_idx],
+                    link="identity",
+                )
+            list_figs.append(local_fig)
+
+        return list_figs
