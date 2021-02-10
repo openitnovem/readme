@@ -36,7 +36,6 @@ from .plot_utils import (
 
 
 class IceCream(object):
-    # TODO: Renommer icecream (gloal interpreter) et calirifier pourquoi y a une séparation icecream fbd-interpter
     """
     Class that generates and contains predictions and aggregations used to
     draw PDPlots, ICE plots and ALE plots.

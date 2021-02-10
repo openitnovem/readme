@@ -30,7 +30,7 @@ setup(
     long_description_content_type="text/markdown",
     url=GIT_URL,
     author="Soumaya IHIHI - DS",
-    author_email="datascienceengineers@sncf.onmicrosoft.com",
+    author_email="soumaya.ihihi@sncf.fr",
     license="MIT",  # MIT, GPL, BSD ??
     install_requires=install_requires,
     python_requires=">=3.6.0",

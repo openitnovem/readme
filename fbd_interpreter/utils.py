@@ -1,4 +1,4 @@
-from typing import List
+from typing import Dict, List
 
 import pandas as pd
 
@@ -17,7 +17,7 @@ config_ = load_cfg_resource(config, f"config_{env}.cfg")
 configuration: dict = {s: dict(config_.items(s)) for s in config_.sections()}
 
 
-def _parse_config():
+def _parse_and_check_config() -> Dict[str, str]:
     """Parse config from cfg file and return dictionnary with keys as config_params
 
     Returns
@@ -27,47 +27,56 @@ def _parse_config():
 
     Example
     -------
-    >>> conf = _parse_config()
+    >>> conf = _parse_and_check_config()
     >>> len(list(conf.keys())) > 0
     True
     """
     dico_params = {}
-    # Get train data path as csv / parquet
-    dico_params["train_data_path"] = configuration["PARAMS"]["train_data_path"]
-    # Get train data format to load the data
-    dico_params["train_data_format"] = configuration["PARAMS"]["train_data_format"]
-    # Get test data path as csv / parquet
-    dico_params["test_data_path"] = configuration["PARAMS"]["test_data_path"]
-    # Get test data format to load the data
-    dico_params["test_data_format"] = configuration["PARAMS"]["test_data_format"]
-    # Get model path as pickle
+    # Get model path as pickle (if ML) or h5 (if DL)
     dico_params["model_path"] = configuration["PARAMS"]["model_path"]
-    # Get features name as list
-    dico_params["features_name"] = configuration["PARAMS"]["features_name"]
-    # Get target_col as string
-    dico_params["target_col"] = configuration["PARAMS"]["target_col"]
-    # Get task name as str
-    dico_params["task_name"] = configuration["PARAMS"]["task_name"]
-    # Get model type (tree based model or not)
-    dico_params["tree_based_model"] = configuration["PARAMS"]["tree_based_model"]
-    # Get task name as str
-    dico_params["target_col"] = configuration["PARAMS"]["target_col"]
-    # Get features to interpret as list
-    dico_params["features_to_interpret"] = configuration["PARAMS"][
-        "features_to_interpret"
-    ]
     # Get output path as str
     dico_params["out_path"] = configuration["PARAMS"]["output_path"]
+    # Get task name as str
+    dico_params["task_name"] = configuration["PARAMS"]["task_name"]
+    # Get learning type
+    dico_params["learning_type"] = configuration["PARAMS"]["learning_type"]
+    # Get data type as str (image, text or tabular)
+    dico_params["data_type"] = configuration["PARAMS"]["data_type"]
+    learning_type = dico_params["learning_type"]
+    data_type = dico_params["data_type"]
+    if learning_type == "ML" and data_type == "tabular":
+        dico_params = _parse_conf_ml_tab(dico_params)
+    elif learning_type == "DL" and data_type == "tabular":
+        dico_params = _parse_conf_dl_tab(dico_params)
+    elif learning_type == "DL" and data_type == "text":
+        dico_params = _parse_conf_dl_text(dico_params)
+    elif learning_type == "DL" and data_type == "image":
+        dico_params = _parse_conf_dl_image(dico_params)
+
     # Sanity check
     mandatory_conf = [
+        "learning_type",
+        "data_type",
         "model_path",
+        "task_name",
+    ]
+    mandatory_ml = ["features_to_interpret", "tree_based_model"]
+    mandatory_tabular = [
         "features_name",
         "target_col",
-        "features_to_interpret",
-        "task_name",
-        "tree_based_model",
     ]
+    mandatory_text = ["word2index_path"]
+    mandatory_image = ["images_folder_path"]
+    if learning_type == "ML":
+        mandatory_conf = mandatory_conf + mandatory_ml
+    if data_type == "tabular":
+        mandatory_conf = mandatory_conf + mandatory_tabular
+    elif data_type == "text":
+        mandatory_conf = mandatory_conf + mandatory_text
+    elif data_type == "image":
+        mandatory_conf = mandatory_conf + mandatory_image
     missing_conf = False
+
     for k in mandatory_conf:
         if dico_params[k] == "":
             logger.error(f"Configuration  requires {k} , but is missing ")
@@ -77,6 +86,55 @@ def _parse_config():
             "Missing configuration , please update conf file located in config/config_{type_env}.cfg by "
             "filling in missing keys "
         )
+    return dico_params
+
+
+def _parse_conf_ml_tab(dico_params: Dict[str, str]) -> Dict[str, str]:
+    dico_params = _parse_conf_dl_tab(dico_params)
+    # Get features to interpret as list
+    dico_params["features_to_interpret"] = configuration["PARAMS"][
+        "features_to_interpret"
+    ]
+    # Get model type (tree based model or not)
+    dico_params["tree_based_model"] = configuration["PARAMS"]["tree_based_model"]
+    return dico_params
+
+
+def _parse_conf_dl_tab(dico_params: Dict[str, str]) -> Dict[str, str]:
+    dico_params = _parse_tab_and_text(dico_params)
+    # Get features name as list
+    dico_params["features_name"] = configuration["PARAMS"]["features_name"]
+    return dico_params
+
+
+def _parse_conf_dl_text(dico_params: Dict[str, str]) -> Dict[str, str]:
+    dico_params = _parse_tab_and_text(dico_params)
+    # Get word2index path name as list
+    dico_params["word2index_path"] = configuration["PARAMS"]["word2index_path"]
+    return dico_params
+
+
+def _parse_tab_and_text(dico_params: Dict[str, str]) -> Dict[str, str]:
+    # Get train data path as csv / parquet
+    dico_params["train_data_path"] = configuration["PARAMS"]["train_data_path"]
+    # Get train data format to load the data
+    dico_params["train_data_format"] = configuration["PARAMS"]["train_data_format"]
+    # Get test data path as csv / parquet
+    dico_params["test_data_path"] = configuration["PARAMS"]["test_data_path"]
+    # Get test data format to load the data
+    dico_params["test_data_format"] = configuration["PARAMS"]["test_data_format"]
+    # Get target column name as str
+    dico_params["target_col"] = configuration["PARAMS"]["target_col"]
+    return dico_params
+
+
+def _parse_conf_dl_image(dico_params: Dict[str, str]) -> Dict[str, str]:
+    # Get images folder path as str
+    dico_params["images_folder_path"] = configuration["PARAMS"]["images_folder_path"]
+    # Get image size and color mode
+    dico_params["img_height"] = configuration["PARAMS"]["img_height"]
+    dico_params["img_width"] = configuration["PARAMS"]["img_width"]
+    dico_params["color_mode"] = configuration["PARAMS"]["color_mode"]
     return dico_params
 
 
@@ -98,7 +156,7 @@ def check_and_load_data(data_path: str, data_format: str, data_type: str):
     return data
 
 
-def read_sections_from_txt(file_path: str):
+def read_sections_from_txt(file_path: str) -> Dict:
     """
     Read html sections from txt file
 
@@ -115,7 +173,8 @@ def read_sections_from_txt(file_path: str):
     Example
     -------
     >>> import os
-    >>> "COMMUN" in (list(read_sections_from_txt(os.path.abspath("fbd_interpreter/config/sections_html.txt")).keys()))
+    >>> path = os.path.abspath("config/sections_html.txt")
+    >>> "COMMUN" in (list(read_sections_from_txt(path).keys()))
     True
     """
     with open(file_path, mode="r") as f:

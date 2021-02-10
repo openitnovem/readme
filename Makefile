@@ -10,11 +10,9 @@ set_git_hooks:
 
 upgrade:
 	pip-compile $(REQUIREMENTSDIR)/requirements.in
-	#pip-compile $(REQUIREMENTSDIR)/requirements-dev.in
-	#pip-compile $(REQUIREMENTSDIR)/requirements-custom.in
+	pip-compile $(REQUIREMENTSDIR)/requirements-dev.in
 	pip-sync $(REQUIREMENTSDIR)/requirements.txt \
-		#$(REQUIREMENTSDIR)/requirements-dev.txt \
-		#$(REQUIREMENTSDIR)/requirements-custom.txt
+		$(REQUIREMENTSDIR)/requirements-dev.txt \
 
 format:
 	isort -rc fbd_interpreter/ tests/
@@ -28,7 +26,7 @@ convert_notebooks:
 	find notebooks/ -type f -name "*.ipynb" -not -path "*ipynb_checkpoints*" -exec jupytext --to py:percent --pipe black {} \;
 
 test:
-	#python -m pytest tests/test_icecream
+	python -m pytest tests/
 
 build_egg:
 	python setup.py bdist_egg

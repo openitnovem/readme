@@ -59,7 +59,7 @@ def interpretation_plots_to_html_report(
     )
     for el in type_plot_section:
         html += f'<p style="font-size:120%"> {el} </p>'
-    html += f"<hr>\n\n"
+    html += "<hr>\n\n"
 
     html += (
         '<p style="color:Navy;font-size:160%"> <strong>Features list </strong> : </p>'
