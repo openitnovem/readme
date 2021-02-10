@@ -3,7 +3,6 @@ click
 importlib-resources
 ipywidgets
 numpy
-pandas
 pickle5
 plotly
 pyarrow
@@ -12,5 +11,6 @@ scikit-learn
 shap
 colorlog
 beautifulsoup4
+tensorflow
 
 

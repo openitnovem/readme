@@ -1,267 +1,152 @@
-import os
-from typing import Any, List
+from typing import Dict
 
-import pandas as pd
-import shap
+import tensorflow as tf
 
-from fbd_interpreter.explainers.shap_kernel_explainer import ShapKernelExplainer
-from fbd_interpreter.explainers.shap_tree_explainer import ShapTreeExplainer
-from fbd_interpreter.icecream import icecream
+from fbd_interpreter.explainers.dl.explain_dl import ExplainDL
+from fbd_interpreter.explainers.ml.explain_ml import ExplainML
 from fbd_interpreter.logger import logger
-from fbd_interpreter.resource.output_builders import initialize_dir
-from fbd_interpreter.utils import configuration
-from fbd_interpreter.visualization.plots import interpretation_plots_to_html_report
+from fbd_interpreter.resource.data_loader import (
+    load_json_resource,
+    load_pickle_resource,
+)
+from fbd_interpreter.utils import check_and_load_data, optimize
 
-# Get html sections path
-html_sections = configuration["PARAMS"]["html_sections"]
 
-
-class Interpreter:
+def interpret_ml(
+    config_values: Dict[str, str],
+    interpret_type: str = "mix",
+    use_ale: bool = True,
+    use_pdp_ice: bool = True,
+    use_shap: bool = True,
+) -> None:
     """
-    Class that contains different interpretability techniques to explain the model training (global interpretation)
-    and its predictions (local interpretation).
+    Interpret locally, globally or both any ML model using PDP, ICE, ALE & SHAP.
+    Note that to speed up computations, we apply the function `optimize` to reduce the pandas
+    dataframes memory usage, by downcasting the columns automatically to the smallest possible
+    datatype without losing any information.
+    Outputs are saved in the given output path from the config file.
 
-    Attributes
+    Parameters
     ----------
-    model : scikit-learn model or Pyspark model
-        Model to compute predictions using provided data,
-        Any scikit-learn model, `model.predict(data)` must work
-        Note that you can also use a pyspark model if you are only using SHAP interpretation
-    task_name : str
-        Task name: choose from supported_tasks in config/config_{type_env}.cfg
-    tree_based_model : bool
-        If True, we use Tree SHAP algorithms to explain the output of ensemble tree models.
-    features_name : List[str]
-        List of features names used to train the model
-    features_to_interpret : List[str]
-        List of features to interpret using pdp, ice and ale
-    target_col : str
-        name of target column
-    out_path : str
-        Output path used to save interpretability plots.
+    config_values: Dict[str, str]
+        configuration as dictionnary from the config file located in
+        config/config_{type_env}.cfg
+    interpret_type : str, optional
+        Type of interpretability global, local or mix(both). (the default is "mix", which implies
+        global and local interpretability)
+    use_ale : bool, optional
+        If True, computes ALE: Accumulated Local Effects.
+        Can only be used for numerical features. (the default is True)
+    use_pdp_ice : bool, optional
+        If True, computes PDP & ICE: Partial Dependency & Individual Expectation plots.
+        (the default is True)
+    use_shap : bool, optional
+        If True, computes SHAP plots. (the default is True)
+
+    Returns
+    -------
+    None
+    """
+    logger.info("Loading ML model")
+    model = load_pickle_resource(config_values["model_path"])
+    tree_based_model = True if config_values["tree_based_model"] == "True" else False
+
+    exp = ExplainML(
+        model=model,
+        task_name=config_values["task_name"],
+        tree_based_model=tree_based_model,
+        features_name=config_values["features_name"].split(","),
+        features_to_interpret=config_values["features_to_interpret"].split(","),
+        target_col=config_values["target_col"],
+        out_path=config_values["out_path"],
+    )
+    if interpret_type == "global" or interpret_type == "mix":
+        logger.info("Interpretability type : global")
+        train_data_path = config_values["train_data_path"]
+        train_data_format = config_values["train_data_format"]
+        logger.info("Loading train data")
+        train_data = check_and_load_data(
+            data_path=train_data_path, data_format=train_data_format, data_type="train"
+        )
+        logger.info("Reducing train dataframe memory usage to speed up computations")
+        train_data = optimize(train_data)
+        if use_pdp_ice:
+            exp.global_pdp_ice(train_data)
+        if use_ale:
+            exp.global_ale(train_data)
+        if use_shap:
+            exp.global_shap(train_data)
+
+    if interpret_type == "local" or interpret_type == "mix":
+        logger.info("Interpretability type : local")
+        test_data_path = config_values["test_data_path"]
+        test_data_format = config_values["test_data_format"]
+        logger.info("Loading test data")
+        test_data = check_and_load_data(
+            data_path=test_data_path, data_format=test_data_format, data_type="test"
+        )
+        logger.info("Reducing test dataframe memory usage to speed up computations")
+        test_data = optimize(test_data)
+        exp.local_shap(test_data)
+
+    else:
+        raise Exception  # Not supported
+
+
+def interpret_dl(config_values: Dict[str, str]) -> None:
+    """
+    Interpret locally any DL model based on user configuration from the file located in
+    config/config_{type_env}.cfg
+    Outputs are saved in the given output path from the config file.
+
+    Parameters
+    ----------
+    config_values: Dict[str, str]
+        configuration as dictionary from the config file located in
+        config/config_{type_env}.cfg
 
     Returns
     -------
     None
     """
 
-    def __init__(
-        self,
-        model: Any,
-        task_name: str,
-        tree_based_model: bool,
-        features_name: List[str],
-        features_to_interpret: List[str],
-        target_col: str,
-        out_path: str,
-    ):
+    data_type = config_values["data_type"]
+    if data_type != "image":
+        tf.compat.v1.disable_v2_behavior()
 
-        self.model = model
-        self.features_name = features_name
-        self.features_to_interpret = features_to_interpret
-        self.target_col = target_col
-        self.task_name = task_name
-        self.tree_based_model = tree_based_model
-        self.out_path = out_path
-        self.out_path_global = os.path.join(out_path, "global_interpretation")
-        self.out_path_local = os.path.join(out_path, "local_interpretation")
-        # Check if output_dir tree exists if not it will be created
-        initialize_dir(self.out_path)
-
-    def global_pdp_ice(self, train_data: pd.DataFrame) -> None:
-        """
-        Compute and save Partial Dependency and Individual Conditional Expectation plots using icecream module for
-        global interpretation.
-
-        Parameters
-        ----------
-        train_data : pd.DataFrame
-            Dataframe of model inputs, used to explain the model
-
-        Returns
-        -------
-        None
-       """
-        classif = True if self.task_name == "classification" else False
-        logger.info("Computing PDP & ice")
-        pdp_plots = icecream.IceCream(
-            data=train_data.drop([self.target_col], axis=1),
-            feature_names=self.features_to_interpret,
-            bins=10,
-            model=self.model,
-            targets=train_data[self.target_col],
-            use_classif_proba=classif,
+    logger.info("Loading DL model")
+    model = tf.keras.models.load_model(config_values["model_path"], compile=False)
+    print(model.summary())
+    exp = ExplainDL(model=model, out_path=config_values["out_path"])
+    logger.info(f"Data type : {data_type}")
+    if data_type == "image":
+        exp.explain_image(
+            image_dir=config_values["images_folder_path"],
+            size=(int(config_values["img_height"]), int(config_values["img_width"])),
+            color_mode=config_values["color_mode"],
         )
-        figs_pdp = pdp_plots.draw(kind="pdp", show=False)
-        figs_ice = pdp_plots.draw(kind="ice", show=False)
-        logger.info(f"Saving PD plots in {self.out_path_global}")
-        interpretation_plots_to_html_report(
-            dic_figs=figs_pdp,
-            path=os.path.join(self.out_path_global, "partial_dependency_plots.html"),
-            title="Partial dependency plots ",
-            plot_type="PDP",
-            html_sections=html_sections,
+    else:
+        test_data_path = config_values["test_data_path"]
+        test_data_format = config_values["test_data_format"]
+        logger.info("Loading test data")
+        test_data = check_and_load_data(
+            data_path=test_data_path, data_format=test_data_format, data_type="test"
         )
-
-        logger.info(f"Saving ICE plots in {self.out_path_global}")
-        interpretation_plots_to_html_report(
-            dic_figs=figs_ice,
-            path=os.path.join(
-                self.out_path_global, "individual_conditional_expectation_plots.html"
-            ),
-            title="Individual Conditional Expectation (ICE) plots ",
-            plot_type="ICE",
-            html_sections=html_sections,
-        )
-
-        return None
-
-    def global_ale(self, train_data: pd.DataFrame) -> None:
-        """
-        Compute and save Accumulated Local Effect plots using icecream module for global interpretation.
-
-        Parameters
-        ----------
-        train_data : pd.DataFrame
-            Dataframe of model inputs, used to explain the model
-
-        Returns
-        -------
-        None
-       """
-        classif = True if self.task_name == "classification" else False
-        logger.info("Computing ALE")
-        ale_plots = icecream.IceCream(
-            data=train_data[self.features_name],
-            feature_names=self.features_to_interpret,
-            bins=10,
-            model=self.model,
-            targets=train_data[self.target_col],
-            use_classif_proba=classif,
-            use_ale=True,
-        )
-        figs_ale = ale_plots.draw(kind="ale", show=False)
-        logger.info(f"Saving ALE plots in {self.out_path_global}")
-        interpretation_plots_to_html_report(
-            dic_figs=figs_ale,
-            path=os.path.join(
-                self.out_path_global, "accumulated_local_effects_plots.html"
-            ),
-            title="Accumulated Local Effects (ALE) plots ",
-            plot_type="ALE",
-            html_sections=html_sections,
-        )
-
-        return None
-
-    def global_shap(self, train_data: pd.DataFrame) -> None:
-        """
-        Compute and save SHAP summary plots for global interpretation.
-
-        Parameters
-        ----------
-        train_data : pd.DataFrame
-            Dataframe of model inputs, used to explain the model
-
-        Returns
-        -------
-        None
-        """
-        classif = True if self.task_name == "classification" else False
-        logger.info("Computing SHAP")
-        if self.tree_based_model:
-            logger.info(
-                "You are using a tree based model, if it's not the case, please set tree_based_model to False in "
-                "config/config_{type_env}.cfg"
+        if data_type == "tabular":
+            exp.explain_tabular(
+                test_data=test_data,
+                features_name=config_values["features_name"].split(","),
+                task_name=config_values["task_name"],
             )
 
-            shap_exp = ShapTreeExplainer(
-                model=self.model, features_name=self.features_name,
+        elif data_type == "text":
+            # Load word2idx from json file
+            logger.info("Loading word to index json file")
+            word2idx = load_json_resource(
+                resource_file_name=config_values["word2index_path"]
             )
-            shap_fig_1, shap_fig_2 = shap_exp.global_explainer(train_data)
-        elif not self.tree_based_model:
-            logger.info(
-                "You are using a non tree based model, if it's not the case, please set tree_based_model to True in "
-                "config/config_{type_env}.cfg"
+            exp.explain_text(
+                test_data=test_data.head(10),
+                target_col=config_values["target_col"],
+                word2idx=word2idx,
             )
-            shap_exp = ShapKernelExplainer(
-                model=self.model, features_name=self.features_name,
-            )
-            shap_fig_1, shap_fig_2 = shap_exp.global_explainer(
-                train_data, classif=classif
-            )
-        else:
-            logger.error(
-                "Please set tree_based_model to True or False in config/config_{type_env}.cfg"
-            )
-
-        dict_figs = {
-            "Summary bar plot": shap_fig_1,
-            "Summary bee-swarm plot": shap_fig_2,
-        }
-        logger.info(f"Saving SHAP plots in {self.out_path_global}")
-        interpretation_plots_to_html_report(
-            dic_figs=dict_figs,
-            path=os.path.join(
-                self.out_path_global, "shap_feature_importance_plots.html"
-            ),
-            title="SHAP feature importance plots",
-            plot_type="SHAP",
-            html_sections=html_sections,
-        )
-
-        return None
-
-    def local_shap(self, test_data: pd.DataFrame) -> None:
-        """
-        Compute and save SHAP force plots for all observations in a test_data for local interpretation.
-
-        Parameters
-        ----------
-        test_data : pd.DataFrame
-            Dataframe of model inputs, used to explain the model
-
-        Returns
-        -------
-        None
-        """
-        classif = True if self.task_name == "classification" else False
-        if self.tree_based_model:
-            logger.info(
-                "You are using a tree based model, if it's not the case, please set tree_based_model to False in "
-                "config/config_{type_env}.cfg"
-            )
-
-            shap_exp = ShapTreeExplainer(
-                model=self.model, features_name=self.features_name,
-            )
-
-        elif not self.tree_based_model:
-            logger.info(
-                "You are using a non tree based model, if it's not the case, please set tree_based_model to True in "
-                "config/config_{type_env}.cfg"
-            )
-            shap_exp = ShapKernelExplainer(
-                model=self.model, features_name=self.features_name,
-            )
-
-        else:
-            logger.error(
-                "Please set tree_based_model to True or False in config/config_{type_env}.cfg"
-            )
-
-        for j in range(0, len(test_data.head(10))):
-            logger.info(
-                f"Computing and saving SHAP individual plots for {j + 1}th observation in {self.out_path_local}"
-            )
-            local_fig = shap_exp.local_explainer(
-                test_data=test_data, num_obs=j, classif=classif
-            )
-            shap.save_html(
-                os.path.join(
-                    self.out_path_local, f"shap_local_explanation_{j + 1}th_obs.html"
-                ),
-                local_fig,
-            )
-
-        return None

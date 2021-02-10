@@ -1,16 +1,10 @@
-import os
 from pprint import pformat
 
 import click
 
-from fbd_interpreter.explainers.core import Interpreter
+from fbd_interpreter.explainers.core import interpret_dl, interpret_ml
 from fbd_interpreter.logger import logger
-from fbd_interpreter.resource.data_loader import (
-    load_csv_resource,
-    load_parquet_resource,
-    load_pickle_resource,
-)
-from fbd_interpreter.utils import _parse_config, check_and_load_data, optimize
+from fbd_interpreter.utils import _parse_and_check_config
 
 
 @click.command()
@@ -19,107 +13,79 @@ from fbd_interpreter.utils import _parse_config, check_and_load_data, optimize
     default="mix",
     show_default=True,
     metavar="",
-    help="Interpretability type: Choose global, local or mix",
+    help="Interpretability type: Choose global, local or mix. Not needed for DL",
 )
 @click.option(
     "--use-ale",
     default=True,
     show_default=True,
     metavar="",
-    help="Computes and plots ALE",
+    help="Computes and plots ALE. Not needed for DL",
 )
 @click.option(
     "--use-pdp-ice",
     default=True,
     show_default=True,
     metavar="",
-    help="Computes and plots PDP & ICE",
+    help="Computes and plots PDP & ICE. Not needed for DL",
 )
 @click.option(
     "--use-shap",
     default=True,
     show_default=True,
     metavar="",
-    help="Computes and plots shapely values for global & local explanation",
+    help="Computes and plots shapely values for global & local explanation. Not needed for DL",
 )
 def interpret(
     interpret_type: str = "mix",
     use_ale: bool = True,
     use_pdp_ice: bool = True,
     use_shap: bool = True,
-):
+) -> None:
     """
-    Interpret locally, globally or both any ML model using PDP, ICE, ALE & SHAP.
+    Interpret any model (ML & DL).
     Before using this function, you must fill in the config file located in
     config/config_{type_env}.cfg.
-    Note that to speed up computations, we apply the function `optimize` to reduce the pandas
-    dataframes memory usage, by downcasting the columns automatically to the smallest possible
-    datatype without losing any information.
+    Outputs are saved in the given output path from the config file.
 
     Parameters
     ----------
     interpret_type : str, optional
         Type of interpretability global, local or mix(both). (the default is "mix", which implies
         global and local interpretability)
+        Not needed for DL models.
     use_ale : bool, optional
         If True, computes ALE: Accumulated Local Effects.
         Can only be used for numerical features. (the default is True)
+        Not needed for DL models.
     use_pdp_ice : bool, optional
         If True, computes PDP & ICE: Partial Dependency & Individual Expectation plots.
         (the default is True)
+        Not needed for DL models.
     use_shap : bool, optional
         If True, computes SHAP plots. (the default is True)
+        Not needed for DL models.
 
     Returns
     -------
     None
     """
-    config_values = _parse_config()
+    config_values = _parse_and_check_config()
     logger.info("Configuration settings :\n" + pformat(config_values))
-    logger.info("Loading model")
-    model = load_pickle_resource(config_values["model_path"])
-    tree_based_model = True if config_values["tree_based_model"] == "True" else False
-
-    exp = Interpreter(
-        model=model,
-        task_name=config_values["task_name"],
-        tree_based_model=tree_based_model,
-        features_name=config_values["features_name"].split(","),
-        features_to_interpret=config_values["features_to_interpret"].split(","),
-        target_col=config_values["target_col"],
-        out_path=config_values["out_path"],
-    )
-    if interpret_type == "global" or interpret_type == "mix":
-        logger.info("Interpretability type : global")
-        train_data_path = config_values["train_data_path"]
-        train_data_format = config_values["train_data_format"]
-        logger.info("Loading train data")
-        train_data = check_and_load_data(
-            data_path=train_data_path, data_format=train_data_format, data_type="train"
-        )
-        logger.info("Reducing train dataframe memory usage to speed up computations")
-        train_data = optimize(train_data)
-        if use_pdp_ice:
-            exp.global_pdp_ice(train_data)
-        if use_ale:
-            exp.global_ale(train_data)
-        if use_shap:
-            exp.global_shap(train_data)
-
-    if interpret_type == "local" or interpret_type == "mix":
-        logger.info("Interpretability type : local")
-        test_data_path = config_values["test_data_path"]
-        test_data_format = config_values["test_data_format"]
-        logger.info("Loading test data")
-        test_data = check_and_load_data(
-            data_path=test_data_path, data_format=test_data_format, data_type="test"
-        )
-        logger.info("Reducing test dataframe memory usage to speed up computations")
-        test_data = optimize(test_data)
-        exp.local_shap(test_data)
-
+    learning_type = config_values["learning_type"]
+    logger.info(f"Learning type is {learning_type}")
+    if learning_type == "ML":
+        interpret_ml(config_values, interpret_type, use_ale, use_pdp_ice, use_shap)
+    elif learning_type == "DL":
+        interpret_dl(config_values)
     else:
-        raise Exception  # Not supported
+        logger.error(
+            "Configuration file requires a valid learning_type, but is missing"
+        )
+        raise KeyError(
+            "Invalid learning_type, please update conf file located in config/config_[type_env].cfg"
+            " by filling learning_type wit ML or DL "
+        )
 
 
 if __name__ == "__main__":
