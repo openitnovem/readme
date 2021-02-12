@@ -25,7 +25,7 @@ setup(
     name="fbd_interpreter",
     packages=find_packages(),
     version=__version__,
-    description="This project aims to interpret ML & DL models and predictions",
+    description="This project aims to interpret ML & DL models",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url=GIT_URL,
