@@ -61,7 +61,7 @@ pytz==2020.1              # via pandas
 pyzmq==19.0.2             # via jupyter-client, notebook
 retrying==1.3.3           # via plotly
 scikit-learn==0.23.2      # via -r requirements/requirements.in, shap
-scipy==1.5.2              # via scikit-learn, shap
+scipy==1.4.1              # via scikit-learn, shap
 send2trash==1.5.0         # via notebook
 shap==0.35.0              # via -r requirements/requirements.in
 six==1.15.0               # via argon2-cffi, bleach, jsonschema, packaging, plotly, pyrsistent, python-dateutil, retrying, traitlets
