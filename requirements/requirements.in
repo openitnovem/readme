@@ -1,0 +1,17 @@
+pandas
+click
+importlib-resources
+ipywidgets
+numpy
+pandas
+pickle5
+plotly
+pyarrow
+pytest
+scikit-learn
+shap
+colorlog
+beautifulsoup4
+tensorflow
+
+

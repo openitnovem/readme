@@ -1,0 +1,35 @@
+*.pyc
+*__pycache__*
+*.swp
+doc/_build/
+*~
+Notes
+tmp/
+dist/
+fbd_interpreter.egg-info/
+build/
+.ipynb_checkpoints/
+*.ipynb
+.DS_Store
+meta_build.json
+.idea/
+fbd_interpreter/data_factory/
+fbd_interpreter/dev/
+outputs/global_interpretation/
+outputs/local_interpretation/
+outputs/logs.log
+outputs/logs.txt
+outputs_ml/global_interpretation/
+outputs_ml/local_interpretation/
+outputs_dl/
+outputs/tests/dummy_pdp_figure.html
+# test coverage
+htmlcov/
+.coverage
+
+fbd_interpreter/main.prof
+
+
+# doc
+doc/build/
+doc/source/api_reference/generated

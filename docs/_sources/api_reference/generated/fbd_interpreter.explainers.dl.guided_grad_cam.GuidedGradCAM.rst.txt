@@ -1,0 +1,25 @@
+fbd\_interpreter.explainers.dl.guided\_grad\_cam.GuidedGradCAM
+==============================================================
+
+.. currentmodule:: fbd_interpreter.explainers.dl.guided_grad_cam
+
+.. autoclass:: GuidedGradCAM
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~GuidedGradCAM.__init__
+      ~GuidedGradCAM.compute_heatmap
+      ~GuidedGradCAM.find_target_layer
+      ~GuidedGradCAM.overlay_heatmap
+   
+   
+
+   
+   
+   
