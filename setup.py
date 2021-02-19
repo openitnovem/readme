@@ -31,7 +31,7 @@ setup(
     url=GIT_URL,
     author="Soumaya IHIHI - DS",
     author_email="soumaya.ihihi@sncf.fr",
-    license="MIT",  # MIT, GPL, BSD ??
+    license="Apache Software License 2.0",
     install_requires=install_requires,
     python_requires=">=3.6.0",
 )
