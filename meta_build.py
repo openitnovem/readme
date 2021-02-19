@@ -10,28 +10,39 @@ regex_dev = "^\d+\.\d+\.\d+.dev\d+$"
 regex_release = "^\d+\.\d+\.\d+rc\d+$"
 regex_prod = "^\d+\.\d+\.\d+$"
 
-parser = argparse.ArgumentParser(description="generate build metadatas")
-parser.add_argument("version", help="published version")
-parser.add_argument(
-    "pattern",
-    help="""
 
-version format:
+if __name__ == "__main__":
 
-format: regex_dev|regex_release|regex_prod
+    parser = argparse.ArgumentParser(description="generate build metadatas")
+    parser.add_argument("version", help="published version")
+    parser.add_argument(
+        "pattern",
+        help="""
+    version format:
+    format: regex_dev|regex_release|regex_prod
+    dev: %s
+    release: %s
+    prod: %s
+    """
+        % (regex_dev, regex_release, regex_prod),
+    )
+    args = parser.parse_args()
 
-dev: %s
-release: %s
-prod: %s
-"""
-    % (regex_dev, regex_release, regex_prod),
-)
-args = parser.parse_args()
+    try:
+        os.unlink(meta_file_name)
+    except:
+        pass
 
-try:
-    os.unlink(meta_file_name)
-except:
-    pass
+    if check_version_syntax(args.version) == None:
+        print("error: pattern not match")
+        exit(1)
+    """
+    Writing a json file and add version
+    """
+    with open(meta_file_name, "w") as jfd:
+        jfd.write('{"version":"%s"}' % (args.version))
+
+    exit(0)
 
 
 def validate_pattern(pattern):
@@ -58,14 +69,3 @@ def check_version_syntax(version):
     print(validate_pattern(args.pattern))
     return re.match(validate_pattern(args.pattern), version)
 
-
-if check_version_syntax(args.version) == None:
-    print("error: pattern not match")
-    exit(1)
-"""
-Writing a json file and add version
-"""
-with open(meta_file_name, "w") as jfd:
-    jfd.write('{"version":"%s"}' % (args.version))
-
-exit(0)
