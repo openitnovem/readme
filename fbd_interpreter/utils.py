@@ -173,7 +173,8 @@ def read_sections_from_txt(file_path: str) -> Dict:
     Example
     -------
     >>> import os
-    >>> "COMMUN" in (list(read_sections_from_txt(os.path.abspath("fbd_interpreter/config/sections_html.txt")).keys()))
+    >>> path = os.path.abspath("config/sections_html.txt")
+    >>> "COMMUN" in (list(read_sections_from_txt(path).keys()))
     True
     """
     with open(file_path, mode="r") as f:

@@ -23,7 +23,7 @@ def test_interpretation_plots_to_html_report() -> None:
         html_sections=html_sections,
         plot_type="PDP",
         title=header_pdp,
-        path=os.path.join(ROOT_DIR, "../outputs/tests/dummy_pdp_figure.html"),
+        path=out_path,
     )
     # Check if html is valid
     assert bool(BeautifulSoup(html, "html.parser").find())

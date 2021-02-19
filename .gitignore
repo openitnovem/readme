@@ -12,6 +12,7 @@ build/
 *.ipynb
 .DS_Store
 meta_build.json
+sonar-project.properties
 .idea/
 fbd_interpreter/data_factory/
 fbd_interpreter/dev/
@@ -19,14 +20,13 @@ outputs/global_interpretation/
 outputs/local_interpretation/
 outputs/logs.log
 outputs/logs.txt
-outputs_ml/global_interpretation/
-outputs_ml/local_interpretation/
+outputs/tests/dummy_figure.html
+outputs_ml/
 outputs_dl/
-outputs/tests/dummy_pdp_figure.html
 # test coverage
 htmlcov/
 .coverage
-
+coverage.xml
 fbd_interpreter/main.prof
 
 

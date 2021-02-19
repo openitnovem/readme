@@ -1,4 +1,3 @@
-pandas
 click
 importlib-resources
 ipywidgets
@@ -8,10 +7,14 @@ pickle5
 plotly
 pyarrow
 pytest
+pytest-cov
 scikit-learn
 shap
 colorlog
 beautifulsoup4
 tensorflow
+matplotlib
+opencv-python
+imutils
 
 

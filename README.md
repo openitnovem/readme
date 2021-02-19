@@ -43,7 +43,7 @@ Install project modules with `pip install -e .`, this command runs the `setup.py
 
 Update required configuration variables located in `fbd_interpreter/config/config_local.cfg` 
 
-## Features
+## Overview
 
 This package incorporates state-of-the-art machine learning (and deep learning) **interpretability techniques** under one roof. 
 
@@ -220,7 +220,7 @@ Documentation will be available in `build/html/` folder.
 
 To run tests and generate html report use:
 
-`pytest --cov-report html --cov=fbd_interpreter tests/`
+`pytest --cov=fbd_interpreter tests/ --cov-report=html`
 
 
 ## Deployment 

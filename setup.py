@@ -25,13 +25,13 @@ setup(
     name="fbd_interpreter",
     packages=find_packages(),
     version=__version__,
-    description="This project aims to interpret ML & DL models and predictions",
+    description="This project aims to interpret ML & DL models",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url=GIT_URL,
     author="Soumaya IHIHI - DS",
-    author_email="datascienceengineers@sncf.onmicrosoft.com",
-    license="MIT",  # MIT, GPL, BSD ??
+    author_email="soumaya.ihihi@sncf.fr",
+    license="Apache Software License 2.0",
     install_requires=install_requires,
     python_requires=">=3.6.0",
 )
