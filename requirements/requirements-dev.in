@@ -6,4 +6,7 @@ isort
 jupytext
 mypy
 pip-tools
-
+pytest
+pytest-cov
+sphinx-rtd-theme
+sphinx
