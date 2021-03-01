@@ -36,8 +36,8 @@ class GradCAM:
 
     def find_target_layer(self) -> str:
         """
-        Attempt to find the final convolutional layer in the network by looping over the layers of the network in
-        reverse order.
+        Attempt to find the final convolutional layer in the network by looping over the
+        layers of the network in reverse order.
 
         Returns
         -------
@@ -62,19 +62,21 @@ class GradCAM:
         image : np.ndarray
             Preprocessed image to explain
         eps : float, optional
-            Float add to the denominator while normalizing the heatmap to avoid ending with a denominator of 0.
+            Float add to the denominator while normalizing the heatmap to avoid ending
+            with a denominator of 0.
             It doesn't affect the resulting heatmap values
             The default is 1e-8
 
         Returns
         -------
         np.ndarray
-            GRAD-CAM heatmap (grayscale representation of where the network activated in the image)
+            GRAD-CAM heatmap (grayscale representation of where the network activated in
+            the image)
         """
         # construct our gradient model by supplying (1) the inputs to our pre-trained model,
         # (2) the output of the (presumably) final 4D layer in the network, and (3) the output of
         # the softmax activations from the model
-        gradModel = Model(
+        grad_model = Model(
             inputs=[self.model.inputs],
             outputs=[self.model.get_layer(self.layer_name).output, self.model.output],
         )
@@ -82,56 +84,55 @@ class GradCAM:
         with tf.GradientTape() as tape:
             # cast the image tensor to a float-32 data type, pass the image through the gradient
             # model, and grab the loss associated with the specific class index
-            inputs = tf.cast(image, tf.float32)
-            (convOutputs, predictions) = gradModel(inputs)
+            (conv_outputs, predictions) = grad_model(tf.cast(image, tf.float32))
             if predictions.shape[-1] == 1:
                 loss = predictions[0]
             else:
                 loss = predictions[:, self.class_idx]
 
         # use automatic differentiation to compute the gradients
-        grads = tape.gradient(loss, convOutputs)
-        grads = grads + eps
-        # compute the guided gradients
-        castConvOutputs = tf.cast(convOutputs > 0, "float32")
-        castGrads = tf.cast(grads > 0, "float32")
+        grads = tape.gradient(loss, conv_outputs) + eps
+        cast_conv_outputs = tf.cast(conv_outputs > 0, "float32")
+        cast_grads = tf.cast(grads > 0, "float32")
 
-        guidedGrads = castConvOutputs * castGrads * grads
+        # compute the guided gradients
+        guided_grads = cast_conv_outputs * cast_grads * grads
+
         # the convolution and guided gradients have a batch dimension (which we don't need)
         # so we will grab the volume itself and discard the batch
-        convOutputs = convOutputs[0]
-        guidedGrads = guidedGrads[0]
+        conv_outputs = conv_outputs[0]
+        guided_grads = guided_grads[0]
+
         # compute the average of the gradient values, and using them as weights, compute
         # the ponderation of the filters with respect to the weights
-        weights = tf.reduce_mean(guidedGrads, axis=(0, 1))
-        cam = tf.reduce_sum(tf.multiply(weights, convOutputs), axis=-1)
+        weights = tf.reduce_mean(guided_grads, axis=(0, 1))
+        cam = tf.reduce_sum(tf.multiply(weights, conv_outputs), axis=-1)
         # grab the spatial dimensions of the input image and resize the output class activation
         # map to match the input image dimensions
-        (w, h) = (image.shape[2], image.shape[1])
-        heatmap = cv2.resize(cam.numpy(), (w, h))
+        (width, height) = (image.shape[2], image.shape[1])
+        heatmap = cv2.resize(cam.numpy(), (width, height))
         # normalize the heatmap such that all values lie in the range [0, 1], scale the resulting
         # values, and then convert to an unsigned 8-bit integer
-        numer = heatmap - np.min(heatmap)
-        denom = (heatmap.max() - heatmap.min()) + eps
-        heatmap = numer / denom
+        heatmap = (heatmap - np.min(heatmap)) / ((heatmap.max() - heatmap.min()) + eps)
         heatmap = (heatmap * 255).astype("uint8")
-
         return heatmap
 
+    @staticmethod
     def overlay_heatmap(
-        self,
         heatmap: np.ndarray,
         image: np.ndarray,
         alpha: Optional[float] = 0.5,
         colormap: Optional[int] = cv2.COLORMAP_VIRIDIS,
     ) -> Tuple[np.ndarray, np.ndarray]:
         """
-        Apply the supplied color map to the heatmap and then overlay the heatmap on the input image
+        Apply the supplied color map to the heatmap and then overlay the heatmap on the
+        input image
 
         Parameters
         ----------
         heatmap : np.ndarray
-            The resulting heatmap of Guided GRAD-CAM (grayscale representation of where the network activated in the image)
+            The resulting heatmap of Guided GRAD-CAM (grayscale representation of where
+            the network activated in the image)
         image : np.ndarray
             Original image
         alpha : float, optional
@@ -148,4 +149,4 @@ class GradCAM:
 
         heatmap = cv2.applyColorMap(heatmap, colormap)
         output = cv2.addWeighted(image, alpha, heatmap, 1 - alpha, 0)
-        return (heatmap, output)
+        return heatmap, output

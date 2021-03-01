@@ -11,13 +11,14 @@ from fbd_interpreter.logger import logger
 class ShapTreeExplainer:
     """
     Allows to explain globally or locally a tree based model using Tree SHAP algorithms.
-    Tree SHAP is a fast and exact method to estimate SHAP values for tree models and ensembles of trees.
+    Tree SHAP is a fast and exact method to estimate SHAP values for tree models and
+    ensembles of trees.
 
     Attributes
     ----------
     model : scikit-learn model or Pyspark model
-        A tree based model. Following models are supported: XGBoost, LightGBM, CatBoost, Pyspark & most
-        tree-based models in scikit-learn...
+        A tree based model. Following models are supported:
+        XGBoost, LightGBM, CatBoost, Pyspark & most tree-based models in scikit-learn...
     features_name : List[str]
         List of features names used to train the model
     classif : bool
@@ -33,7 +34,8 @@ class ShapTreeExplainer:
         self, train_data: pd.DataFrame
     ) -> Tuple[plt.figure, plt.figure]:
         """
-        Create a SHAP feature importance plot and SHAP summary plot, colored by feature values using Tree Explainer.
+        Create a SHAP feature importance plot and SHAP summary plot, colored by feature
+        values using Tree Explainer.
 
         Parameters
         ----------
@@ -48,13 +50,15 @@ class ShapTreeExplainer:
         shap_values = shap.TreeExplainer(self.model).shap_values(
             train_data[self.features_name]
         )
-        # Convert shap values to array , in order to handle shap issues related to native xgboost api
+        # Convert shap values to array , in order to handle shap issues related to
+        # native xgboost api
         shap_values = np.array(shap_values)
         dim_shap_values = len(shap_values.shape)
         if self.classif:
             # Check shape_values shape .
             if dim_shap_values == 3:
-                #  If it's 3D , then one might extract second axis that contains positive values
+                #  If it's 3D , then one might extract second axis that contains
+                # positive values
                 shap_values = shap_values[1]
             else:
                 # If it's 2D , nothing to do
@@ -69,30 +73,34 @@ class ShapTreeExplainer:
 
     def local_explainer(self, test_data: pd.DataFrame) -> List:
         """
-        Computes SHAP force plot for all observations in a giving pandas dataframe using Tree Explainer.
+        Computes SHAP force plot for all observations in a giving pandas dataframe
+        using Tree Explainer.
 
         Parameters
         ----------
         test_data : pd.DataFrame
-            Dataframe of observations to interpret, must have the same features as the model inputs
+            Dataframe of observations to interpret, must have the same features as the
+            model inputs
 
         Returns
         -------
         List[HTML Object]
         """
         test_data = test_data[self.features_name]
-        explainerModel = shap.TreeExplainer(self.model)
-        shap_values_Model = explainerModel.shap_values(test_data)
-        # Convert shap values to array , in order to handle shap issues related to native xgboost api
-        shap_values_Model = np.array(shap_values_Model)
-        dim_shap_values = len(shap_values_Model.shape)
+        explainer_model = shap.TreeExplainer(self.model)
+        shap_values_model = explainer_model.shap_values(test_data)
+        # Convert shap values to array , in order to handle shap issues related to
+        # native xgboost api
+        shap_values_model = np.array(shap_values_model)
+        dim_shap_values = len(shap_values_model.shape)
         # Compute expected value
-        expected_value = explainerModel.expected_value
+        expected_value = explainer_model.expected_value
         if self.classif:
             # Check shape_values shape .
             if dim_shap_values == 3:
-                #  If it's 3D , then one might extract second axis that contains positive values
-                shap_values_Model = shap_values_Model[1]
+                #  If it's 3D , then one might extract second axis that contains
+                # positive values
+                shap_values_model = shap_values_model[1]
                 expected_value = expected_value[1]
             else:
                 # If it's 2D , nothing to do
@@ -106,7 +114,7 @@ class ShapTreeExplainer:
 
             local_fig = shap.force_plot(
                 expected_value,
-                shap_values_Model[obs_idx],
+                shap_values_model[obs_idx],
                 test_data.iloc[obs_idx],
                 link=link,
             )

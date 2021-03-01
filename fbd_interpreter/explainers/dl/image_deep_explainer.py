@@ -33,7 +33,8 @@ class VisualExplainer:
         color_mode: Optional[str] = "rgb",
     ):
         """
-        Loops over image directory, computes and saves GRAD-CAM heatmaps for each image in the given output path
+        Loops over image directory, computes and saves GRAD-CAM heatmaps for each image
+        in the given output path
 
         Parameters
         ----------
@@ -64,12 +65,14 @@ class VisualExplainer:
             output = self.gradcam_explainer(image=image, orig=orig)
             output_path = os.path.join(path_out, "grad_cam_" + img_path)
             cv2.imwrite(
-                img=output, filename=output_path,
+                img=output,
+                filename=output_path,
             )
             logger.info(f"GRAD_CAM computed on {img_path} and saved in {output_path}")
 
+    @staticmethod
     def get_img_array(
-        self, img_path: str, size: tuple, color_mode: str
+        img_path: str, size: tuple, color_mode: str
     ) -> Tuple[np.ndarray, np.ndarray]:
         """
         Load the input image from disk (in Keras/TensorFlow format) and preprocess it
@@ -102,7 +105,8 @@ class VisualExplainer:
 
     def gradcam_explainer(self, image: np.ndarray, orig: np.ndarray) -> np.ndarray:
         """
-        Compute GRAD-CAM on a given image and concat the original image and the resulting GRAD-CAM heatmap.
+        Compute GRAD-CAM on a given image and concat the original image and the
+        resulting GRAD-CAM heatmap.
 
         Parameters
         ----------
@@ -114,7 +118,8 @@ class VisualExplainer:
         Returns
         -------
         output : np.ndarray
-            output image tha contains the original image, GRAD-CAM heatmap and the overlay of the image and heatmap
+            output image tha contains the original image, GRAD-CAM heatmap and the
+            overlay of the image and heatmap
         """
         preds = self.model.predict(image)
         i = np.argmax(preds[0])

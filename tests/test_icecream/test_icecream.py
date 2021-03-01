@@ -14,7 +14,9 @@ class DummyModel(object):
     Always makes the same predictions.
     """
 
-    def __init__(self,) -> None:
+    def __init__(
+        self,
+    ) -> None:
         self.predict = lambda x: PREDICTIONS
         self.classes_ = [0, 1]
         self.predict_proba = lambda x: None

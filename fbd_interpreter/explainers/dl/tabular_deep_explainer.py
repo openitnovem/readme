@@ -28,12 +28,14 @@ class TabularExplainer:
 
     def local_explainer(self, test_data: pd.DataFrame) -> List:
         """
-        Computes SHAP force plots for all observations of a given pandas dataframe using Deep Explainer.
+        Computes SHAP force plots for all observations of a given pandas dataframe using
+        Deep Explainer.
 
         Parameters
         ----------
         test_data : pd.DataFrame
-            Dataframe of observations to interpret, must have the same features as the model inputs
+            Dataframe of observations to interpret, must have the same features as the
+            model inputs
 
         Returns
         -------

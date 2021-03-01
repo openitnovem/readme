@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="python" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>fbd_interpreter.explainers.ml.shap_tree_explainer.ShapTreeExplainer &mdash; fbd_interpreter 0.0.0 documentation</title>
   
@@ -16,7 +16,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -29,7 +32,6 @@
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -51,7 +53,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> fbd_interpreter
+            <a href="../../index.html" class="icon icon-home"> fbd_interpreter
           
 
           
@@ -94,10 +96,9 @@
 <li class="toctree-l3"><a class="reference internal" href="fbd_interpreter.icecream.IceCream.html">fbd_interpreter.icecream.IceCream</a></li>
 <li class="toctree-l3"><a class="reference internal" href="fbd_interpreter.icecream.IceCream2D.html">fbd_interpreter.icecream.IceCream2D</a></li>
 <li class="toctree-l3"><a class="reference internal" href="fbd_interpreter.explainers.dl.explain_dl.ExplainDL.html">fbd_interpreter.explainers.dl.explain_dl.ExplainDL</a></li>
-<li class="toctree-l3"><a class="reference internal" href="fbd_interpreter.explainers.dl.tabular_deep_explainer.TabExplainer.html">fbd_interpreter.explainers.dl.tabular_deep_explainer.TabExplainer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="fbd_interpreter.explainers.dl.text_deep_explainer.TextExplainer.html">fbd_interpreter.explainers.dl.text_deep_explainer.TextExplainer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="fbd_interpreter.explainers.dl.image_deep_explainer.VisualExplainer.html">fbd_interpreter.explainers.dl.image_deep_explainer.VisualExplainer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="fbd_interpreter.explainers.dl.guided_grad_cam.GuidedGradCAM.html">fbd_interpreter.explainers.dl.guided_grad_cam.GuidedGradCAM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fbd_interpreter.explainers.dl.grad_cam.GradCAM.html">fbd_interpreter.explainers.dl.grad_cam.GradCAM</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#functions">Functions</a></li>
@@ -144,6 +145,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -157,7 +160,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="../../_sources/api_reference/generated/fbd_interpreter.explainers.ml.shap_tree_explainer.ShapTreeExplainer.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -175,14 +178,15 @@
 <h1>fbd_interpreter.explainers.ml.shap_tree_explainer.ShapTreeExplainer<a class="headerlink" href="#fbd-interpreter-explainers-ml-shap-tree-explainer-shaptreeexplainer" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="fbd_interpreter.explainers.ml.shap_tree_explainer.ShapTreeExplainer">
-<em class="property">class </em><code class="sig-prename descclassname">fbd_interpreter.explainers.ml.shap_tree_explainer.</code><code class="sig-name descname">ShapTreeExplainer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">features_name</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">classif</span><span class="p">:</span> <span class="n">bool</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/fbd_interpreter/explainers/ml/shap_tree_explainer.html#ShapTreeExplainer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fbd_interpreter.explainers.ml.shap_tree_explainer.ShapTreeExplainer" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">fbd_interpreter.explainers.ml.shap_tree_explainer.</span></code><code class="sig-name descname"><span class="pre">ShapTreeExplainer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classif</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/fbd_interpreter/explainers/ml/shap_tree_explainer.html#ShapTreeExplainer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fbd_interpreter.explainers.ml.shap_tree_explainer.ShapTreeExplainer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Allows to explain globally or locally a tree based model using Tree SHAP algorithms.
-Tree SHAP is a fast and exact method to estimate SHAP values for tree models and ensembles of trees.</p>
+Tree SHAP is a fast and exact method to estimate SHAP values for tree models and
+ensembles of trees.</p>
 <dl class="py attribute">
 <dt id="fbd_interpreter.explainers.ml.shap_tree_explainer.ShapTreeExplainer.model">
-<code class="sig-name descname">model</code><a class="headerlink" href="#fbd_interpreter.explainers.ml.shap_tree_explainer.ShapTreeExplainer.model" title="Permalink to this definition">¶</a></dt>
-<dd><p>A tree based model. Following models are supported: XGBoost, LightGBM, CatBoost, Pyspark &amp; most
-tree-based models in scikit-learn...</p>
+<code class="sig-name descname"><span class="pre">model</span></code><a class="headerlink" href="#fbd_interpreter.explainers.ml.shap_tree_explainer.ShapTreeExplainer.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>A tree based model. Following models are supported:
+XGBoost, LightGBM, CatBoost, Pyspark &amp; most tree-based models in scikit-learn...</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>scikit-learn model or Pyspark model</p>
@@ -192,7 +196,7 @@ tree-based models in scikit-learn...</p>
 
 <dl class="py attribute">
 <dt id="fbd_interpreter.explainers.ml.shap_tree_explainer.ShapTreeExplainer.features_name">
-<code class="sig-name descname">features_name</code><a class="headerlink" href="#fbd_interpreter.explainers.ml.shap_tree_explainer.ShapTreeExplainer.features_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">features_name</span></code><a class="headerlink" href="#fbd_interpreter.explainers.ml.shap_tree_explainer.ShapTreeExplainer.features_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>List of features names used to train the model</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -203,7 +207,7 @@ tree-based models in scikit-learn...</p>
 
 <dl class="py attribute">
 <dt id="fbd_interpreter.explainers.ml.shap_tree_explainer.ShapTreeExplainer.classif">
-<code class="sig-name descname">classif</code><a class="headerlink" href="#fbd_interpreter.explainers.ml.shap_tree_explainer.ShapTreeExplainer.classif" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">classif</span></code><a class="headerlink" href="#fbd_interpreter.explainers.ml.shap_tree_explainer.ShapTreeExplainer.classif" title="Permalink to this definition">¶</a></dt>
 <dd><p>True, if it's a classification problem, else False</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -214,7 +218,7 @@ tree-based models in scikit-learn...</p>
 
 <dl class="py method">
 <dt id="fbd_interpreter.explainers.ml.shap_tree_explainer.ShapTreeExplainer.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">features_name</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">classif</span><span class="p">:</span> <span class="n">bool</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/fbd_interpreter/explainers/ml/shap_tree_explainer.html#ShapTreeExplainer.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fbd_interpreter.explainers.ml.shap_tree_explainer.ShapTreeExplainer.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classif</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/fbd_interpreter/explainers/ml/shap_tree_explainer.html#ShapTreeExplainer.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fbd_interpreter.explainers.ml.shap_tree_explainer.ShapTreeExplainer.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
@@ -245,37 +249,29 @@ tree-based models in scikit-learn...</p>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="fbd_interpreter.explainers.ml.shap_kernel_explainer.ShapKernelExplainer.html" class="btn btn-neutral float-right" title="fbd_interpreter.explainers.ml.shap_kernel_explainer.ShapKernelExplainer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="fbd_interpreter.explainers.ml.explain_ml.ExplainML.html" class="btn btn-neutral float-left" title="fbd_interpreter.explainers.ml.explain_ml.ExplainML" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="fbd_interpreter.explainers.ml.shap_kernel_explainer.ShapKernelExplainer.html" class="btn btn-neutral float-right" title="fbd_interpreter.explainers.ml.shap_kernel_explainer.ShapKernelExplainer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="fbd_interpreter.explainers.ml.explain_ml.ExplainML.html" class="btn btn-neutral float-left" title="fbd_interpreter.explainers.ml.explain_ml.ExplainML" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2020, DES Team
+        &#169; Copyright 2020, DES Team.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

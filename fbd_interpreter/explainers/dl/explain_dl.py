@@ -73,7 +73,8 @@ class ExplainDL:
         self, test_data: pd.DataFrame, target_col: str, word2idx: Dict[str, int]
     ) -> None:
         """
-        Explain the predictions of a DL model on text data using SHAP DeepExplainer and a word2index mapping.
+        Explain the predictions of a DL model on text data using SHAP DeepExplainer and
+        a word2index mapping.
 
         Parameters
         ----------
@@ -88,7 +89,9 @@ class ExplainDL:
         None
         """
         text_explain = TextExplainer(
-            model=self.model, target=target_col, word2idx=word2idx,
+            model=self.model,
+            target=target_col,
+            word2idx=word2idx,
         )
         list_figs = text_explain.local_explainer(test_data=test_data)
         for j in range(0, len(test_data)):

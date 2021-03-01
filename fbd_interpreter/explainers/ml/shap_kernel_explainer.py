@@ -9,10 +9,11 @@ from fbd_interpreter.logger import logger
 
 class ShapKernelExplainer:
     """
-    Allows to explain globally or locally any non tree based model using Kernel SHAP method.
-    Kernel SHAP is a method that uses a special weighted linear regression to compute the importance
-    of each feature. The computed importance values are Shapley values from game theory and also
-    coefficients from a local linear regression.
+    Allows to explain globally or locally any non tree based model using Kernel SHAP
+    method.
+    Kernel SHAP is a method that uses a special weighted linear regression to compute
+    the importance of each feature. The computed importance values are Shapley values
+    from game theory and also coefficients from a local linear regression.
 
     Attributes
     ----------
@@ -31,7 +32,8 @@ class ShapKernelExplainer:
         self, train_data: pd.DataFrame
     ) -> Tuple[plt.figure, plt.figure]:
         """
-        Create a SHAP feature importance plot and SHAP summary plot colored by feature values using Kernel Explainer.
+        Create a SHAP feature importance plot and SHAP summary plot colored by feature
+        values using Kernel Explainer.
         Note that we use shap.kmeans to speed up computations
 
         Parameters
@@ -45,7 +47,7 @@ class ShapKernelExplainer:
         -------
         shap_fig1, shap_fig2 : Tuple[plt.figure, plt.figure]
             SHAP summary plots
-       """
+        """
         train = train_data[self.features_name]
         train_summary = shap.kmeans(train, 10)
         explainer = shap.KernelExplainer(self.model_func, train_summary)
@@ -60,12 +62,14 @@ class ShapKernelExplainer:
 
     def local_explainer(self, test_data: pd.DataFrame):
         """
-        Computes SHAP force plot for all observations in a giving pandas dataframe using Kernel Explainer.
+        Computes SHAP force plot for all observations in a giving pandas dataframe
+        using Kernel Explainer.
 
         Parameters
         ----------
         test_data : pd.DataFrame
-            Dataframe of observations to interpret, must have the same features as the model inputs
+            Dataframe of observations to interpret, must have the same features as the
+            model inputs
         classif : bool
             True, if it's a classification problem, else False
 

@@ -71,7 +71,8 @@ def interpret(
     None
     """
     config_values = _parse_and_check_config()
-    logger.info("Configuration settings :\n" + pformat(config_values))
+    logger.info(f"Configuration settings :\n{pformat(config_values)}")
+
     learning_type = config_values["learning_type"]
     logger.info(f"Learning type is {learning_type}")
     if learning_type == "ML":

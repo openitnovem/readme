@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="python" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>fbd_interpreter.explainers.ml.shap_tree_explainer &mdash; fbd_interpreter 0.0.0 documentation</title>
   
@@ -16,7 +16,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -29,7 +32,6 @@
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
         <script src="../../../../_static/doctools.js"></script>
-        <script src="../../../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
 
@@ -49,7 +51,7 @@
           
 
           
-            <a href="../../../../index.html" class="icon icon-home" alt="Documentation Home"> fbd_interpreter
+            <a href="../../../../index.html" class="icon icon-home"> fbd_interpreter
           
 
           
@@ -126,6 +128,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -163,13 +167,14 @@
 <div class="viewcode-block" id="ShapTreeExplainer"><a class="viewcode-back" href="../../../../api_reference/generated/fbd_interpreter.explainers.ml.shap_tree_explainer.ShapTreeExplainer.html#fbd_interpreter.explainers.ml.shap_tree_explainer.ShapTreeExplainer">[docs]</a><span class="k">class</span> <span class="nc">ShapTreeExplainer</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Allows to explain globally or locally a tree based model using Tree SHAP algorithms.</span>
-<span class="sd">    Tree SHAP is a fast and exact method to estimate SHAP values for tree models and ensembles of trees.</span>
+<span class="sd">    Tree SHAP is a fast and exact method to estimate SHAP values for tree models and</span>
+<span class="sd">    ensembles of trees.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    model : scikit-learn model or Pyspark model</span>
-<span class="sd">        A tree based model. Following models are supported: XGBoost, LightGBM, CatBoost, Pyspark &amp; most</span>
-<span class="sd">        tree-based models in scikit-learn...</span>
+<span class="sd">        A tree based model. Following models are supported:</span>
+<span class="sd">        XGBoost, LightGBM, CatBoost, Pyspark &amp; most tree-based models in scikit-learn...</span>
 <span class="sd">    features_name : List[str]</span>
 <span class="sd">        List of features names used to train the model</span>
 <span class="sd">    classif : bool</span>
@@ -185,7 +190,8 @@
         <span class="bp">self</span><span class="p">,</span> <span class="n">train_data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">,</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create a SHAP feature importance plot and SHAP summary plot, colored by feature values using Tree Explainer.</span>
+<span class="sd">        Create a SHAP feature importance plot and SHAP summary plot, colored by feature</span>
+<span class="sd">        values using Tree Explainer.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -200,13 +206,15 @@
         <span class="n">shap_values</span> <span class="o">=</span> <span class="n">shap</span><span class="o">.</span><span class="n">TreeExplainer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="n">shap_values</span><span class="p">(</span>
             <span class="n">train_data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">features_name</span><span class="p">]</span>
         <span class="p">)</span>
-        <span class="c1"># Convert shap values to array , in order to handle shap issues related to native xgboost api</span>
+        <span class="c1"># Convert shap values to array , in order to handle shap issues related to</span>
+        <span class="c1"># native xgboost api</span>
         <span class="n">shap_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">shap_values</span><span class="p">)</span>
         <span class="n">dim_shap_values</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">shap_values</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">classif</span><span class="p">:</span>
             <span class="c1"># Check shape_values shape .</span>
             <span class="k">if</span> <span class="n">dim_shap_values</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-                <span class="c1">#  If it&#39;s 3D , then one might extract second axis that contains positive values</span>
+                <span class="c1">#  If it&#39;s 3D , then one might extract second axis that contains</span>
+                <span class="c1"># positive values</span>
                 <span class="n">shap_values</span> <span class="o">=</span> <span class="n">shap_values</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># If it&#39;s 2D , nothing to do</span>
@@ -221,30 +229,34 @@
 
     <span class="k">def</span> <span class="nf">local_explainer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test_data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Computes SHAP force plot for all observations in a giving pandas dataframe using Tree Explainer.</span>
+<span class="sd">        Computes SHAP force plot for all observations in a giving pandas dataframe</span>
+<span class="sd">        using Tree Explainer.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        test_data : pd.DataFrame</span>
-<span class="sd">            Dataframe of observations to interpret, must have the same features as the model inputs</span>
+<span class="sd">            Dataframe of observations to interpret, must have the same features as the</span>
+<span class="sd">            model inputs</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        List[HTML Object]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">test_data</span> <span class="o">=</span> <span class="n">test_data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">features_name</span><span class="p">]</span>
-        <span class="n">explainerModel</span> <span class="o">=</span> <span class="n">shap</span><span class="o">.</span><span class="n">TreeExplainer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
-        <span class="n">shap_values_Model</span> <span class="o">=</span> <span class="n">explainerModel</span><span class="o">.</span><span class="n">shap_values</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
-        <span class="c1"># Convert shap values to array , in order to handle shap issues related to native xgboost api</span>
-        <span class="n">shap_values_Model</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">shap_values_Model</span><span class="p">)</span>
-        <span class="n">dim_shap_values</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">shap_values_Model</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">explainer_model</span> <span class="o">=</span> <span class="n">shap</span><span class="o">.</span><span class="n">TreeExplainer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
+        <span class="n">shap_values_model</span> <span class="o">=</span> <span class="n">explainer_model</span><span class="o">.</span><span class="n">shap_values</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
+        <span class="c1"># Convert shap values to array , in order to handle shap issues related to</span>
+        <span class="c1"># native xgboost api</span>
+        <span class="n">shap_values_model</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">shap_values_model</span><span class="p">)</span>
+        <span class="n">dim_shap_values</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">shap_values_model</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         <span class="c1"># Compute expected value</span>
-        <span class="n">expected_value</span> <span class="o">=</span> <span class="n">explainerModel</span><span class="o">.</span><span class="n">expected_value</span>
+        <span class="n">expected_value</span> <span class="o">=</span> <span class="n">explainer_model</span><span class="o">.</span><span class="n">expected_value</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">classif</span><span class="p">:</span>
             <span class="c1"># Check shape_values shape .</span>
             <span class="k">if</span> <span class="n">dim_shap_values</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-                <span class="c1">#  If it&#39;s 3D , then one might extract second axis that contains positive values</span>
-                <span class="n">shap_values_Model</span> <span class="o">=</span> <span class="n">shap_values_Model</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="c1">#  If it&#39;s 3D , then one might extract second axis that contains</span>
+                <span class="c1"># positive values</span>
+                <span class="n">shap_values_model</span> <span class="o">=</span> <span class="n">shap_values_model</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                 <span class="n">expected_value</span> <span class="o">=</span> <span class="n">expected_value</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># If it&#39;s 2D , nothing to do</span>
@@ -258,7 +270,7 @@
 
             <span class="n">local_fig</span> <span class="o">=</span> <span class="n">shap</span><span class="o">.</span><span class="n">force_plot</span><span class="p">(</span>
                 <span class="n">expected_value</span><span class="p">,</span>
-                <span class="n">shap_values_Model</span><span class="p">[</span><span class="n">obs_idx</span><span class="p">],</span>
+                <span class="n">shap_values_model</span><span class="p">[</span><span class="n">obs_idx</span><span class="p">],</span>
                 <span class="n">test_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">obs_idx</span><span class="p">],</span>
                 <span class="n">link</span><span class="o">=</span><span class="n">link</span><span class="p">,</span>
             <span class="p">)</span>
@@ -270,28 +282,25 @@
            
           </div>
           <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2020, DES Team
+        &#169; Copyright 2020, DES Team.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

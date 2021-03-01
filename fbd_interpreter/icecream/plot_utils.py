@@ -14,6 +14,8 @@ import plotly.graph_objs as go
 from .config import options
 from .discretizer import FeatureDiscretizer
 
+FEATURE_CONST = "feature "
+
 
 def detect_axis_range(*args: Union[pd.Series, pd.DataFrame]) -> Optional[List[float]]:
     """
@@ -241,7 +243,7 @@ def plotly_partial_dependency(
     yaxis_range = detect_axis_range(agg_predictions, agg_targets)
 
     layout = go.Layout(
-        xaxis=dict(title="feature " + feature.name),
+        xaxis=dict(title=FEATURE_CONST + feature.name),
         yaxis=dict(range=yaxis_range, title="value", overlaying="y2"),
         yaxis2=dict(
             autorange=True,
@@ -304,7 +306,7 @@ def plotly_ice_box(
     yaxis_range = detect_axis_range(predictions, agg_targets)
 
     layout = go.Layout(
-        xaxis=dict(title="feature " + feature.name),
+        xaxis=dict(title=FEATURE_CONST + feature.name),
         yaxis=dict(range=yaxis_range, title="value", overlaying="y2"),
         yaxis2=dict(
             autorange=True,
@@ -383,7 +385,7 @@ def plotly_ice_lines(
     yaxis_range = detect_axis_range(samples, agg_targets)
 
     layout = go.Layout(
-        xaxis=dict(title="feature " + feature.name),
+        xaxis=dict(title=FEATURE_CONST + feature.name),
         yaxis=dict(range=yaxis_range, title="value", overlaying="y2"),
         yaxis2=dict(
             autorange=True,
@@ -463,8 +465,8 @@ def plotly_partial_dependency_2d_scatter(
     data = [heatmap, scatter]
 
     layout = go.Layout(
-        xaxis=dict(title="feature " + feature_x.name, showgrid=False),
-        yaxis=dict(title="feature " + feature_y.name, showgrid=False),
+        xaxis=dict(title=FEATURE_CONST + feature_x.name, showgrid=False),
+        yaxis=dict(title=FEATURE_CONST + feature_y.name, showgrid=False),
         autosize=False,
         showlegend=True,
         hovermode="closest",
@@ -527,13 +529,13 @@ def plotly_partial_dependency_2d_hist(
 
     layout = go.Layout(
         xaxis=dict(
-            title="feature " + feature_x.name,
+            title=FEATURE_CONST + feature_x.name,
             domain=[0, 0.85],
             showgrid=False,
             ticks="",
         ),
         yaxis=dict(
-            title="feature " + feature_y.name,
+            title=FEATURE_CONST + feature_y.name,
             domain=[0, 0.85],
             showgrid=False,
             ticks="",

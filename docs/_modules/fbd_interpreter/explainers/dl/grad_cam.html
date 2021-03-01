@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="python" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>fbd_interpreter.explainers.dl.grad_cam &mdash; fbd_interpreter 0.0.0 documentation</title>
   
@@ -16,7 +16,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -29,7 +32,6 @@
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
         <script src="../../../../_static/doctools.js"></script>
-        <script src="../../../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
 
@@ -49,7 +51,7 @@
           
 
           
-            <a href="../../../../index.html" class="icon icon-home" alt="Documentation Home"> fbd_interpreter
+            <a href="../../../../index.html" class="icon icon-home"> fbd_interpreter
           
 
           
@@ -111,6 +113,8 @@
         <div class="rst-content">
         
           
+
+
 
 
 
@@ -188,8 +192,8 @@
 
     <span class="k">def</span> <span class="nf">find_target_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Attempt to find the final convolutional layer in the network by looping over the layers of the network in</span>
-<span class="sd">        reverse order.</span>
+<span class="sd">        Attempt to find the final convolutional layer in the network by looping over the</span>
+<span class="sd">        layers of the network in reverse order.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -214,19 +218,21 @@
 <span class="sd">        image : np.ndarray</span>
 <span class="sd">            Preprocessed image to explain</span>
 <span class="sd">        eps : float, optional</span>
-<span class="sd">            Float add to the denominator while normalizing the heatmap to avoid ending with a denominator of 0.</span>
+<span class="sd">            Float add to the denominator while normalizing the heatmap to avoid ending</span>
+<span class="sd">            with a denominator of 0.</span>
 <span class="sd">            It doesn&#39;t affect the resulting heatmap values</span>
 <span class="sd">            The default is 1e-8</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        np.ndarray</span>
-<span class="sd">            GRAD-CAM heatmap (grayscale representation of where the network activated in the image)</span>
+<span class="sd">            GRAD-CAM heatmap (grayscale representation of where the network activated in</span>
+<span class="sd">            the image)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># construct our gradient model by supplying (1) the inputs to our pre-trained model,</span>
         <span class="c1"># (2) the output of the (presumably) final 4D layer in the network, and (3) the output of</span>
         <span class="c1"># the softmax activations from the model</span>
-        <span class="n">gradModel</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span>
+        <span class="n">grad_model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span>
             <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">inputs</span><span class="p">],</span>
             <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">layer_name</span><span class="p">)</span><span class="o">.</span><span class="n">output</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">output</span><span class="p">],</span>
         <span class="p">)</span>
@@ -234,56 +240,55 @@
         <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">tape</span><span class="p">:</span>
             <span class="c1"># cast the image tensor to a float-32 data type, pass the image through the gradient</span>
             <span class="c1"># model, and grab the loss associated with the specific class index</span>
-            <span class="n">inputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-            <span class="p">(</span><span class="n">convOutputs</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span> <span class="o">=</span> <span class="n">gradModel</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+            <span class="p">(</span><span class="n">conv_outputs</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span> <span class="o">=</span> <span class="n">grad_model</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">predictions</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">loss</span> <span class="o">=</span> <span class="n">predictions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">loss</span> <span class="o">=</span> <span class="n">predictions</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_idx</span><span class="p">]</span>
 
         <span class="c1"># use automatic differentiation to compute the gradients</span>
-        <span class="n">grads</span> <span class="o">=</span> <span class="n">tape</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">convOutputs</span><span class="p">)</span>
-        <span class="n">grads</span> <span class="o">=</span> <span class="n">grads</span> <span class="o">+</span> <span class="n">eps</span>
-        <span class="c1"># compute the guided gradients</span>
-        <span class="n">castConvOutputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">convOutputs</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;float32&quot;</span><span class="p">)</span>
-        <span class="n">castGrads</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">grads</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+        <span class="n">grads</span> <span class="o">=</span> <span class="n">tape</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">conv_outputs</span><span class="p">)</span> <span class="o">+</span> <span class="n">eps</span>
+        <span class="n">cast_conv_outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">conv_outputs</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+        <span class="n">cast_grads</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">grads</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;float32&quot;</span><span class="p">)</span>
 
-        <span class="n">guidedGrads</span> <span class="o">=</span> <span class="n">castConvOutputs</span> <span class="o">*</span> <span class="n">castGrads</span> <span class="o">*</span> <span class="n">grads</span>
+        <span class="c1"># compute the guided gradients</span>
+        <span class="n">guided_grads</span> <span class="o">=</span> <span class="n">cast_conv_outputs</span> <span class="o">*</span> <span class="n">cast_grads</span> <span class="o">*</span> <span class="n">grads</span>
+
         <span class="c1"># the convolution and guided gradients have a batch dimension (which we don&#39;t need)</span>
         <span class="c1"># so we will grab the volume itself and discard the batch</span>
-        <span class="n">convOutputs</span> <span class="o">=</span> <span class="n">convOutputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">guidedGrads</span> <span class="o">=</span> <span class="n">guidedGrads</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">conv_outputs</span> <span class="o">=</span> <span class="n">conv_outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">guided_grads</span> <span class="o">=</span> <span class="n">guided_grads</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
         <span class="c1"># compute the average of the gradient values, and using them as weights, compute</span>
         <span class="c1"># the ponderation of the filters with respect to the weights</span>
-        <span class="n">weights</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">guidedGrads</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="n">cam</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">convOutputs</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">guided_grads</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">cam</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">conv_outputs</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
         <span class="c1"># grab the spatial dimensions of the input image and resize the output class activation</span>
         <span class="c1"># map to match the input image dimensions</span>
-        <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-        <span class="n">heatmap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">cam</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+        <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">heatmap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">cam</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span>
         <span class="c1"># normalize the heatmap such that all values lie in the range [0, 1], scale the resulting</span>
         <span class="c1"># values, and then convert to an unsigned 8-bit integer</span>
-        <span class="n">numer</span> <span class="o">=</span> <span class="n">heatmap</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">heatmap</span><span class="p">)</span>
-        <span class="n">denom</span> <span class="o">=</span> <span class="p">(</span><span class="n">heatmap</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">heatmap</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">+</span> <span class="n">eps</span>
-        <span class="n">heatmap</span> <span class="o">=</span> <span class="n">numer</span> <span class="o">/</span> <span class="n">denom</span>
+        <span class="n">heatmap</span> <span class="o">=</span> <span class="p">(</span><span class="n">heatmap</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">heatmap</span><span class="p">))</span> <span class="o">/</span> <span class="p">((</span><span class="n">heatmap</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">heatmap</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span>
         <span class="n">heatmap</span> <span class="o">=</span> <span class="p">(</span><span class="n">heatmap</span> <span class="o">*</span> <span class="mi">255</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;uint8&quot;</span><span class="p">)</span>
-
         <span class="k">return</span> <span class="n">heatmap</span>
 
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">overlay_heatmap</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
         <span class="n">heatmap</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
         <span class="n">image</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
         <span class="n">alpha</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
         <span class="n">colormap</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLORMAP_VIRIDIS</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Apply the supplied color map to the heatmap and then overlay the heatmap on the input image</span>
+<span class="sd">        Apply the supplied color map to the heatmap and then overlay the heatmap on the</span>
+<span class="sd">        input image</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        heatmap : np.ndarray</span>
-<span class="sd">            The resulting heatmap of Guided GRAD-CAM (grayscale representation of where the network activated in the image)</span>
+<span class="sd">            The resulting heatmap of Guided GRAD-CAM (grayscale representation of where</span>
+<span class="sd">            the network activated in the image)</span>
 <span class="sd">        image : np.ndarray</span>
 <span class="sd">            Original image</span>
 <span class="sd">        alpha : float, optional</span>
@@ -300,35 +305,32 @@
 
         <span class="n">heatmap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">applyColorMap</span><span class="p">(</span><span class="n">heatmap</span><span class="p">,</span> <span class="n">colormap</span><span class="p">)</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">addWeighted</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">heatmap</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">heatmap</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">heatmap</span><span class="p">,</span> <span class="n">output</span></div>
 </pre></div>
 
            </div>
            
           </div>
           <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2020, DES Team
+        &#169; Copyright 2020, DES Team.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

@@ -47,18 +47,16 @@ def interpretation_plots_to_html_report(
             </style></head><body>\n"""
     html += f'<h1 style="color:MediumBlue;text-align:center;font-size:300%">{title}</h1>\n\n'
     html += '<h1 style="color:Navy;font-size:160%">Description générale : </h1>\n\n'
-    commun_section = dico_sections["COMMUN"]
-    for el in commun_section:
-        html += f'<p style="font-size:120%"> {el} </p>'
-    html += "<hr>\n\n"
 
-    type_plot_section = dico_sections[plot_type]
+    for element in dico_sections["COMMUN"]:
+        html += f'<p style="font-size:120%"> {element} </p>'
+    html += "<hr>\n\n"
 
     html += (
         f'<h1 style="color:Navy;font-size:160%">Description de {plot_type} : </h1>\n\n'
     )
-    for el in type_plot_section:
-        html += f'<p style="font-size:120%"> {el} </p>'
+    for element in dico_sections[plot_type]:
+        html += f'<p style="font-size:120%"> {element} </p>'
     html += "<hr>\n\n"
 
     html += (
@@ -74,7 +72,11 @@ def interpretation_plots_to_html_report(
         html += f"<section id ={titles[idx]}>"
         html += f'<p style="text-align:center;font-size:160%">{title+" : <strong>"+ titles[idx]+"</strong>"}</p>'
         if plot_type != "SHAP":
-            inner_html = pyo.plot(fig, include_plotlyjs=add_js, output_type="div",)
+            inner_html = pyo.plot(
+                fig,
+                include_plotlyjs=add_js,
+                output_type="div",
+            )
         else:
             tmpfile = BytesIO()
             fig.savefig(tmpfile, format="png", bbox_inches="tight")
@@ -87,7 +89,7 @@ def interpretation_plots_to_html_report(
 
     html += "</body></html>\n"
 
-    with open(path, "w") as f:
-        f.write(html)
+    with open(path, "w") as resource_file:
+        resource_file.write(html)
 
     return html

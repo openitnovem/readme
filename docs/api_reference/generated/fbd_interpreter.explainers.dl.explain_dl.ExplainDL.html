@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="python" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>fbd_interpreter.explainers.dl.explain_dl.ExplainDL &mdash; fbd_interpreter 0.0.0 documentation</title>
   
@@ -16,7 +16,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -29,14 +32,13 @@
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
     
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="fbd_interpreter.explainers.dl.tabular_deep_explainer.TabExplainer" href="fbd_interpreter.explainers.dl.tabular_deep_explainer.TabExplainer.html" />
+    <link rel="next" title="fbd_interpreter.explainers.dl.text_deep_explainer.TextExplainer" href="fbd_interpreter.explainers.dl.text_deep_explainer.TextExplainer.html" />
     <link rel="prev" title="fbd_interpreter.icecream.IceCream2D" href="fbd_interpreter.icecream.IceCream2D.html" /> 
 </head>
 
@@ -51,7 +53,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> fbd_interpreter
+            <a href="../../index.html" class="icon icon-home"> fbd_interpreter
           
 
           
@@ -94,10 +96,9 @@
 <li class="toctree-l3"><a class="reference internal" href="fbd_interpreter.icecream.IceCream.html">fbd_interpreter.icecream.IceCream</a></li>
 <li class="toctree-l3"><a class="reference internal" href="fbd_interpreter.icecream.IceCream2D.html">fbd_interpreter.icecream.IceCream2D</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">fbd_interpreter.explainers.dl.explain_dl.ExplainDL</a></li>
-<li class="toctree-l3"><a class="reference internal" href="fbd_interpreter.explainers.dl.tabular_deep_explainer.TabExplainer.html">fbd_interpreter.explainers.dl.tabular_deep_explainer.TabExplainer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="fbd_interpreter.explainers.dl.text_deep_explainer.TextExplainer.html">fbd_interpreter.explainers.dl.text_deep_explainer.TextExplainer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="fbd_interpreter.explainers.dl.image_deep_explainer.VisualExplainer.html">fbd_interpreter.explainers.dl.image_deep_explainer.VisualExplainer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="fbd_interpreter.explainers.dl.guided_grad_cam.GuidedGradCAM.html">fbd_interpreter.explainers.dl.guided_grad_cam.GuidedGradCAM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fbd_interpreter.explainers.dl.grad_cam.GradCAM.html">fbd_interpreter.explainers.dl.grad_cam.GradCAM</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#functions">Functions</a></li>
@@ -144,6 +145,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -157,7 +160,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="../../_sources/api_reference/generated/fbd_interpreter.explainers.dl.explain_dl.ExplainDL.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -175,12 +178,12 @@
 <h1>fbd_interpreter.explainers.dl.explain_dl.ExplainDL<a class="headerlink" href="#fbd-interpreter-explainers-dl-explain-dl-explaindl" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="fbd_interpreter.explainers.dl.explain_dl.ExplainDL">
-<em class="property">class </em><code class="sig-prename descclassname">fbd_interpreter.explainers.dl.explain_dl.</code><code class="sig-name descname">ExplainDL</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">out_path</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/fbd_interpreter/explainers/dl/explain_dl.html#ExplainDL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fbd_interpreter.explainers.dl.explain_dl.ExplainDL" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">fbd_interpreter.explainers.dl.explain_dl.</span></code><code class="sig-name descname"><span class="pre">ExplainDL</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/fbd_interpreter/explainers/dl/explain_dl.html#ExplainDL"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fbd_interpreter.explainers.dl.explain_dl.ExplainDL" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class that contains different interpretability techniques to explain the DL model predictions
 depending on its data type and saves interpretability plots in out_path.</p>
 <dl class="py attribute">
 <dt id="fbd_interpreter.explainers.dl.explain_dl.ExplainDL.model">
-<code class="sig-name descname">model</code><a class="headerlink" href="#fbd_interpreter.explainers.dl.explain_dl.ExplainDL.model" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">model</span></code><a class="headerlink" href="#fbd_interpreter.explainers.dl.explain_dl.ExplainDL.model" title="Permalink to this definition">¶</a></dt>
 <dd><p>TensorFlow models and Keras models using the TensorFlow backend are supported
 Model to compute predictions using provided data.</p>
 <dl class="field-list simple">
@@ -192,7 +195,7 @@ Model to compute predictions using provided data.</p>
 
 <dl class="py attribute">
 <dt id="fbd_interpreter.explainers.dl.explain_dl.ExplainDL.out_path">
-<code class="sig-name descname">out_path</code><a class="headerlink" href="#fbd_interpreter.explainers.dl.explain_dl.ExplainDL.out_path" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">out_path</span></code><a class="headerlink" href="#fbd_interpreter.explainers.dl.explain_dl.ExplainDL.out_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>Output path used to save interpretability plots.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -203,7 +206,7 @@ Model to compute predictions using provided data.</p>
 
 <dl class="py method">
 <dt id="fbd_interpreter.explainers.dl.explain_dl.ExplainDL.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">out_path</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/fbd_interpreter/explainers/dl/explain_dl.html#ExplainDL.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fbd_interpreter.explainers.dl.explain_dl.ExplainDL.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/fbd_interpreter/explainers/dl/explain_dl.html#ExplainDL.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fbd_interpreter.explainers.dl.explain_dl.ExplainDL.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
@@ -237,37 +240,29 @@ Model to compute predictions using provided data.</p>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="fbd_interpreter.explainers.dl.tabular_deep_explainer.TabExplainer.html" class="btn btn-neutral float-right" title="fbd_interpreter.explainers.dl.tabular_deep_explainer.TabExplainer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="fbd_interpreter.icecream.IceCream2D.html" class="btn btn-neutral float-left" title="fbd_interpreter.icecream.IceCream2D" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="fbd_interpreter.explainers.dl.text_deep_explainer.TextExplainer.html" class="btn btn-neutral float-right" title="fbd_interpreter.explainers.dl.text_deep_explainer.TextExplainer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="fbd_interpreter.icecream.IceCream2D.html" class="btn btn-neutral float-left" title="fbd_interpreter.icecream.IceCream2D" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2020, DES Team
+        &#169; Copyright 2020, DES Team.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

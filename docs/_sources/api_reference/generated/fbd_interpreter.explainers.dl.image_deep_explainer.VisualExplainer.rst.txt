@@ -1,4 +1,4 @@
-fbd\_interpreter.explainers.dl.image\_deep\_explainer.VisualExplainer
+﻿fbd\_interpreter.explainers.dl.image\_deep\_explainer.VisualExplainer
 =====================================================================
 
 .. currentmodule:: fbd_interpreter.explainers.dl.image_deep_explainer

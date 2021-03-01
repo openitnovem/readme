@@ -22,14 +22,14 @@ def get_logger():
     f_format = logging.Formatter(log_format)
     f_handler.setFormatter(f_format)
 
-    # Create a custom logger
-    logger = logging.getLogger("fbd_interpreter")
-    logger.setLevel(logging.DEBUG)
+    # Create a custom logger (log)
+    log = logging.getLogger("fbd_interpreter")
+    log.setLevel(logging.DEBUG)
 
-    # Add handlers to the logger
-    logger.addHandler(f_handler)
-    logger.addHandler(handler_color)
-    return logger
+    # Add handlers to the logger (log)
+    log.addHandler(f_handler)
+    log.addHandler(handler_color)
+    return log
 
 
 logger = get_logger()

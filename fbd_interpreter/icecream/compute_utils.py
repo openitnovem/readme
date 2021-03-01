@@ -85,10 +85,10 @@ def compute_ale_agg_results(
             continue
         else:
             predict_right = predict_function(
-                generate_fake_data(data_bin, feature.name, (center + (width / 2)))
+                generate_fake_data(data_bin, feature.name, center + (width / 2))
             )
             predict_left = predict_function(
-                generate_fake_data(data_bin, feature.name, (center - (width / 2)))
+                generate_fake_data(data_bin, feature.name, center - (width / 2))
             )
             comb.append(pd.Series(np.subtract(predict_right, predict_left)).agg("mean"))
     return pd.DataFrame(comb, index=feature.categorical_feature.categories).T
@@ -178,9 +178,9 @@ def compute_model_ale_results_2D(
     """
     comb_y = []
 
-    for (width_y, center_y) in zip(feature_y.widths, feature_y.centers):
+    for width_y, center_y in zip(feature_y.widths, feature_y.centers):
         comb_x = []
-        for (width_x, center_x) in zip(feature_x.widths, feature_x.centers):
+        for width_x, center_x in zip(feature_x.widths, feature_x.centers):
             max_x = center_x + (width_x / 2)
             min_x = center_x - (width_x / 2)
             max_y = center_y + (width_y / 2)
@@ -394,16 +394,16 @@ def sample_kmeans(
     colors : List[str]
         Colors for plotting each row of samples
     """
-    km = KMeans(
+    kmeans = KMeans(
         n_clusters=nb_rows,
         tol=1e-3,
         n_init=5,
         max_iter=100,
         random_state=options.random_state,
     )
-    km.fit(data)
-    samples = pd.DataFrame(km.cluster_centers_, columns=data.columns)
-    counts = np.bincount(km.labels_)
+    kmeans.fit(data)
+    samples = pd.DataFrame(kmeans.cluster_centers_, columns=data.columns)
+    counts = np.bincount(kmeans.labels_)
     names = ["{} exemples".format(i) for i in counts]
     colors = [options.predictions_color for _ in samples]
     return samples, counts, names, colors

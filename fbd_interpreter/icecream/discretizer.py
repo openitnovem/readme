@@ -76,7 +76,7 @@ class FeatureDiscretizer(object):
         else:
             # feature is continuous
             clipped_series = self._clip_values(series, clip_quantile)
-            categorical_feature, ret_bins = self._discretize_values(
+            categorical_feature, _ = self._discretize_values(
                 clipped_series, bins, quantile_based
             )
             self.categorical_feature = pd.Categorical(categorical_feature)

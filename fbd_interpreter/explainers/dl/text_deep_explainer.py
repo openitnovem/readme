@@ -11,7 +11,8 @@ from fbd_interpreter.logger import logger
 
 class TextExplainer:
     """
-    Allows to explain a DL model predictions on text data using shap deep explainer and a word to index mapping.
+    Allows to explain a DL model predictions on text data using shap deep explainer and
+    a word to index mapping.
 
     Attributes
     ----------
@@ -31,13 +32,15 @@ class TextExplainer:
 
     def local_explainer(self, test_data: pd.DataFrame) -> List:
         """
-        Computes SHAP force plots for all observations of a given pandas dataframe using Deep Explainer.
+        Computes SHAP force plots for all observations of a given pandas dataframe using
+        Deep Explainer.
         Uses the word to index mapping to get features names
 
         Parameters
         ----------
         test_data : pd.DataFrame
-            Dataframe of observations to interpret, must have the same features as the model inputs
+            Dataframe of observations to interpret, must have the same features as the
+            model inputs
 
         Returns
         -------
@@ -52,8 +55,8 @@ class TextExplainer:
         shap_values = explainer.shap_values(x_test)
         words = self.word2idx
         num2word = {}
-        for w in words.keys():
-            num2word[words[w]] = w
+        for word in words.keys():
+            num2word[words[word]] = word
         x_test_words = np.stack(
             [
                 np.array(list(map(lambda x: num2word.get(x, "NONE"), x_test[i])))

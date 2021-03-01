@@ -1,4 +1,4 @@
-fbd\_interpreter.explainers.dl.text\_deep\_explainer.TextExplainer
+﻿fbd\_interpreter.explainers.dl.text\_deep\_explainer.TextExplainer
 ==================================================================
 
 .. currentmodule:: fbd_interpreter.explainers.dl.text_deep_explainer
